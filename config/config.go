@@ -10,28 +10,40 @@ import (
 // DatabaseDriver : database driver
 type DatabaseDriver string
 
-const (
-	// MySQL : MySQL database
-	MySQL DatabaseDriver = "mysql"
-	// Postgres : Postgres database
-	Postgres DatabaseDriver = "postgres"
-	// Mongo : Mongo database
-	Mongo DatabaseDriver = "mongo"
-)
-
 // Config : configurations
 type Config struct {
-	Database
+	Postgres `json: "postgres"`
+
+	APIGateway
+	EntryCache
+	EntryStore
 }
 
-// Database configurations exported
-type Database struct {
+// Postgres configurations
+type Postgres struct {
 	Name     string `json: "name"`
-	Driver   string `json: "driver"`
 	Username string `json: "username"`
 	Password string `json: "password"`
 	Host     string `json: "host"`
 	Port     string `json: "port"`
+}
+
+// APIGateway configurations
+type APIGateway struct {
+	Host string `json: "host"`
+	Port string `json: "port"`
+}
+
+// EntryCache configurations
+type EntryCache struct {
+	Host string `json: "host"`
+	Port string `json: "port"`
+}
+
+// EntryStore configurations
+type EntryStore struct {
+	Host string `json: "host"`
+	Port string `json: "port"`
 }
 
 // ParseConfig : parse configurations from global env and json file
@@ -55,17 +67,32 @@ func ParseConfig(file, path string) *Config {
 }
 
 func setDefaultVariables() {
-	// Set default db variables
-	viper.SetDefault("database.name", "test_db")
-	viper.SetDefault("database.driver", string(Postgres))
-	viper.SetDefault("database.user", "postgres")
-	viper.SetDefault("database.pass", "")
-	viper.SetDefault("database.host", "localhost")
-	viper.SetDefault("database.port", "5432")
+	setDefaultPostgres()
+	setDefaultAPIGateway()
+	setDefaultEntryCache()
+}
 
-	// Set default server variables
-	viper.SetDefault("server.host", "localhost")
-	viper.SetDefault("server.port", "3000")
+func setDefaultPostgres() {
+	viper.SetDefault("postgres.name", "test_db")
+	viper.SetDefault("postgres.username", "postgres")
+	viper.SetDefault("postgres.password", "")
+	viper.SetDefault("postgres.host", "localhost")
+	viper.SetDefault("postgres.port", "5432")
+}
+
+func setDefaultAPIGateway() {
+	viper.SetDefault("apiGateway.host", "localhost")
+	viper.SetDefault("apiGateway.port", "1")
+}
+
+func setDefaultEntryCache() {
+	viper.SetDefault("entryCache.host", "localhost")
+	viper.SetDefault("entryCache.port", "2")
+}
+
+func setDefaultEntryStore() {
+	viper.SetDefault("entryStore.host", "localhost")
+	viper.SetDefault("entryStore.port", "3")
 }
 
 func readEnvironmentVariables() {
@@ -104,19 +131,17 @@ func getFileNameAndType(file string) (fileName string, fileType string) {
 // Print configurations for checking
 func (conf *Config) Print() {
 	fmt.Println("---------- Database configurations ----------")
-	fmt.Println("Database name is\t", conf.Database.Name)
-	fmt.Println("Database type is\t", conf.Database.Driver)
-	fmt.Println("Database User is\t", conf.Database.Username)
-	fmt.Println("Database Pass is\t", conf.Database.Password)
-	fmt.Println("Database Host is\t", conf.Database.Host)
-	fmt.Println("Database Port is\t", conf.Database.Port)
+	fmt.Println("Postgres DB name is\t", conf.Postgres.Name)
+	fmt.Println("Postgres User is\t", conf.Postgres.Username)
+	fmt.Println("Postgres Pass is\t", conf.Postgres.Password)
+	fmt.Println("Postgres Host is\t", conf.Postgres.Host)
+	fmt.Println("Database Port is\t", conf.Postgres.Port)
 
-	fmt.Println("----------- Server configurations -----------")
-	// fmt.Println("Server host is\t", conf.Server.Host)
-	// fmt.Println("Server port is\t", conf.Server.Port)
-}
+	fmt.Println("-------- API Gateway configurations ---------")
+	fmt.Println("Server host is\t", conf.APIGateway.Host)
+	fmt.Println("Server port is\t", conf.APIGateway.Port)
 
-// GetDatabaseConfigurations returns configurations for database
-func (conf *Config) GetDatabaseConfigurations() Database {
-	return conf.Database
+	fmt.Println("-------- Entry Cache configurations ---------")
+	fmt.Println("Server host is\t", conf.EntryCache.Host)
+	fmt.Println("Server port is\t", conf.EntryCache.Port)
 }

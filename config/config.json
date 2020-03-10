@@ -1,16 +1,50 @@
 {
-    "server" : {
+    "apiGateway": {
         "host": "localhost",
-        "port": "9000"
+        "port": "6000"
     },
-    "database": {
+    "entryCache": {
+        "host": "localhost",
+        "port": "6001"
+    },
+    "entryStore": {
+        "host": "localhost",
+        "port": "6002"
+    },
+    "asset": {
+        "host": "localhost",
+        "port": "6003"
+    },
+    "entryScan": {
+        "host": "localhost",
+        "port": "6004"
+    },
+    "event": {
+        "host": "localhost",
+        "port": "6005"
+    },
+    "pushNotification": {
+        "host": "localhost",
+        "port": "6006"
+    },
+    "email": {
+        "host": "localhost",
+        "port": "6007"
+    },
+    "program": {
+        "host": "localhost",
+        "port": "6008"
+    },
+    "boController": {
+        "host": "localhost",
+        "port": "7000"
+    },  
+    "postgres": {
         "name": "itv_test",
-        "type": "postgres",
         "username": "itv",
         "password": "itv",
         "host": "localhost",
-        "port": "5000",
-        "url": "postgres://itv:itv@localhost:5000/itv_test"
+        "port": "5000"
     },
     "tokenPass": "thisIsTheJwtPassword"
 }
