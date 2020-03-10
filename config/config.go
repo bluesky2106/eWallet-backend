@@ -13,6 +13,8 @@ type DatabaseDriver string
 // Config : configurations
 type Config struct {
 	Postgres
+	RabbitMQ
+
 	APIGateway
 	EntryCache
 	EntryStore
@@ -47,6 +49,7 @@ func ParseConfig(file, path string) *Config {
 
 func setDefaultVariables() {
 	setDefaultPostgres()
+	setDefaultRabbitMQ()
 	setDefaultAPIGateway()
 	setDefaultEntryCache()
 	setDefaultEntryStore()
@@ -95,6 +98,7 @@ func getFileNameAndType(file string) (fileName string, fileType string) {
 // Print configurations for checking
 func (conf *Config) Print() {
 	conf.printPostgresConfig()
+	conf.printRabbitMQConfig()
 	conf.printAPIGatewayConfig()
 	conf.printEntryCacheConfig()
 	conf.printEntryStoreConfig()

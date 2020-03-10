@@ -8,7 +8,7 @@ import (
 
 // Postgres configurations
 type Postgres struct {
-	Name     string `json: "name"`
+	DBName   string `json: "name"`
 	Username string `json: "username"`
 	Password string `json: "password"`
 	Host     string `json: "host"`
@@ -16,7 +16,7 @@ type Postgres struct {
 }
 
 func setDefaultPostgres() {
-	viper.SetDefault("postgres.name", "test_db")
+	viper.SetDefault("postgres.dbName", "test_db")
 	viper.SetDefault("postgres.username", "postgres")
 	viper.SetDefault("postgres.password", "")
 	viper.SetDefault("postgres.host", "localhost")
@@ -25,7 +25,7 @@ func setDefaultPostgres() {
 
 func (conf *Config) printPostgresConfig() {
 	fmt.Println("---------- Postgres DB configurations ----------")
-	fmt.Println("Postgres DB name is\t", conf.Postgres.Name)
+	fmt.Println("Postgres DB name is\t", conf.Postgres.DBName)
 	fmt.Println("Postgres User is\t", conf.Postgres.Username)
 	fmt.Println("Postgres Pass is\t", conf.Postgres.Password)
 	fmt.Println("Postgres Host is\t", conf.Postgres.Host)
