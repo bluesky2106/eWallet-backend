@@ -19,6 +19,10 @@ type Config struct {
 	Asset
 	EntryScan
 	Event
+	PushNotification
+	Email
+	Program
+	BOController
 }
 
 // ParseConfig : parse configurations from global env and json file
@@ -49,6 +53,10 @@ func setDefaultVariables() {
 	setDefaultAsset()
 	setDefaultEntryScan()
 	setDefaultEvent()
+	setDefaultPushNotification()
+	setDefaultEmail()
+	setDefaultProgram()
+	setDefaultBOController()
 }
 
 func readEnvironmentVariables() {
@@ -93,4 +101,8 @@ func (conf *Config) Print() {
 	conf.printAssetConfig()
 	conf.printEntryScanConfig()
 	conf.printEventConfig()
+	conf.printPushNotificationConfig()
+	conf.printEmailConfig()
+	conf.printProgramConfig()
+	conf.printBOControllerConfig()
 }
