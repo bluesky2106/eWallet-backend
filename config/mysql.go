@@ -26,8 +26,8 @@ func setDefaultMySQL() {
 func (conf *Config) printMySQLConfig() {
 	fmt.Println("------------ MySQL DB configurations -----------")
 	fmt.Println("MySQL DB name is\t", conf.MySQL.DBName)
-	fmt.Println("MySQL User is\t", conf.MySQL.Username)
-	fmt.Println("MySQL Pass is\t", conf.MySQL.Password)
-	fmt.Println("MySQL Host is\t", conf.MySQL.Host)
-	fmt.Println("MySQL Port is\t", conf.MySQL.Port)
+	fmt.Println("MySQL User is\t\t", conf.MySQL.Username)
+	fmt.Println("MySQL Pass is\t\t", conf.MySQL.Password)
+	fmt.Println("MySQL Host is\t\t", conf.MySQL.Host)
+	fmt.Println("MySQL Port is\t\t", conf.MySQL.Port)
 }

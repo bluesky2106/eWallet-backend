@@ -14,6 +14,7 @@ type DatabaseDriver string
 type Config struct {
 	Postgres
 	MySQL
+	Mongo
 
 	RabbitMQ
 	Redis
@@ -53,6 +54,7 @@ func ParseConfig(file, path string) *Config {
 func setDefaultVariables() {
 	setDefaultPostgres()
 	setDefaultMySQL()
+	setDefaultMongo()
 
 	setDefaultRabbitMQ()
 	setDefaultRedis()
@@ -106,6 +108,7 @@ func getFileNameAndType(file string) (fileName string, fileType string) {
 func (conf *Config) Print() {
 	conf.printPostgresConfig()
 	conf.printMySQLConfig()
+	conf.printMongoConfig()
 
 	conf.printRabbitMQConfig()
 	conf.printRedisConfig()

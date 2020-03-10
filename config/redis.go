@@ -15,10 +15,10 @@ type Redis struct {
 }
 
 func setDefaultRedis() {
-	viper.SetDefault("redis.db", "rabbitmq")
+	viper.SetDefault("redis.db", 0)
 	viper.SetDefault("redis.password", "")
 	viper.SetDefault("redis.host", "localhost")
-	viper.SetDefault("redis.port", "5672")
+	viper.SetDefault("redis.port", "6379")
 }
 
 func (conf *Config) printRedisConfig() {
