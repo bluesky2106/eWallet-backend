@@ -16,6 +16,9 @@ type Config struct {
 	APIGateway
 	EntryCache
 	EntryStore
+	Asset
+	EntryScan
+	Event
 }
 
 // ParseConfig : parse configurations from global env and json file
@@ -42,6 +45,10 @@ func setDefaultVariables() {
 	setDefaultPostgres()
 	setDefaultAPIGateway()
 	setDefaultEntryCache()
+	setDefaultEntryStore()
+	setDefaultAsset()
+	setDefaultEntryScan()
+	setDefaultEvent()
 }
 
 func readEnvironmentVariables() {
@@ -79,18 +86,11 @@ func getFileNameAndType(file string) (fileName string, fileType string) {
 
 // Print configurations for checking
 func (conf *Config) Print() {
-	fmt.Println("---------- Database configurations ----------")
-	fmt.Println("Postgres DB name is\t", conf.Postgres.Name)
-	fmt.Println("Postgres User is\t", conf.Postgres.Username)
-	fmt.Println("Postgres Pass is\t", conf.Postgres.Password)
-	fmt.Println("Postgres Host is\t", conf.Postgres.Host)
-	fmt.Println("Database Port is\t", conf.Postgres.Port)
-
-	fmt.Println("-------- API Gateway configurations ---------")
-	fmt.Println("Server host is\t", conf.APIGateway.Host)
-	fmt.Println("Server port is\t", conf.APIGateway.Port)
-
-	fmt.Println("-------- Entry Cache configurations ---------")
-	fmt.Println("Server host is\t", conf.EntryCache.Host)
-	fmt.Println("Server port is\t", conf.EntryCache.Port)
+	conf.printPostgresConfig()
+	conf.printAPIGatewayConfig()
+	conf.printEntryCacheConfig()
+	conf.printEntryStoreConfig()
+	conf.printAssetConfig()
+	conf.printEntryScanConfig()
+	conf.printEventConfig()
 }

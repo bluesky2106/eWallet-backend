@@ -1,6 +1,10 @@
 package config
 
-import "github.com/spf13/viper"
+import (
+	"fmt"
+
+	"github.com/spf13/viper"
+)
 
 // Postgres configurations
 type Postgres struct {
@@ -17,4 +21,13 @@ func setDefaultPostgres() {
 	viper.SetDefault("postgres.password", "")
 	viper.SetDefault("postgres.host", "localhost")
 	viper.SetDefault("postgres.port", "5432")
+}
+
+func (conf *Config) printPostgresConfig() {
+	fmt.Println("---------- Postgres DB configurations ----------")
+	fmt.Println("Postgres DB name is\t", conf.Postgres.Name)
+	fmt.Println("Postgres User is\t", conf.Postgres.Username)
+	fmt.Println("Postgres Pass is\t", conf.Postgres.Password)
+	fmt.Println("Postgres Host is\t", conf.Postgres.Host)
+	fmt.Println("Database Port is\t", conf.Postgres.Port)
 }

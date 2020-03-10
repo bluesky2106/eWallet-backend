@@ -1,6 +1,10 @@
 package config
 
-import "github.com/spf13/viper"
+import (
+	"fmt"
+
+	"github.com/spf13/viper"
+)
 
 // APIGateway configurations
 type APIGateway struct {
@@ -11,4 +15,10 @@ type APIGateway struct {
 func setDefaultAPIGateway() {
 	viper.SetDefault("apiGateway.host", "localhost")
 	viper.SetDefault("apiGateway.port", "1")
+}
+
+func (conf *Config) printAPIGatewayConfig() {
+	fmt.Println("--------- API Gateway configurations -----------")
+	fmt.Println("Server host is\t", conf.APIGateway.Host)
+	fmt.Println("Server port is\t", conf.APIGateway.Port)
 }

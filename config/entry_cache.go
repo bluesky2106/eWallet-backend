@@ -1,6 +1,10 @@
 package config
 
-import "github.com/spf13/viper"
+import (
+	"fmt"
+
+	"github.com/spf13/viper"
+)
 
 // EntryCache configurations
 type EntryCache struct {
@@ -11,4 +15,10 @@ type EntryCache struct {
 func setDefaultEntryCache() {
 	viper.SetDefault("entryCache.host", "localhost")
 	viper.SetDefault("entryCache.port", "2")
+}
+
+func (conf *Config) printEntryCacheConfig() {
+	fmt.Println("--------- Entry Cache configurations -----------")
+	fmt.Println("Server host is\t", conf.EntryCache.Host)
+	fmt.Println("Server port is\t", conf.EntryCache.Port)
 }
