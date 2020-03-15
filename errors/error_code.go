@@ -1,13 +1,14 @@
 package errors
 
+// Prefix EC = ErrorCode
+
 type (
 	// ErrorCode : error code
 	ErrorCode int32
 )
 
+// common errors
 const (
-	// Prefix EC = ErrorCode
-
 	// ECOK is returned on success.
 	// Error code starts from 100 in order not to duplicate grpc error codes which starts from 0 to 15.
 	ECOK ErrorCode = iota + 100
@@ -25,9 +26,12 @@ const (
 	// example, a successful response from a server could have been delayed
 	// long enough for the deadline to expire.
 	ECDeadlineExceeded
+)
 
+// user errors
+const (
 	// ECInvalidEmail : invalid email
-	ECInvalidEmail
+	ECInvalidEmail ErrorCode = iota + 200
 	// ECInvalidPassword : invalid password
 	ECInvalidPassword
 	// ECEmailNotExists : email doesn't exist
@@ -48,14 +52,12 @@ const (
 	ECChangePasswordOldPwdNotSame
 	// ECForgotPasswordCode : invalid forgot password code
 	ECForgotPasswordCode
+)
 
-	// ECAddressExisted : error message user address is existed
-	ECAddressExisted
-	// ECAddressSaveFail : user address save fail
-	ECAddressSaveFail
-
+// server errors
+const (
 	// ECInvalidMessage : invalid message
-	ECInvalidMessage
+	ECInvalidMessage ErrorCode = iota + 300
 	// ECInvalidArgument : invalid argument
 	ECInvalidArgument
 	// ECInternalServerError : internal server error
@@ -69,18 +71,34 @@ const (
 	// ECPermissionDenied : permission denied
 	ECPermissionDenied
 
+	// ECInvalidAdminKey : admin key is invalid
+	ECInvalidAdminKey
+)
+
+// wallet errors
+const (
 	// ECWalletNotMaster : not a master wallet
-	ECWalletNotMaster
+	ECWalletNotMaster ErrorCode = iota + 400
 	// ECWalletNotFound : not found wallet
 	ECWalletNotFound
 	// ECWalletAddressDataInvalid : wallet address data invalid
 	ECWalletAddressDataInvalid
+	// ECAddressExisted : error message user address is existed
+	ECAddressExisted
+	// ECAddressSaveFail : user address save fail
+	ECAddressSaveFail
+)
 
+// asset errors
+const (
 	// ECAssetEmptyRawTx : invalid raw transaction
-	ECAssetEmptyRawTx
+	ECAssetEmptyRawTx ErrorCode = iota + 500
+)
 
+// tnx errors
+const (
 	// ECTnxExisted : tnx is existed
-	ECTnxExisted
+	ECTnxExisted ErrorCode = iota + 600
 	// ECInvalidTnxHash : tnxHash is invalid
 	ECInvalidTnxHash
 	// ECAssetNotExist : asset is not exist
@@ -89,9 +107,12 @@ const (
 	ECAssetIDRequire
 	// ECInvalidID : id is invalid
 	ECInvalidID
+)
 
+// event errors
+const (
 	// ECEventIDInvalid : event id is invalid
-	ECEventIDInvalid
+	ECEventIDInvalid ErrorCode = iota + 700
 	// ECEventIDNotFound : event id is not found
 	ECEventIDNotFound
 	// ECEventTypeInvalid : eventType is invalid
@@ -106,15 +127,18 @@ const (
 	ECEventEndDateLessThanBeginDate
 	// ECEventIndexInvalid : event index is invalid
 	ECEventIndexInvalid
+)
 
-	// ECInvalidAdminKey : admin key is invalid
-	ECInvalidAdminKey
-
+// notification errors
+const (
 	// ECInvalidNotifyID : id is required
-	ECInvalidNotifyID
+	ECInvalidNotifyID ErrorCode = iota + 800
+)
 
+// third - party errors
+const (
 	// ECMongoConnection : mongodb connection error
-	ECMongoConnection
+	ECMongoConnection ErrorCode = iota + 900
 	// ECMongoCreate : mongodb create model error
 	ECMongoCreate
 	// ECMongoRead : mongodb read model error
@@ -123,4 +147,19 @@ const (
 	ECMongoUpdate
 	// ECMongoDelete : mongodb delete model error
 	ECMongoDelete
+
+	// ECMySQLConnection : mysql connection error
+	ECMySQLConnection
+	// ECMySQLDBEmpty : mysql db is empty
+	ECMySQLDBEmpty
+	// ECMySQLDBAutoMigrate : mysql db auto migrate error
+	ECMySQLDBAutoMigrate
+	// ECMySQLCreate : mysql create model error
+	ECMySQLCreate
+	// ECMySQLRead : mysql read model error
+	ECMySQLRead
+	// ECMySQLUpdate : mysql update model error
+	ECMySQLUpdate
+	// ECMySQLDelete : mysql delete model error
+	ECMySQLDelete
 )
