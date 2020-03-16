@@ -72,5 +72,6 @@
         "port": "6379",
         "password": ""
     },
+    "environment": "production",
     "tokenPass": "thisIsTheJwtPassword"
 }

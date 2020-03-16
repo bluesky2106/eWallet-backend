@@ -2,13 +2,9 @@ package config
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/spf13/viper"
 )
-
-// DatabaseDriver : database driver
-type DatabaseDriver string
 
 // Config : configurations
 type Config struct {
@@ -29,6 +25,8 @@ type Config struct {
 	Email
 	Program
 	BOController
+
+	Environment string
 }
 
 // ParseConfig : parse configurations from global env and json file
@@ -69,6 +67,8 @@ func setDefaultVariables() {
 	setDefaultEmail()
 	setDefaultProgram()
 	setDefaultBOController()
+
+	setDefaultEnvironment()
 }
 
 func readEnvironmentVariables() {
@@ -90,20 +90,6 @@ func readJSONFile(file, path string) {
 	}
 }
 
-func getFileNameAndType(file string) (fileName string, fileType string) {
-	strs := strings.Split(file, ".")
-
-	if len(strs) != 2 {
-		fmt.Println("Config file name must follow format of xxx.yyy")
-		return "", ""
-	}
-
-	fileName = strs[0]
-	fileType = strs[1]
-
-	return fileName, fileType
-}
-
 // Print configurations for checking
 func (conf *Config) Print() {
 	conf.printPostgresConfig()
@@ -123,4 +109,6 @@ func (conf *Config) Print() {
 	conf.printEmailConfig()
 	conf.printProgramConfig()
 	conf.printBOControllerConfig()
+
+	conf.printEnvironmentConfig()
 }
