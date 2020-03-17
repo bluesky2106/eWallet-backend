@@ -79,6 +79,6 @@
         "ccEmail": "hoaiphuong.nguyen.vn@gmail.com",
         "ccName": "Akagi"
     },
-    "environment": "production",
+    "env": "production",
     "tokenPass": "thisIsTheJwtPassword"
 }
