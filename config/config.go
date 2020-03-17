@@ -28,7 +28,7 @@ type Config struct {
 
 	Sendgrid
 
-	Environment string
+	Env Environment
 }
 
 // ParseConfig : parse configurations from global env and json file

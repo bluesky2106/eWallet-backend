@@ -8,7 +8,7 @@ import (
 
 // MySQL configurations
 type MySQL struct {
-	DBName   string `json: "name"`
+	DBName   string `json: "dbName"`
 	Username string `json: "username"`
 	Password string `json: "password"`
 	Host     string `json: "host"`

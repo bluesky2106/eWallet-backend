@@ -12,20 +12,23 @@ func TestInitMySQL(t *testing.T) {
 	assert := assert.New(t)
 
 	// load config from environments
-	conf := &config.MySQL{
-		Host:     "localhost",
-		Port:     "3307",
-		Username: "tokoin",
-		Password: "tokoin",
-		DBName:   "tokoin",
+	conf := &config.Config{
+		MySQL: config.MySQL{
+			Host:     "localhost",
+			Port:     "3307",
+			Username: "tokoin",
+			Password: "tokoin",
+			DBName:   "tokoin",
+		},
+		Env: config.Debug,
 	}
 
 	// init mysql
-	mysqlLib, err := Init(conf, config.Debug)
+	dao, err := New(conf)
 
 	if err != nil {
 		log.Fatalf("failed to connect mysql: %v", err)
 	}
 	assert.Nil(err)
-	assert.NotNil(mysqlLib)
+	assert.NotNil(dao)
 }

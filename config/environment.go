@@ -17,10 +17,10 @@ const (
 )
 
 func setDefaultEnvironment() {
-	viper.SetDefault("environment", Debug)
+	viper.SetDefault("env", Debug)
 }
 
 func (conf *Config) printEnvironmentConfig() {
 	fmt.Println("--------- Environment configurations -----------")
-	fmt.Println("Environment is\t", conf.Environment)
+	fmt.Println("Environment is\t", conf.Env)
 }
