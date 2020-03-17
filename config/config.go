@@ -26,6 +26,8 @@ type Config struct {
 	Program
 	BOController
 
+	Sendgrid
+
 	Environment string
 }
 
@@ -68,6 +70,8 @@ func setDefaultVariables() {
 	setDefaultProgram()
 	setDefaultBOController()
 
+	setDefaultSendgrid()
+
 	setDefaultEnvironment()
 }
 
@@ -109,6 +113,8 @@ func (conf *Config) Print() {
 	conf.printEmailConfig()
 	conf.printProgramConfig()
 	conf.printBOControllerConfig()
+
+	conf.printSendgridConfig()
 
 	conf.printEnvironmentConfig()
 }

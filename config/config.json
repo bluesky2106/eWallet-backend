@@ -72,6 +72,13 @@
         "port": "6379",
         "password": ""
     },
+    "sendgrid": {
+        "apiKey": "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",
+        "senderEmail": "phuong.nguyen@tokoin.io",
+        "senderName": "Nguyen Hoai Phuong",
+        "ccEmail": "hoaiphuong.nguyen.vn@gmail.com",
+        "ccName": "Akagi"
+    },
     "environment": "production",
     "tokenPass": "thisIsTheJwtPassword"
 }
