@@ -1,3 +1,6 @@
+test:
+	go test -timeout 9000s -cover -a -v ./...
+
 test-errors:
 	cd ./errors && \
 	go test -timeout 9000s -cover -a -v ./...
