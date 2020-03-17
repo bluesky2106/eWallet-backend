@@ -1,18 +1,20 @@
 package mysql
 
 import (
-	"log"
 	"testing"
 
 	"github.com/bluesky2106/eWallet-backend/config"
+	"github.com/jinzhu/gorm"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestInitMySQL(t *testing.T) {
-	assert := assert.New(t)
+var (
+	conf *config.Config
+	dao  *DAO
+)
 
-	// load config from environments
-	conf := &config.Config{
+func init() {
+	conf = &config.Config{
 		MySQL: config.MySQL{
 			Host:     "localhost",
 			Port:     "3307",
@@ -20,15 +22,59 @@ func TestInitMySQL(t *testing.T) {
 			Password: "tokoin",
 			DBName:   "tokoin",
 		},
-		Env: config.Debug,
+		Env: config.Production,
 	}
+}
 
-	// init mysql
-	dao, err := New(conf)
+type Person struct {
+	gorm.Model
+	Name string `gorm:"unique_index"`
+	Age  uint8
+}
 
-	if err != nil {
-		log.Fatalf("failed to connect mysql: %v", err)
-	}
+func TestNew(t *testing.T) {
+	assert := assert.New(t)
+
+	var err error
+	dao, err = New(conf)
 	assert.Nil(err)
 	assert.NotNil(dao)
+}
+
+func TestAutoMigrate(t *testing.T) {
+	assert := assert.New(t)
+
+	tables := []interface{}{(*Person)(nil)}
+	err := dao.AutoMigrate(tables)
+	assert.Nil(err)
+}
+
+func TestCreate(t *testing.T) {
+	assert := assert.New(t)
+
+	akagi := &Person{
+		Name: "Akagi",
+		Age:  uint8(34),
+	}
+
+	err := dao.WithTransaction(func() error {
+		return dao.Create(akagi)
+	})
+
+	assert.Nil(err)
+}
+
+func TestDropTable(t *testing.T) {
+	assert := assert.New(t)
+
+	akagi := &Person{
+		Name: "Akagi",
+		Age:  uint8(34),
+	}
+
+	err := dao.WithTransaction(func() error {
+		return dao.DropTable(akagi)
+	})
+
+	assert.Nil(err)
 }
