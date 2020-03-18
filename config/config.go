@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/spf13/viper"
 )
@@ -47,6 +48,8 @@ func ParseConfig(file, path string) *Config {
 	if err != nil {
 		fmt.Printf("Unable to decode into struct, %v\n", err)
 	}
+
+	conf.Sendgrid.APIKey = os.Getenv("SENDGRID_API_KEY")
 
 	return &conf
 }
