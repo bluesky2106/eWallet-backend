@@ -53,7 +53,7 @@ func New(conf *config.Config) (*DAO, error) {
 
 // DB returns dao.db
 func (dao *DAO) DB() *gorm.DB {
-	return db
+	return dao.db
 }
 
 // WithTransaction : commit transaction
