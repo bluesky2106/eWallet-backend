@@ -20,11 +20,11 @@
     ```
 ### Create new error in services (backend, cache, store, etc.)
 
-- Import errors pacakge of the common_lib:
+- Import errors pacakge:
 
     ```
     import (
-        errs "github.com/tokoinofficial/common_lib/errors"	
+        errs "github.com/bluesky2106/eWallet-backend/errors"	
     )
     ```
 
