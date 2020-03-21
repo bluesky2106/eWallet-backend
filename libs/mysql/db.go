@@ -85,8 +85,8 @@ func (dao *DAO) AutoMigrate(tables []interface{}) error {
 	return nil
 }
 
-// AddForeignKeys : foreign keys
-func (dao *DAO) AddForeignKeys(model interface{}, field, dest string) error {
+// AddForeignKey : add foreign key
+func (dao *DAO) AddForeignKey(model interface{}, field, dest string) error {
 	if dao.db == nil {
 		return emptyDBError("db.AddForeignKeys")
 	}
@@ -173,8 +173,8 @@ func (dao *DAO) CountByQuery(filters map[string]interface{}) (uint, error) {
 	return count, nil
 }
 
-// DropTable : drop table if it is exist
-func (dao *DAO) DropTable(models ...interface{}) error {
+// DropTables : drop tables if it is exist
+func (dao *DAO) DropTables(models ...interface{}) error {
 	if err := dao.db.DropTableIfExists(models...).Error; err != nil {
 		return errs.New(errs.ECMySQLDelete, err.Error(), "db.DropTableIfExists")
 	}
