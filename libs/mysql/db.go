@@ -2,6 +2,9 @@ package mysql
 
 import (
 	"fmt"
+	"reflect"
+
+	"github.com/bluesky2106/eWallet-backend/libs/utils"
 
 	"github.com/bluesky2106/eWallet-backend/config"
 	errs "github.com/bluesky2106/eWallet-backend/errors"
@@ -114,37 +117,18 @@ func (dao *DAO) Update(model interface{}) error {
 	return nil
 }
 
-// FindAll : find all objects matched the filters
-func (dao *DAO) FindAll(filters map[string]interface{}) (interface{}, error) {
-	var (
-		objects interface{}
-		db      = dao.db
-	)
-	for k, v := range filters {
-		if v != nil {
-			db = db.Where(k, v)
-		} else {
-			db = db.Where(k)
-		}
+// Delete : delete model
+func (dao *DAO) Delete(model interface{}) error {
+	err := dao.db.Delete(model).Error
+	if err != nil {
+		return errs.New(errs.ECMySQLDelete, err.Error(), "db.Delete")
 	}
-
-	if err := db.Find(&objects).Error; err != nil {
-		return nil, errs.New(errs.ECMySQLRead, err.Error(), "db.FindAll")
-	}
-	return objects, nil
+	return nil
 }
 
-// DeleteAll : delete all models matched the filters
-func (dao *DAO) DeleteAll(model interface{}, filters map[string]interface{}) error {
-	db := dao.db
-
-	for k, v := range filters {
-		if v != nil {
-			db = db.Where(k, v)
-		} else {
-			db = db.Where(k)
-		}
-	}
+// DeleteByQuery : delete all models matching the filters
+func (dao *DAO) DeleteByQuery(model interface{}, filters map[string]interface{}) error {
+	db := where(dao.db, filters)
 
 	err := db.Delete(model).Error
 	if err != nil {
@@ -154,18 +138,47 @@ func (dao *DAO) DeleteAll(model interface{}, filters map[string]interface{}) err
 	return nil
 }
 
-// CountByQuery : count number of objects matched the filters
-func (dao *DAO) CountByQuery(filters map[string]interface{}) (uint, error) {
+// FindOneByQuery : find the first object matching the filters
+func (dao *DAO) FindOneByQuery(model interface{}, filters map[string]interface{}, preloads ...string) (interface{}, error) {
+	db := where(dao.db.Model(model), filters)
+	for _, preload := range preloads {
+		db = db.Preload(preload)
+	}
+
+	t := utils.TypeOf(model)
+	object := reflect.New(t).Interface()
+
+	if err := db.First(object).Error; err != nil {
+		return nil, errs.New(errs.ECMySQLRead, err.Error(), "db.First")
+	}
+
+	return object, nil
+}
+
+// FindManyByQuery : find all models matching the condition
+func (dao *DAO) FindManyByQuery(model interface{}, filters map[string]interface{}, preloads ...string) (interface{}, error) {
+	db := where(dao.db.Model(model), filters)
+	for _, preload := range preloads {
+		db = db.Preload(preload)
+	}
+
+	t := utils.TypeOf(model)
+	v := reflect.New(t)
+	slice := reflect.MakeSlice(reflect.SliceOf(v.Type()), 0, 0)
+	slicePtr := reflect.New(slice.Type())
+	slicePtr.Elem().Set(slice)
+
+	if err := db.Find(slicePtr.Interface()).Error; err != nil {
+		return nil, errs.New(errs.ECMySQLRead, err.Error(), "db.Find")
+	}
+	return slicePtr.Elem().Interface(), nil
+}
+
+// CountByQuery : count number of objects matching the filters
+func (dao *DAO) CountByQuery(model interface{}, filters map[string]interface{}) (uint, error) {
 	var count uint
 
-	query := dao.db
-	for k, v := range filters {
-		if v != nil {
-			query = query.Where(k, v)
-		} else {
-			query = query.Where(k)
-		}
-	}
+	query := where(dao.db.Model(model), filters)
 
 	if err := query.Count(&count).Error; err != nil {
 		return 0, errs.New(errs.ECMySQLRead, err.Error(), "query.Count")
@@ -179,4 +192,16 @@ func (dao *DAO) DropTables(models ...interface{}) error {
 		return errs.New(errs.ECMySQLDelete, err.Error(), "db.DropTableIfExists")
 	}
 	return nil
+}
+
+func where(db *gorm.DB, filters map[string]interface{}) *gorm.DB {
+	query := db
+	for k, v := range filters {
+		if v != nil {
+			query = query.Where(k, v)
+		} else {
+			query = query.Where(k)
+		}
+	}
+	return query
 }

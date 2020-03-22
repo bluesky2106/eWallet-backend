@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/bluesky2106/eWallet-backend/config"
+	"github.com/bluesky2106/eWallet-backend/libs/comparator"
 	"github.com/bluesky2106/eWallet-backend/models"
 	"github.com/stretchr/testify/assert"
 )
@@ -12,7 +13,7 @@ var (
 	conf *config.Config
 	dao  *DAO
 
-	tables = []interface{}{(*models.Product)(nil), (*models.ProductGroup)(nil), (*models.ProductUnit)(nil)}
+	tables = []interface{}{(*models.ProductInfo)(nil), (*models.ProductGroup)(nil), (*models.Unit)(nil)}
 )
 
 // product group
@@ -31,13 +32,13 @@ var (
 
 // product unit
 var (
-	prodUnit1 = &models.ProductUnit{
-		UID:         "PU-01",
+	unit1 = &models.Unit{
+		UID:         "U-01",
 		Name:        "Item",
 		Description: "",
 	}
-	prodUnit2 = &models.ProductUnit{
-		UID:         "PU-02",
+	unit2 = &models.Unit{
+		UID:         "U-02",
 		Name:        "Carton",
 		Description: "",
 	}
@@ -45,25 +46,19 @@ var (
 
 // product
 var (
-	prod1 = &models.Product{
-		PID:            "P-01",
-		Name:           "T-Shirt",
-		Description:    "T Shirt for men, size L, color red",
-		Size:           models.SizeL,
-		Color:          models.Red,
-		ProductGroupID: "PG-01",
-		ProductUnitID:  "PU-01",
-		CostPerUnit:    100,
+	prod1 = &models.ProductInfo{
+		PID:         "P-01",
+		Name:        "T-Shirt",
+		Description: "T Shirt for men, size L, color red",
+		Size:        models.SizeL,
+		Color:       models.Red,
 	}
-	prod2 = &models.Product{
-		PID:            "P-02",
-		Name:           "T-Shirt",
-		Description:    "T Shirt for men, size M, color red",
-		Size:           models.SizeM,
-		Color:          models.Red,
-		ProductGroupID: "PG-01",
-		ProductUnitID:  "PU-01",
-		CostPerUnit:    110,
+	prod2 = &models.ProductInfo{
+		PID:         "P-02",
+		Name:        "T-Shirt",
+		Description: "T Shirt for men, size M, color red",
+		Size:        models.SizeM,
+		Color:       models.Red,
 	}
 )
 
@@ -100,10 +95,7 @@ func TestAddForeignKey(t *testing.T) {
 	// db.Model(&models.Wallet{}).AddForeignKey("user_id", "users(id)", "CASCADE", "CASCADE")
 	assert := assert.New(t)
 
-	err := dao.AddForeignKey((*models.Product)(nil), "product_group_id", "product_groups(g_id)")
-	assert.Nil(err)
-
-	err = dao.AddForeignKey((*models.Product)(nil), "product_unit_id", "product_units(u_id)")
+	err := dao.AddForeignKey((*models.ProductInfo)(nil), "product_group_id", "product_groups(g_id)")
 	assert.Nil(err)
 }
 
@@ -113,10 +105,11 @@ func TestCreateProductGroup(t *testing.T) {
 	err := dao.WithTransaction(func() error {
 		return dao.Create(prodGrp1)
 	})
+	assert.Nil(err)
+
 	err = dao.WithTransaction(func() error {
 		return dao.Create(prodGrp2)
 	})
-
 	assert.Nil(err)
 }
 
@@ -124,25 +117,104 @@ func TestCreateProductUnit(t *testing.T) {
 	assert := assert.New(t)
 
 	err := dao.WithTransaction(func() error {
-		return dao.Create(prodUnit1)
+		return dao.Create(unit1)
 	})
+	assert.Nil(err)
 
 	err = dao.WithTransaction(func() error {
-		return dao.Create(prodUnit2)
+		return dao.Create(unit2)
 	})
-
 	assert.Nil(err)
 }
 
 func TestCreateProduct(t *testing.T) {
 	assert := assert.New(t)
 
-	err := dao.WithTransaction(func() error {
+	// 1. Find ProductGroup whose GID = "PG-01"
+	filter := map[string]interface{}{
+		"g_id = ?": "PG-01",
+	}
+	model, err := dao.FindOneByQuery(models.ProductGroup{}, filter)
+	assert.Nil(err)
+	prodGrp := model.(*models.ProductGroup)
+
+	// 2. Create ProductInfo whose ProductGroupID = the above product group id
+	prod1.ProductGroupID = prodGrp.ID
+	err = dao.WithTransaction(func() error {
 		return dao.Create(prod1)
 	})
+	assert.Nil(err)
 
+	prod2.ProductGroupID = prodGrp.ID
 	err = dao.WithTransaction(func() error {
 		return dao.Create(prod2)
+	})
+	assert.Nil(err)
+}
+
+func TestFindOneByQuery(t *testing.T) {
+	assert := assert.New(t)
+
+	// 1. Find one product group whose GID = "PG-01"
+	filter := map[string]interface{}{
+		"g_id = ?": "PG-01",
+	}
+	// model, err := dao.FindOneByQuery(models.ProductGroup{}, filter, "ProductInfos")
+	model, err := dao.FindOneByQuery(&models.ProductGroup{}, filter, "ProductInfos")
+	assert.Nil(err)
+
+	// 2. Check ProductInfos inside the above product group
+	prodGrp := model.(*models.ProductGroup)
+	assert.True(comparator.IsStructValueEqual(prodGrp.ProductInfos[0], prod1, "Model"))
+	assert.True(comparator.IsStructValueEqual(prodGrp.ProductInfos[1], prod2, "Model"))
+}
+
+func TestFindManyByQuery(t *testing.T) {
+	assert := assert.New(t)
+
+	objects, err := dao.FindManyByQuery(models.ProductInfo{}, nil, "ProductGroup")
+	// objects, err := dao.FindManyByQuery(&models.ProductInfo{}, nil, "ProductGroup")
+	assert.Nil(err)
+
+	products := models.ToProductInfos(objects)
+	assert.True(comparator.IsStructValueEqual(products[0], prod1, "Model", "ProductGroup"))
+	assert.True(comparator.IsStructValueEqual(products[1], prod2, "Model", "ProductGroup"))
+
+	assert.True(comparator.IsStructValueEqual(products[0].ProductGroup, prodGrp1, "Model", "ProductInfos"))
+	assert.True(comparator.IsStructValueEqual(products[1].ProductGroup, prodGrp1, "Model", "ProductInfos"))
+}
+
+func TestCountByQuery(t *testing.T) {
+	assert := assert.New(t)
+
+	count, err := dao.CountByQuery(models.ProductInfo{}, nil)
+	assert.Nil(err)
+	assert.Equal(uint(2), count)
+
+	filter := map[string]interface{}{
+		"p_id = ?": "P-01",
+	}
+	count, err = dao.CountByQuery(models.ProductInfo{}, filter)
+	assert.Nil(err)
+	assert.Equal(uint(1), count)
+}
+
+func TestUpdateProduct(t *testing.T) {
+	assert := assert.New(t)
+
+	prod1.Description = "Change description"
+	err := dao.WithTransaction(func() error {
+		return dao.Update(prod1)
+	})
+
+	assert.Nil(err)
+}
+
+func TestDeleteProduct(t *testing.T) {
+	assert := assert.New(t)
+
+	err := dao.WithTransaction(func() error {
+		return dao.Delete(prod2)
 	})
 
 	assert.Nil(err)
