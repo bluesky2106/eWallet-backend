@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package protobuf;
+option go_package = "protobufpb";
+option java_multiple_files = true;
+option java_package = "com.protobuf";
+option java_outer_classname = "ProductProto";
+
+import "base.proto";
+
+service ProductSrv {
+  // Product group
+  rpc CreateProductGroup(CreateProductGroupReq)
+      returns (CreateProductGroupRes) {}
+}
+
+message ProductGroup {
+  string g_id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+// CreateProductGroup
+message CreateProductGroupReq {
+  BaseReq request = 1;
+  ProductGroup productGroup = 2;
+}
+message CreateProductGroupRes {
+  bool result = 1;
+  ProductGroup productGroup = 2;
+}

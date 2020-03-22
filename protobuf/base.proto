@@ -10,11 +10,7 @@ option java_outer_classname = "BaseProto";
 enum Message {
   MESSAGE_INVALID = 0;
 
-  // Metadata of QUERY action for user object
-  MESSAGE_QUERY_USER_ID = 20;
-  MESSAGE_QUERY_USER_EMAIL = 21;
-  MESSAGE_QUERY_USER_RESET_PWD = 22;
-  MESSAGE_QUERY_USER_CHANGE_PWD = 23;
+  MESSAGE_CREATE_PRODUCT = 20;
 }
 
 // Object represents table/struct
@@ -23,6 +19,9 @@ enum Message {
 enum Object {
   OBJECT_INVALID = 0;
   OBJECT_USER = 1;
+  OBJECT_PRODUCT = 2;
+  OBJECT_PRODUCT_GROUP = 3;
+  OBJECT_UNIT = 4;
 }
 
 // Action represents:
@@ -30,8 +29,10 @@ enum Object {
 // STORE, QUERY
 enum Action {
   ACTION_INVALID = 0;
-  ACTION_STORE = 1;
-  ACTION_QUERY = 2;
+  ACTION_CREATE = 1;
+  ACTION_READ = 2;
+  ACTION_UPDATE = 3;
+  ACTION_DELETE = 4;
 }
 
 // Ex:
