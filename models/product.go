@@ -1,6 +1,8 @@
 package models
 
 import (
+	"reflect"
+
 	"github.com/jinzhu/gorm"
 )
 
@@ -43,4 +45,18 @@ type ProductInfo struct {
 	ProductGroup   *ProductGroup
 	Size           ProductSize  `gorm:"column:size" json:"size"`
 	Color          ProductColor `gorm:"column:color" json:"color"`
+}
+
+// ProductInfos : slice of *ProductInfo
+type ProductInfos []*ProductInfo
+
+// ToProductInfos converts interface to slice of products
+func ToProductInfos(objects interface{}) ProductInfos {
+	list := reflect.ValueOf(objects)
+	products := make(ProductInfos, list.Len())
+	for i := 0; i < list.Len(); i++ {
+		products[i] = list.Index(i).Interface().(*ProductInfo)
+	}
+
+	return products
 }
