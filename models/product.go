@@ -3,6 +3,7 @@ package models
 import (
 	"reflect"
 
+	pb "github.com/bluesky2106/eWallet-backend/protobuf"
 	"github.com/jinzhu/gorm"
 )
 
@@ -59,4 +60,13 @@ func ToProductInfos(objects interface{}) ProductInfos {
 	}
 
 	return products
+}
+
+// ToProductGroup converts pb.ProductGroup to ProductGroup
+func ToProductGroup(prodGrp *pb.ProductGroup) *ProductGroup {
+	return &ProductGroup{
+		GID:         prodGrp.GetGId(),
+		Name:        prodGrp.GetName(),
+		Description: prodGrp.GetDescription(),
+	}
 }
