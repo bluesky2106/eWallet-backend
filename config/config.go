@@ -29,7 +29,9 @@ type Config struct {
 
 	Sendgrid
 
-	Env Environment
+	Env             Environment
+	TokenSecretKey  string
+	CryptoPassphase string
 }
 
 // ParseConfig : parse configurations from global env and json file
@@ -76,6 +78,8 @@ func setDefaultVariables() {
 	setDefaultSendgrid()
 
 	setDefaultEnvironment()
+	setDefaultTokenSecretKey()
+	setDefaultCryptoPassphase()
 }
 
 func readEnvironmentVariables() {
@@ -120,4 +124,6 @@ func (conf *Config) Print() {
 	conf.printSendgridConfig()
 
 	conf.printEnvironmentConfig()
+	conf.printTokenSecretKey()
+	conf.printCryptoPassphase()
 }

@@ -80,5 +80,7 @@
         "ccName": "Akagi"
     },
     "env": "production",
-    "tokenPass": "thisIsTheJwtPassword"
+    "tokenPass": "thisIsTheJwtPassword",
+    "tokenSecretKey": "token secret key",
+    "cryptoPassphase": "crypto passphase"
 }
