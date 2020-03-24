@@ -18,7 +18,6 @@ var logger *zap.Logger
 
 func main() {
 	conf := commonConfig.ParseConfig("config.json", "../config")
-	conf.Print()
 	logger = log.InitLogger(conf.Env)
 
 	gwConf := &config.Config{
@@ -29,6 +28,8 @@ func main() {
 		TokenSecretKey:     conf.TokenSecretKey,
 		CryptoPassphase:    conf.CryptoPassphase,
 	}
+	gwConf.Print()
+
 	productSrv := services.NewProductService(gwConf)
 	userSrv := services.NewUserService(gwConf)
 
@@ -43,7 +44,7 @@ func main() {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	svr := api.NewServer(gwConf, router, productSrv, userSrv)
+	svr := api.NewServer(gwConf, router, userSrv, productSrv)
 	authMw := api.AuthMiddleware(string(conf.TokenSecretKey), svr.Authenticate)
 	svr.Routes(authMw)
 	if err := router.Run(fmt.Sprintf("%s:%s", gwConf.Host, gwConf.Port)); err != nil {

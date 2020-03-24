@@ -18,13 +18,13 @@ type Server struct {
 // NewServer : userSvc, walletSvc, assetSvc, config
 func NewServer(config *config.Config,
 	g *gin.Engine,
-	productSvc *services.ProductService,
 	userSvc *services.UserService,
+	productSvc *services.ProductService,
 ) *Server {
 	return &Server{
 		config:     config,
 		g:          g,
-		productSvc: productSvc,
 		userSvc:    userSvc,
+		productSvc: productSvc,
 	}
 }

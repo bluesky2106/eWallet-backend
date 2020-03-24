@@ -11,7 +11,17 @@ func (s *Server) Routes(authMw *jwt.GinJWTMiddleware) {
 	{
 		api.GET("/", s.Welcome)
 
-		// deviceToken API group
+		// auth API group
+		auth := api.Group("/auth")
+		auth.POST("/register", s.Register)
+		auth.POST("/login", authMw.LoginHandler)
+		auth.Use(authMw.MiddlewareFunc())
+		{
+			// auth.GET("/user-profile", s.UserProfile)
+			// auth.PUT("/user-profile", s.UpdateUserProfile)
+			// auth.POST("/user-change-pwd", s.ChangePwd)
+		}
+
 		productGroup := api.Group("/product-group")
 		// productGroup.Use(authMw.MiddlewareFunc())
 		{
