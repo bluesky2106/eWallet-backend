@@ -83,7 +83,7 @@ func FromError(err error) *Error {
 	} else {
 		e.Code = ErrorCode(st.Code())
 		e.Message = st.Message()
-		if st.Proto() != nil {
+		if st.Proto() != nil && len(st.Proto().GetDetails()) > 0 {
 			any := st.Proto().GetDetails()[0]
 			e.Service = any.GetTypeUrl()
 		} else {

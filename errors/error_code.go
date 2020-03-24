@@ -137,8 +137,14 @@ const (
 
 // third - party errors
 const (
+	// ECRedisConnection : redis connection error
+	ECRedisConnection ErrorCode = iota + 900
+
+	// ECRabbitmqConnection : rabbitmq connection error
+	ECRabbitmqConnection
+
 	// ECMongoConnection : mongodb connection error
-	ECMongoConnection ErrorCode = iota + 900
+	ECMongoConnection
 	// ECMongoCreate : mongodb create model error
 	ECMongoCreate
 	// ECMongoRead : mongodb read model error

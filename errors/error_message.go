@@ -124,6 +124,12 @@ const (
 
 // third - party errors
 const (
+	// EMRedisConnection : redis connection error
+	EMRedisConnection string = "redis connection error"
+
+	// EMRabbitmqConnection : rabbitmq connection error
+	EMRabbitmqConnection string = "rabbitmq connection error"
+
 	// EMMongoConnection : mongodb connection error
 	EMMongoConnection string = "mongodb connection error"
 	// EMMongoCreate : mongodb create model error
@@ -236,6 +242,9 @@ func initDefaultNotificationErrors() {
 }
 
 func initDefaultThirdPartyErrors() {
+	defaultErrors[ECRedisConnection] = EMRedisConnection
+	defaultErrors[ECRabbitmqConnection] = EMRabbitmqConnection
+
 	defaultErrors[ECMongoConnection] = EMMongoConnection
 	defaultErrors[ECMongoCreate] = EMMongoCreate
 	defaultErrors[ECMongoRead] = EMMongoRead
