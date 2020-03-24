@@ -3,7 +3,6 @@ package redis
 import (
 	"fmt"
 
-	commonConfig "github.com/bluesky2106/eWallet-backend/config"
 	errs "github.com/bluesky2106/eWallet-backend/errors"
 	"github.com/go-redis/redis"
 )
@@ -22,20 +21,14 @@ type Client struct {
 }
 
 // Init : connect to redis servers
-func Init(conf *commonConfig.Config) (*Client, error) {
-	redisConf := &Config{
-		Addr:     fmt.Sprintf("%s:%s", conf.Redis.Host, conf.Redis.Port),
-		DB:       conf.Redis.DB,
-		Password: conf.Redis.Password,
-	}
-
-	redisClient := redis.NewClient(&redis.Options{
-		Addr:     redisConf.Addr,
-		Password: redisConf.Password,
-		DB:       redisConf.DB,
+func Init(conf *Config) (*Client, error) {
+	client := redis.NewClient(&redis.Options{
+		Addr:     conf.Addr,
+		Password: conf.Password,
+		DB:       conf.DB,
 	})
 
-	pong, err := redisClient.Ping().Result()
+	pong, err := client.Ping().Result()
 	if pong == "PONG" {
 		fmt.Println("Redis connect successfully!")
 	} else {
@@ -43,8 +36,8 @@ func Init(conf *commonConfig.Config) (*Client, error) {
 	}
 
 	return &Client{
-		conf:   redisConf,
-		client: redisClient,
+		conf:   conf,
+		client: client,
 	}, nil
 }
 

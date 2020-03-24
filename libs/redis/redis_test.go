@@ -4,21 +4,16 @@ import (
 	"fmt"
 	"testing"
 
-	commonConfig "github.com/bluesky2106/eWallet-backend/config"
-
 	"github.com/stretchr/testify/assert"
 )
 
-var conf *commonConfig.Config
+var conf *Config
 
 func init() {
-	conf = &commonConfig.Config{
-		Redis: commonConfig.Redis{
-			Host:     "localhost",
-			Port:     "6379",
-			DB:       0,
-			Password: "3112",
-		},
+	conf = &Config{
+		Addr:     "localhost:6379",
+		Password: "3112",
+		DB:       0,
 	}
 }
 
