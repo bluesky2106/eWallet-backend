@@ -7,7 +7,7 @@ import (
 	commonConfig "github.com/bluesky2106/eWallet-backend/config"
 	"github.com/bluesky2106/eWallet-backend/gateway/api"
 	"github.com/bluesky2106/eWallet-backend/gateway/config"
-	"github.com/bluesky2106/eWallet-backend/gateway/services"
+	"github.com/bluesky2106/eWallet-backend/gateway/servers"
 	"github.com/bluesky2106/eWallet-backend/log"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -30,8 +30,8 @@ func main() {
 	}
 	gwConf.Print()
 
-	productSrv := services.NewProductService(gwConf)
-	userSrv := services.NewUserService(gwConf)
+	productSrv := servers.NewProductServer(gwConf)
+	userSrv := servers.NewUserServer(gwConf)
 
 	router := gin.New()
 	router.Use(cors.New(cors.Config{

@@ -1,11 +1,11 @@
-package services
+package servers
 
 import (
 	errs "github.com/bluesky2106/eWallet-backend/errors"
 	"github.com/bluesky2106/eWallet-backend/models"
 )
 
-func (u *UserService) validateUserRegisterReq(req *models.UserRegisterReq) error {
+func (u *UserSrv) validateUserRegisterReq(req *models.UserRegisterReq) error {
 
 	if req.Email == "" {
 		return errs.New(errs.ECInvalidEmail)
@@ -22,7 +22,7 @@ func (u *UserService) validateUserRegisterReq(req *models.UserRegisterReq) error
 	return nil
 }
 
-func (u *UserService) validateUserLoginReq(req *models.UserLoginReq) error {
+func (u *UserSrv) validateUserLoginReq(req *models.UserLoginReq) error {
 
 	if req.Email == "" {
 		return errs.New(errs.ECInvalidEmail)

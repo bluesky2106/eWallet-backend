@@ -1,4 +1,4 @@
-package services
+package servers
 
 import (
 	"context"
@@ -10,34 +10,34 @@ import (
 	"google.golang.org/grpc"
 )
 
-// IProductService : interface of product service
-type IProductService interface {
+// IProductSrv : interface of product service
+type IProductSrv interface {
 	AddProductGroup(req *models.ProductGroup) (*pb.CreateProductGroupRes, error)
 }
 
-// ProductService : product service
-type ProductService struct {
-	IProductService
+// ProductSrv : product service
+type ProductSrv struct {
+	IProductSrv
 
 	conf *config.Config
 }
 
-// NewProductService : returns a pointer of ProductService
-func NewProductService(conf *config.Config) *ProductService {
-	return &ProductService{
+// NewProductServer : returns a pointer of ProductSrv
+func NewProductServer(conf *config.Config) *ProductSrv {
+	return &ProductSrv{
 		conf: conf,
 	}
 }
 
 // AddProductGroup : create product group
-func (prodSrv *ProductService) AddProductGroup(productGrp *models.ProductGroup) (*models.ProductGroup, error) {
+func (prodSrv *ProductSrv) AddProductGroup(productGrp *models.ProductGroup) (*models.ProductGroup, error) {
 	conn, err := grpc.Dial(prodSrv.conf.EntryCacheEndpoint, grpc.WithInsecure())
 	if err != nil {
 		return nil, errs.GRPCDialError(err)
 	}
 	defer conn.Close()
 
-	c := pb.NewProductSrvClient(conn)
+	c := pb.NewProductSvcClient(conn)
 	res, err := c.CreateProductGroup(context.Background(), &pb.CreateProductGroupReq{
 		Request: &pb.BaseReq{
 			Action:     pb.Action_ACTION_CREATE,

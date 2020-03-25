@@ -16,7 +16,7 @@ func (s *Server) AddProductGroup(c *gin.Context) {
 		return
 	}
 
-	result, err := s.productSvc.AddProductGroup(&req)
+	result, err := s.productSrv.AddProductGroup(&req)
 	if err != nil {
 		respondError(c, http.StatusInternalServerError, err, "s.assetSvc.AddNewTnx")
 		return

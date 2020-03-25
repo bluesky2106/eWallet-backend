@@ -17,7 +17,7 @@ func (s *Server) Authenticate(c *gin.Context) (*models.User, error) {
 		return nil, err
 	}
 
-	user, err := s.userSvc.Authenticate(&req)
+	user, err := s.userSrv.Authenticate(&req)
 	if err != nil {
 		return nil, errs.WithMessage(err, "s.userSvc.Authenticate")
 	}
@@ -34,7 +34,7 @@ func (s *Server) Register(c *gin.Context) {
 		return
 	}
 
-	user, err := s.userSvc.Register(&req)
+	user, err := s.userSrv.Register(&req)
 	if err != nil {
 		respondError(c, http.StatusInternalServerError, err, "s.userSvc.Register")
 		return
