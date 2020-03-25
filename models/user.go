@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/jinzhu/gorm"
+	pb "github.com/bluesky2106/eWallet-backend/protobuf"
 )
 
 // User : struct
@@ -17,33 +17,29 @@ type User struct {
 	// UserWallets        []Wallet `gorm:"foreignkey:UserID;auto_preload:true"`
 }
 
-// UserPassword : struct
-type UserPassword struct {
-	gorm.Model
-	User   *User
-	UserID uint
-
-	Code    string
-	Expired uint64
-	Retry   uint `gorm:"default:0"`
+// ConvertUserToPbUser : convert user to pb.User
+func ConvertUserToPbUser(user *User) *pb.UserInfo {
+	return &pb.UserInfo{
+		Id:                 uint32(user.ID),
+		Email:              user.Email,
+		Password:           user.Password,
+		FullName:           user.FullName,
+		Username:           user.UserName,
+		Keystore:           user.Keystore,
+		EnableNotification: user.EnableNotification,
+	}
 }
 
-// UserRegisterReq : user register request
-type UserRegisterReq struct {
-	FullName        string `json:"FullName"`
-	Email           string `json:"Email"`
-	Password        string `json:"Password"`
-	ConfirmPassword string `json:"ConfirmPassword"`
-}
-
-// UserLoginReq : struct
-type UserLoginReq struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
-
-// UserLoginResp : struct
-type UserLoginResp struct {
-	Token   string `json:"Token"`
-	Expired string `json:"Expired"`
+// ConvertPbUserToUser : convert pb.User to User
+func ConvertPbUserToUser(user *pb.UserInfo) *User {
+	return &User{
+		ID:                 uint(user.GetId()),
+		Email:              user.GetEmail(),
+		Password:           user.GetPassword(),
+		FullName:           user.GetFullName(),
+		UserName:           user.GetUsername(),
+		Keystore:           user.GetKeystore(),
+		EnableNotification: user.GetEnableNotification(),
+		// UserWallets:        user.GetWallet(),
+	}
 }
