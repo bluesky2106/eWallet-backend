@@ -17,10 +17,14 @@ import (
 var logger *zap.Logger
 
 func main() {
+	// 1. Get global config
 	conf := commonConfig.ParseConfig("config.json", "../config")
 	// conf.Print()
+
+	// 2. Init logger
 	logger = log.InitLogger(conf.Env)
 
+	// 3. Extract config for cache
 	cacheConf := &config.Config{
 		Env:                string(conf.Env),
 		Host:               conf.EntryCache.Host,
@@ -33,10 +37,11 @@ func main() {
 	}
 	cacheConf.Print()
 
+	// 4. Init redis
 	redisClient := initRedis(cacheConf)
 
-	// lis, err := net.Listen("tcp", fmt.Sprintf("%s:%s", cacheConf.Host, cacheConf.Port))
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%s", cacheConf.Port))
+	// 5. Init grpc servers
+	lis, err := net.Listen("tcp", fmt.Sprintf("%s:%s", cacheConf.Host, cacheConf.Port))
 	if err != nil {
 		logger.Error("failed to listen:", zap.Error(err))
 	}
