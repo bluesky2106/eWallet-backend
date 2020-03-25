@@ -6,7 +6,6 @@ import (
 
 	"github.com/bluesky2106/eWallet-backend/libs/utils"
 
-	"github.com/bluesky2106/eWallet-backend/config"
 	errs "github.com/bluesky2106/eWallet-backend/errors"
 
 	// mysql driver
@@ -21,23 +20,14 @@ type DAO struct {
 }
 
 // New : connect mysql server
-func New(conf *config.Config) (*DAO, error) {
-	sqlConf := &Config{
-		DBName:   conf.MySQL.DBName,
-		Host:     conf.MySQL.Host,
-		Port:     conf.MySQL.Port,
-		Username: conf.MySQL.Username,
-		Password: conf.MySQL.Password,
-	}
-	env := conf.Env
-
+func New(conf *Config, env string) (*DAO, error) {
 	connURL := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=UTC",
-		sqlConf.Username, sqlConf.Password, sqlConf.Host, sqlConf.Port, sqlConf.DBName)
+		conf.Username, conf.Password, conf.Host, conf.Port, conf.DBName)
 	db, err := gorm.Open("mysql", connURL)
 	if err != nil {
 		return nil, errs.New(errs.ECMySQLConnection, err.Error(), "gorm.Open")
 	}
-	if env == config.Production {
+	if env == "production" {
 		db.LogMode(true)
 	}
 
@@ -49,7 +39,7 @@ func New(conf *config.Config) (*DAO, error) {
 	db.DB().SetMaxIdleConns(10)
 
 	return &DAO{
-		conf: sqlConf,
+		conf: conf,
 		db:   db,
 	}, nil
 }
