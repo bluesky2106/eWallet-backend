@@ -42,7 +42,7 @@ func main() {
 	}
 	var opts []grpc.ServerOption
 	grpcServer := grpc.NewServer(opts...)
-	pb.RegisterUserSrvServer(grpcServer, servers.NewUserServer(cacheConf, redisClient))
+	pb.RegisterUserSvcServer(grpcServer, servers.NewUserServer(cacheConf, redisClient))
 	if err := grpcServer.Serve(lis); err != nil {
 		logger.Error("router.Run", zap.Error(err))
 	}
