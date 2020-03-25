@@ -1,15 +1,15 @@
 syntax = "proto3";
 
 package protobuf;
-option go_package = "protobufpb";
-option java_multiple_files = true;
-option java_package = "com.protobuf";
-option java_outer_classname = "BaseProto";
+option  go_package           = "protobufpb";
+option  java_multiple_files  = true;
+option  java_package         = "com.protobuf";
+option  java_outer_classname = "BaseProto";
 
 // Message represents what is the purpose of object
 enum Message {
-  MESSAGE_INVALID = 0;
-  MESSAGE_CREATE_USER = 10;
+  MESSAGE_INVALID            = 0;
+  MESSAGE_CREATE_USER        = 10;
   MESSAGE_READ_USER_BY_EMAIL = 11;
 
   MESSAGE_CREATE_PRODUCT = 20;
@@ -19,11 +19,11 @@ enum Message {
 //
 // [USER], [USER PWD], [WALLET], [MARKET], [ASSET], and [TNX]
 enum Object {
-  OBJECT_INVALID = 0;
-  OBJECT_USER = 1;
-  OBJECT_PRODUCT = 2;
+  OBJECT_INVALID       = 0;
+  OBJECT_USER          = 1;
+  OBJECT_PRODUCT       = 2;
   OBJECT_PRODUCT_GROUP = 3;
-  OBJECT_UNIT = 4;
+  OBJECT_UNIT          = 4;
 }
 
 // Action represents:
@@ -31,10 +31,10 @@ enum Object {
 // STORE, QUERY
 enum Action {
   ACTION_INVALID = 0;
-  ACTION_CREATE = 1;
-  ACTION_READ = 2;
-  ACTION_UPDATE = 3;
-  ACTION_DELETE = 4;
+  ACTION_CREATE  = 1;
+  ACTION_READ    = 2;
+  ACTION_UPDATE  = 3;
+  ACTION_DELETE  = 4;
 }
 
 // Ex:
@@ -42,7 +42,7 @@ enum Action {
 // [action]   ----  [object]   -----  [message]
 // query             wallet           user_wallet
 message BaseReq {
-  Action action = 1;
-  Object object_type = 2;
-  Message message = 3;
+  Action  action      = 1;
+  Object  object_type = 2;
+  Message message     = 3;
 }

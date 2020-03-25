@@ -1060,17 +1060,17 @@ var fileDescriptor_116e343673f7ffaf = []byte{
 	0x1c, 0x23, 0x9e, 0xaa, 0x60, 0x8b, 0x51, 0x5c, 0xb8, 0x7a, 0x9d, 0xac, 0x34, 0x2f, 0x99, 0x29,
 	0xf0, 0xee, 0xcb, 0x6b, 0x92, 0x15, 0x76, 0xc0, 0xfd, 0x66, 0xc1, 0x3d, 0x0f, 0x13, 0xfc, 0xf7,
 	0xff, 0xe5, 0xea, 0x0b, 0x2d, 0xcd, 0xbc, 0xd0, 0x82, 0x4d, 0x34, 0xa7, 0x7f, 0xee, 0xaf, 0x59,
-	0x1a, 0xff, 0xf5, 0x7b, 0xde, 0xff, 0x5d, 0x86, 0x55, 0x21, 0x12, 0x9f, 0xe2, 0x2f, 0xe4, 0x00,
-	0x20, 0xdb, 0x3b, 0x64, 0x33, 0xeb, 0x57, 0x6e, 0xd7, 0x39, 0x05, 0x40, 0xe2, 0x2e, 0x91, 0x57,
-	0x60, 0xeb, 0x65, 0x40, 0x1e, 0x66, 0xc7, 0x8c, 0xe5, 0xe3, 0xcc, 0x75, 0x8b, 0xbb, 0x07, 0x00,
-	0x99, 0x36, 0x9b, 0xd9, 0x73, 0xfb, 0xc0, 0x29, 0x00, 0xd2, 0x08, 0x99, 0x5c, 0x9a, 0x11, 0x72,
-	0x12, 0xed, 0x14, 0x00, 0x22, 0xc2, 0x6b, 0xa8, 0x4e, 0x95, 0x88, 0x6c, 0x18, 0x75, 0x1a, 0x9a,
-	0xe9, 0xcc, 0xf7, 0x8b, 0xeb, 0xef, 0x61, 0x2d, 0x3f, 0xb3, 0x64, 0x2b, 0x3b, 0x3b, 0x23, 0x1b,
-	0xce, 0x35, 0xa0, 0x88, 0x76, 0x06, 0x9b, 0x05, 0x83, 0x40, 0x9e, 0x98, 0x14, 0x8a, 0x06, 0xd3,
-	0x59, 0xe4, 0x94, 0x48, 0xd4, 0x86, 0x46, 0xee, 0xcd, 0x12, 0xc7, 0xfc, 0x8f, 0xf2, 0x33, 0xe5,
-	0x14, 0x63, 0x89, 0xbb, 0x74, 0xf8, 0x0c, 0xea, 0x7d, 0x36, 0x9c, 0x1e, 0x39, 0xac, 0x8a, 0xde,
-	0x76, 0x84, 0xd5, 0xb1, 0x4e, 0x40, 0xbb, 0x47, 0xbd, 0x5e, 0x45, 0x7e, 0xbf, 0xf8, 0x1b, 0x00,
-	0x00, 0xff, 0xff, 0x50, 0xd0, 0x4e, 0x81, 0x41, 0x0a, 0x00, 0x00,
+	0x1a, 0xff, 0xf5, 0x7b, 0xde, 0xff, 0x5d, 0x86, 0x55, 0x21, 0x12, 0x9f, 0xbe, 0xf4, 0xc9, 0x01,
+	0x40, 0xb6, 0x77, 0xc8, 0x66, 0xd6, 0xaf, 0xdc, 0xae, 0x73, 0x0a, 0x80, 0xc4, 0x5d, 0x22, 0xaf,
+	0xc0, 0xd6, 0xcb, 0x80, 0x3c, 0xcc, 0x8e, 0x19, 0xcb, 0xc7, 0x99, 0xeb, 0x16, 0x77, 0x0f, 0x00,
+	0x32, 0x6d, 0x36, 0xb3, 0xe7, 0xf6, 0x81, 0x53, 0x00, 0xa4, 0x11, 0x32, 0xb9, 0x34, 0x23, 0xe4,
+	0x24, 0xda, 0x29, 0x00, 0x44, 0x84, 0xd7, 0x50, 0x9d, 0x2a, 0x11, 0xd9, 0x30, 0xea, 0x34, 0x34,
+	0xd3, 0x99, 0xef, 0x17, 0xd7, 0xdf, 0xc3, 0x5a, 0x7e, 0x66, 0xc9, 0x56, 0x76, 0x76, 0x46, 0x36,
+	0x9c, 0x6b, 0x40, 0x11, 0xed, 0x0c, 0x36, 0x0b, 0x06, 0x81, 0x3c, 0x31, 0x29, 0x14, 0x0d, 0xa6,
+	0xb3, 0xc8, 0x29, 0x91, 0xa8, 0x0d, 0x8d, 0xdc, 0x9b, 0x25, 0x8e, 0xf9, 0x1f, 0xe5, 0x67, 0xca,
+	0x29, 0xc6, 0x12, 0x77, 0xe9, 0xf0, 0x19, 0xd4, 0xfb, 0x6c, 0x38, 0x3d, 0x72, 0x58, 0x15, 0xbd,
+	0xed, 0x08, 0xab, 0x63, 0x9d, 0x80, 0x76, 0x8f, 0x7a, 0xbd, 0x8a, 0xfc, 0x7e, 0xf1, 0x37, 0x00,
+	0x00, 0xff, 0xff, 0x90, 0x80, 0x51, 0xba, 0x41, 0x0a, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1081,10 +1081,10 @@ var _ grpc.ClientConnInterface
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion6
 
-// UserSrvClient is the client API for UserSrv service.
+// UserSvcClient is the client API for UserSvc service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type UserSrvClient interface {
+type UserSvcClient interface {
 	CreateUser(ctx context.Context, in *CreateUserReq, opts ...grpc.CallOption) (*CreateUserRes, error)
 	ReadUser(ctx context.Context, in *ReadUserReq, opts ...grpc.CallOption) (*ReadUserRes, error)
 	UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserRes, error)
@@ -1096,88 +1096,88 @@ type UserSrvClient interface {
 	ResetPassword(ctx context.Context, in *ResetPasswordReq, opts ...grpc.CallOption) (*ResetPasswordRes, error)
 }
 
-type userSrvClient struct {
+type userSvcClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewUserSrvClient(cc grpc.ClientConnInterface) UserSrvClient {
-	return &userSrvClient{cc}
+func NewUserSvcClient(cc grpc.ClientConnInterface) UserSvcClient {
+	return &userSvcClient{cc}
 }
 
-func (c *userSrvClient) CreateUser(ctx context.Context, in *CreateUserReq, opts ...grpc.CallOption) (*CreateUserRes, error) {
+func (c *userSvcClient) CreateUser(ctx context.Context, in *CreateUserReq, opts ...grpc.CallOption) (*CreateUserRes, error) {
 	out := new(CreateUserRes)
-	err := c.cc.Invoke(ctx, "/protobuf.UserSrv/CreateUser", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protobuf.UserSvc/CreateUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userSrvClient) ReadUser(ctx context.Context, in *ReadUserReq, opts ...grpc.CallOption) (*ReadUserRes, error) {
+func (c *userSvcClient) ReadUser(ctx context.Context, in *ReadUserReq, opts ...grpc.CallOption) (*ReadUserRes, error) {
 	out := new(ReadUserRes)
-	err := c.cc.Invoke(ctx, "/protobuf.UserSrv/ReadUser", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protobuf.UserSvc/ReadUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userSrvClient) UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserRes, error) {
+func (c *userSvcClient) UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserRes, error) {
 	out := new(UpdateUserRes)
-	err := c.cc.Invoke(ctx, "/protobuf.UserSrv/UpdateUser", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protobuf.UserSvc/UpdateUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userSrvClient) DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserRes, error) {
+func (c *userSvcClient) DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserRes, error) {
 	out := new(DeleteUserRes)
-	err := c.cc.Invoke(ctx, "/protobuf.UserSrv/DeleteUser", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protobuf.UserSvc/DeleteUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userSrvClient) ChangePwd(ctx context.Context, in *ChangePwdReq, opts ...grpc.CallOption) (*ChangePwdRes, error) {
+func (c *userSvcClient) ChangePwd(ctx context.Context, in *ChangePwdReq, opts ...grpc.CallOption) (*ChangePwdRes, error) {
 	out := new(ChangePwdRes)
-	err := c.cc.Invoke(ctx, "/protobuf.UserSrv/ChangePwd", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protobuf.UserSvc/ChangePwd", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userSrvClient) ForgotPassword(ctx context.Context, in *ForgotPasswordReq, opts ...grpc.CallOption) (*ForgotPasswordRes, error) {
+func (c *userSvcClient) ForgotPassword(ctx context.Context, in *ForgotPasswordReq, opts ...grpc.CallOption) (*ForgotPasswordRes, error) {
 	out := new(ForgotPasswordRes)
-	err := c.cc.Invoke(ctx, "/protobuf.UserSrv/ForgotPassword", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protobuf.UserSvc/ForgotPassword", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userSrvClient) CheckAuthenticationCode(ctx context.Context, in *CheckAuthenticationCodeReq, opts ...grpc.CallOption) (*CheckAuthenticationCodeRes, error) {
+func (c *userSvcClient) CheckAuthenticationCode(ctx context.Context, in *CheckAuthenticationCodeReq, opts ...grpc.CallOption) (*CheckAuthenticationCodeRes, error) {
 	out := new(CheckAuthenticationCodeRes)
-	err := c.cc.Invoke(ctx, "/protobuf.UserSrv/CheckAuthenticationCode", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protobuf.UserSvc/CheckAuthenticationCode", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userSrvClient) ResetPassword(ctx context.Context, in *ResetPasswordReq, opts ...grpc.CallOption) (*ResetPasswordRes, error) {
+func (c *userSvcClient) ResetPassword(ctx context.Context, in *ResetPasswordReq, opts ...grpc.CallOption) (*ResetPasswordRes, error) {
 	out := new(ResetPasswordRes)
-	err := c.cc.Invoke(ctx, "/protobuf.UserSrv/ResetPassword", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protobuf.UserSvc/ResetPassword", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// UserSrvServer is the server API for UserSrv service.
-type UserSrvServer interface {
+// UserSvcServer is the server API for UserSvc service.
+type UserSvcServer interface {
 	CreateUser(context.Context, *CreateUserReq) (*CreateUserRes, error)
 	ReadUser(context.Context, *ReadUserReq) (*ReadUserRes, error)
 	UpdateUser(context.Context, *UpdateUserReq) (*UpdateUserRes, error)
@@ -1189,218 +1189,218 @@ type UserSrvServer interface {
 	ResetPassword(context.Context, *ResetPasswordReq) (*ResetPasswordRes, error)
 }
 
-// UnimplementedUserSrvServer can be embedded to have forward compatible implementations.
-type UnimplementedUserSrvServer struct {
+// UnimplementedUserSvcServer can be embedded to have forward compatible implementations.
+type UnimplementedUserSvcServer struct {
 }
 
-func (*UnimplementedUserSrvServer) CreateUser(ctx context.Context, req *CreateUserReq) (*CreateUserRes, error) {
+func (*UnimplementedUserSvcServer) CreateUser(ctx context.Context, req *CreateUserReq) (*CreateUserRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
 }
-func (*UnimplementedUserSrvServer) ReadUser(ctx context.Context, req *ReadUserReq) (*ReadUserRes, error) {
+func (*UnimplementedUserSvcServer) ReadUser(ctx context.Context, req *ReadUserReq) (*ReadUserRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ReadUser not implemented")
 }
-func (*UnimplementedUserSrvServer) UpdateUser(ctx context.Context, req *UpdateUserReq) (*UpdateUserRes, error) {
+func (*UnimplementedUserSvcServer) UpdateUser(ctx context.Context, req *UpdateUserReq) (*UpdateUserRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
 }
-func (*UnimplementedUserSrvServer) DeleteUser(ctx context.Context, req *DeleteUserReq) (*DeleteUserRes, error) {
+func (*UnimplementedUserSvcServer) DeleteUser(ctx context.Context, req *DeleteUserReq) (*DeleteUserRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
 }
-func (*UnimplementedUserSrvServer) ChangePwd(ctx context.Context, req *ChangePwdReq) (*ChangePwdRes, error) {
+func (*UnimplementedUserSvcServer) ChangePwd(ctx context.Context, req *ChangePwdReq) (*ChangePwdRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ChangePwd not implemented")
 }
-func (*UnimplementedUserSrvServer) ForgotPassword(ctx context.Context, req *ForgotPasswordReq) (*ForgotPasswordRes, error) {
+func (*UnimplementedUserSvcServer) ForgotPassword(ctx context.Context, req *ForgotPasswordReq) (*ForgotPasswordRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ForgotPassword not implemented")
 }
-func (*UnimplementedUserSrvServer) CheckAuthenticationCode(ctx context.Context, req *CheckAuthenticationCodeReq) (*CheckAuthenticationCodeRes, error) {
+func (*UnimplementedUserSvcServer) CheckAuthenticationCode(ctx context.Context, req *CheckAuthenticationCodeReq) (*CheckAuthenticationCodeRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CheckAuthenticationCode not implemented")
 }
-func (*UnimplementedUserSrvServer) ResetPassword(ctx context.Context, req *ResetPasswordReq) (*ResetPasswordRes, error) {
+func (*UnimplementedUserSvcServer) ResetPassword(ctx context.Context, req *ResetPasswordReq) (*ResetPasswordRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResetPassword not implemented")
 }
 
-func RegisterUserSrvServer(s *grpc.Server, srv UserSrvServer) {
-	s.RegisterService(&_UserSrv_serviceDesc, srv)
+func RegisterUserSvcServer(s *grpc.Server, srv UserSvcServer) {
+	s.RegisterService(&_UserSvc_serviceDesc, srv)
 }
 
-func _UserSrv_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UserSvc_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateUserReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserSrvServer).CreateUser(ctx, in)
+		return srv.(UserSvcServer).CreateUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protobuf.UserSrv/CreateUser",
+		FullMethod: "/protobuf.UserSvc/CreateUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserSrvServer).CreateUser(ctx, req.(*CreateUserReq))
+		return srv.(UserSvcServer).CreateUser(ctx, req.(*CreateUserReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserSrv_ReadUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UserSvc_ReadUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ReadUserReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserSrvServer).ReadUser(ctx, in)
+		return srv.(UserSvcServer).ReadUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protobuf.UserSrv/ReadUser",
+		FullMethod: "/protobuf.UserSvc/ReadUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserSrvServer).ReadUser(ctx, req.(*ReadUserReq))
+		return srv.(UserSvcServer).ReadUser(ctx, req.(*ReadUserReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserSrv_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UserSvc_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateUserReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserSrvServer).UpdateUser(ctx, in)
+		return srv.(UserSvcServer).UpdateUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protobuf.UserSrv/UpdateUser",
+		FullMethod: "/protobuf.UserSvc/UpdateUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserSrvServer).UpdateUser(ctx, req.(*UpdateUserReq))
+		return srv.(UserSvcServer).UpdateUser(ctx, req.(*UpdateUserReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserSrv_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UserSvc_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteUserReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserSrvServer).DeleteUser(ctx, in)
+		return srv.(UserSvcServer).DeleteUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protobuf.UserSrv/DeleteUser",
+		FullMethod: "/protobuf.UserSvc/DeleteUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserSrvServer).DeleteUser(ctx, req.(*DeleteUserReq))
+		return srv.(UserSvcServer).DeleteUser(ctx, req.(*DeleteUserReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserSrv_ChangePwd_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UserSvc_ChangePwd_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ChangePwdReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserSrvServer).ChangePwd(ctx, in)
+		return srv.(UserSvcServer).ChangePwd(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protobuf.UserSrv/ChangePwd",
+		FullMethod: "/protobuf.UserSvc/ChangePwd",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserSrvServer).ChangePwd(ctx, req.(*ChangePwdReq))
+		return srv.(UserSvcServer).ChangePwd(ctx, req.(*ChangePwdReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserSrv_ForgotPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UserSvc_ForgotPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ForgotPasswordReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserSrvServer).ForgotPassword(ctx, in)
+		return srv.(UserSvcServer).ForgotPassword(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protobuf.UserSrv/ForgotPassword",
+		FullMethod: "/protobuf.UserSvc/ForgotPassword",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserSrvServer).ForgotPassword(ctx, req.(*ForgotPasswordReq))
+		return srv.(UserSvcServer).ForgotPassword(ctx, req.(*ForgotPasswordReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserSrv_CheckAuthenticationCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UserSvc_CheckAuthenticationCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CheckAuthenticationCodeReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserSrvServer).CheckAuthenticationCode(ctx, in)
+		return srv.(UserSvcServer).CheckAuthenticationCode(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protobuf.UserSrv/CheckAuthenticationCode",
+		FullMethod: "/protobuf.UserSvc/CheckAuthenticationCode",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserSrvServer).CheckAuthenticationCode(ctx, req.(*CheckAuthenticationCodeReq))
+		return srv.(UserSvcServer).CheckAuthenticationCode(ctx, req.(*CheckAuthenticationCodeReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserSrv_ResetPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UserSvc_ResetPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ResetPasswordReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserSrvServer).ResetPassword(ctx, in)
+		return srv.(UserSvcServer).ResetPassword(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protobuf.UserSrv/ResetPassword",
+		FullMethod: "/protobuf.UserSvc/ResetPassword",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserSrvServer).ResetPassword(ctx, req.(*ResetPasswordReq))
+		return srv.(UserSvcServer).ResetPassword(ctx, req.(*ResetPasswordReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-var _UserSrv_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "protobuf.UserSrv",
-	HandlerType: (*UserSrvServer)(nil),
+var _UserSvc_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "protobuf.UserSvc",
+	HandlerType: (*UserSvcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "CreateUser",
-			Handler:    _UserSrv_CreateUser_Handler,
+			Handler:    _UserSvc_CreateUser_Handler,
 		},
 		{
 			MethodName: "ReadUser",
-			Handler:    _UserSrv_ReadUser_Handler,
+			Handler:    _UserSvc_ReadUser_Handler,
 		},
 		{
 			MethodName: "UpdateUser",
-			Handler:    _UserSrv_UpdateUser_Handler,
+			Handler:    _UserSvc_UpdateUser_Handler,
 		},
 		{
 			MethodName: "DeleteUser",
-			Handler:    _UserSrv_DeleteUser_Handler,
+			Handler:    _UserSvc_DeleteUser_Handler,
 		},
 		{
 			MethodName: "ChangePwd",
-			Handler:    _UserSrv_ChangePwd_Handler,
+			Handler:    _UserSvc_ChangePwd_Handler,
 		},
 		{
 			MethodName: "ForgotPassword",
-			Handler:    _UserSrv_ForgotPassword_Handler,
+			Handler:    _UserSvc_ForgotPassword_Handler,
 		},
 		{
 			MethodName: "CheckAuthenticationCode",
-			Handler:    _UserSrv_CheckAuthenticationCode_Handler,
+			Handler:    _UserSvc_CheckAuthenticationCode_Handler,
 		},
 		{
 			MethodName: "ResetPassword",
-			Handler:    _UserSrv_ResetPassword_Handler,
+			Handler:    _UserSvc_ResetPassword_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

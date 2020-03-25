@@ -1,14 +1,14 @@
 syntax = "proto3";
 
 package protobuf;
-option go_package = "protobufpb";
-option java_multiple_files = true;
-option java_package = "com.protobuf";
-option java_outer_classname = "UserProto";
+option  go_package           = "protobufpb";
+option  java_multiple_files  = true;
+option  java_package         = "com.protobuf";
+option  java_outer_classname = "UserProto";
 
 import "base.proto";
 
-service UserSrv {
+service UserSvc {
   rpc CreateUser(CreateUserReq) returns (CreateUserRes) {}
   rpc ReadUser(ReadUserReq) returns (ReadUserRes) {}
   rpc UpdateUser(UpdateUserReq) returns (UpdateUserRes) {}
@@ -17,112 +17,111 @@ service UserSrv {
 
   // All below funcs are used for forgotting password flow
   rpc ForgotPassword(ForgotPasswordReq) returns (ForgotPasswordRes) {}
-  rpc CheckAuthenticationCode(CheckAuthenticationCodeReq)
-      returns (CheckAuthenticationCodeRes) {}
+  rpc CheckAuthenticationCode(CheckAuthenticationCodeReq) returns (CheckAuthenticationCodeRes) {}
   rpc ResetPassword(ResetPasswordReq) returns (ResetPasswordRes) {}
 }
 
 // UserInfo : store user information
 message UserInfo {
-  uint32 id = 1;
-  string full_name = 2;
-  string email = 3;
-  string password = 4;
-  string username = 5;
-  string keystore = 6;
-  bool enable_notification = 7;
+  uint32 id                  = 1;
+  string full_name           = 2;
+  string email               = 3;
+  string password            = 4;
+  string username            = 5;
+  string keystore            = 6;
+  bool   enable_notification = 7;
 }
 
 // CreateUser
 message CreateUserReq {
-  BaseReq req = 1;
+  BaseReq  req  = 1;
   UserInfo user = 2;
 }
 message CreateUserRes {
-  bool result = 1;
-  UserInfo user = 2;
+  bool     result = 1;
+  UserInfo user   = 2;
 }
 
 // ReadUser
 message ReadUserReq {
-  BaseReq req = 1;
+  BaseReq  req  = 1;
   UserInfo user = 2;
 }
 message ReadUserRes {
-  bool result = 1;
-  UserInfo user = 2;
+  bool     result = 1;
+  UserInfo user   = 2;
 }
 
 // UpdateUser
 message UpdateUserReq {
-  BaseReq req = 1;
+  BaseReq  req  = 1;
   UserInfo user = 2;
 }
 message UpdateUserRes {
-  bool result = 1;
-  UserInfo user = 2;
+  bool     result = 1;
+  UserInfo user   = 2;
 }
 
 // DeleteUser
 message DeleteUserReq {
-  BaseReq req = 1;
+  BaseReq  req  = 1;
   UserInfo user = 2;
 }
 message DeleteUserRes {
-  bool result = 1;
-  UserInfo user = 2;
+  bool     result = 1;
+  UserInfo user   = 2;
 }
 
 // ChangePwd
 message ChangePwdReq {
-  BaseReq req = 1;
-  uint32 user_id = 2;
-  string old_password = 3;
-  string new_password = 4;
+  BaseReq req          = 1;
+  uint32  user_id      = 2;
+  string  old_password = 3;
+  string  new_password = 4;
 }
 message ChangePwdRes {
-  bool result = 1;
+  bool   result      = 1;
   string template_id = 2;
-  string name = 3;
-  string email = 4;
-  string date_time = 5;
-  string location = 6;
+  string name        = 3;
+  string email       = 4;
+  string date_time   = 5;
+  string location    = 6;
 }
 
 // ForgotPassword
 message ForgotPasswordReq {
-  BaseReq req = 1;
-  string email = 2;
-  bool resend = 3;
+  BaseReq req    = 1;
+  string  email  = 2;
+  bool    resend = 3;
 }
 message ForgotPasswordRes {
-  bool result = 1;
+  bool   result      = 1;
   string template_id = 2;
-  string name = 3;
-  string code = 4;
-  string email = 5;
+  string name        = 3;
+  string code        = 4;
+  string email       = 5;
 }
 
 // CheckAuthenticationCode
 message CheckAuthenticationCodeReq {
-  BaseReq req = 1;
-  string code = 2;
-  string email = 3;
+  BaseReq req   = 1;
+  string  code  = 2;
+  string  email = 3;
 }
 message CheckAuthenticationCodeRes { bool result = 1; }
 
 // ResetPassword
 message ResetPasswordReq {
-  BaseReq req = 1;
-  string new_password = 2;
-  string email = 3;
-  string code = 4;
+  BaseReq req          = 1;
+  string  new_password = 2;
+  string  email        = 3;
+  string  code         = 4;
 }
 message ResetPasswordRes {
-  bool result = 1;
+  bool   result      = 1;
   string template_id = 2;
-  string name = 3;
-  string email = 4;
-  string date_time = 5;
-  string location = 6;
+  string name        = 3;
+  string email       = 4;
+  string date_time   = 5;
+  string location    = 6;
 }
