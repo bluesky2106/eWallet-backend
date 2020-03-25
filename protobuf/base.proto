@@ -9,10 +9,11 @@ option  java_outer_classname = "BaseProto";
 // Message represents what is the purpose of object
 enum Message {
   MESSAGE_INVALID            = 0;
-  MESSAGE_CREATE_USER        = 10;
-  MESSAGE_READ_USER_BY_EMAIL = 11;
+  MESSAGE_CREATE_USER        = 1;
+  MESSAGE_READ_USER_BY_EMAIL = 2;
+  MESSAGE_READ_USER_BY_ID    = 3;
 
-  MESSAGE_CREATE_PRODUCT = 20;
+  MESSAGE_CREATE_PRODUCT = 10;
 }
 
 // Object represents table/struct
