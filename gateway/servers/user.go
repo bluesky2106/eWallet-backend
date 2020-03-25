@@ -12,19 +12,11 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// IUserSrv : interface of user server
-type IUserSrv interface {
-	ReadUserByEmail(email string) (*pb.ReadUserRes, error)
-	CreateUser(fullName, email, pwdHashed string) (*pb.CreateUserRes, error)
-}
-
 // UserSrv : user server
 type UserSrv struct {
-	IUserSrv
+	conf *config.Config
 
 	userSvc *client.UserSvc
-
-	conf *config.Config
 }
 
 // NewUserServer : config, rabbitmq, user message
