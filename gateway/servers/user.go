@@ -30,7 +30,7 @@ func NewUserServer(conf *config.Config) *UserSrv {
 // ReadUserByEmail : call entry cache to read user info
 //
 // params: [email]
-func (u *UserSrv) ReadUserByEmail(email string) (*pb.ReadUserRes, error) {
+func (u *UserSrv) ReadUserByEmail(email string) (*models.User, error) {
 	req := &pb.ReadUserReq{
 		Req: &pb.BaseReq{
 			Action:     pb.Action_ACTION_READ,
@@ -42,13 +42,47 @@ func (u *UserSrv) ReadUserByEmail(email string) (*pb.ReadUserRes, error) {
 		},
 	}
 
-	return u.userSvc.ReadUser(context.Background(), req)
+	res, err := u.userSvc.ReadUser(context.Background(), req)
+	if err != nil {
+		return nil, errs.WithMessage(err, "u.userSvc.ReadUser")
+	}
+
+	user := models.ConvertPbUserToUser(res.GetUser())
+	user.CryptoPassphase = u.conf.CryptoPassphase
+
+	return user, nil
+}
+
+// ReadUserByID : call entry cache to read user info
+//
+// params: [id]
+func (u *UserSrv) ReadUserByID(id uint) (*models.User, error) {
+	req := &pb.ReadUserReq{
+		Req: &pb.BaseReq{
+			Action:     pb.Action_ACTION_READ,
+			Message:    pb.Message_MESSAGE_READ_USER_BY_ID,
+			ObjectType: pb.Object_OBJECT_USER,
+		},
+		User: &pb.UserInfo{
+			Id: uint32(id),
+		},
+	}
+
+	res, err := u.userSvc.ReadUser(context.Background(), req)
+	if err != nil {
+		return nil, errs.WithMessage(err, "u.userSvc.ReadUser")
+	}
+
+	user := models.ConvertPbUserToUser(res.GetUser())
+	user.CryptoPassphase = u.conf.CryptoPassphase
+
+	return user, nil
 }
 
 // CreateUser : call entry cache to create a new user
 //
 // params: [fullName], [email], and [password hashed]
-func (u *UserSrv) CreateUser(fullName, email, pwdHashed string) (*pb.CreateUserRes, error) {
+func (u *UserSrv) CreateUser(fullName, email, pwdHashed string) (*models.User, error) {
 	req := &pb.CreateUserReq{
 		Req: &pb.BaseReq{
 			Message:    pb.Message_MESSAGE_CREATE_USER,
@@ -63,7 +97,15 @@ func (u *UserSrv) CreateUser(fullName, email, pwdHashed string) (*pb.CreateUserR
 		},
 	}
 
-	return u.userSvc.CreateUser(context.Background(), req)
+	res, err := u.userSvc.CreateUser(context.Background(), req)
+	if err != nil {
+		return nil, errs.WithMessage(err, "u.userSvc.CreateUser")
+	}
+
+	user := models.ConvertPbUserToUser(res.GetUser())
+	user.CryptoPassphase = u.conf.CryptoPassphase
+
+	return user, nil
 }
 
 // Authenticate : user login request
@@ -73,26 +115,19 @@ func (u *UserSrv) Authenticate(req *models.UserLoginReq) (*models.User, error) {
 		return nil, errs.WithMessage(err, "u.validateUserLoginReq")
 	}
 
-	r, err := u.ReadUserByEmail(req.Email)
+	user, err := u.ReadUserByEmail(req.Email)
 	if err != nil {
 		return nil, errs.WithMessage(err, "u.ReadUserByEmail")
 	}
 
-	if err := bcrypt.CompareHashAndPassword([]byte(r.GetUser().Password), []byte(req.Password)); err != nil {
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password)); err != nil {
 		err = errs.New(errs.ECSystemError, err.Error())
 		return nil, errs.WithMessage(err, "bcrypt.CompareHashAndPassword")
 	}
 
-	return &models.User{
-		ID:                 uint(r.GetUser().Id),
-		Email:              r.GetUser().Email,
-		FullName:           r.GetUser().FullName,
-		UserName:           r.GetUser().Username,
-		Keystore:           r.GetUser().Keystore,
-		CryptoPassphase:    u.conf.CryptoPassphase,
-		EnableNotification: r.GetUser().EnableNotification,
-		// UserWallets:        r.GetWallet(),
-	}, nil
+	user.CryptoPassphase = u.conf.CryptoPassphase
+
+	return user, nil
 }
 
 // Register user: full name, email, password, confirm password
@@ -108,19 +143,12 @@ func (u *UserSrv) Register(req *models.UserRegisterReq) (*models.User, error) {
 		return nil, errs.WithMessage(err, "bcrypt.CompareHashAndPassword")
 	}
 
-	r, err := u.CreateUser(req.FullName, req.Email, string(hashed))
+	user, err := u.CreateUser(req.FullName, req.Email, string(hashed))
 	if err != nil {
 		return nil, errs.WithMessage(err, "u.CreateUser")
 	}
 
-	return &models.User{
-		ID:                 uint(r.GetUser().Id),
-		Email:              r.GetUser().Email,
-		FullName:           r.GetUser().FullName,
-		UserName:           r.GetUser().Username,
-		Keystore:           r.GetUser().Keystore,
-		CryptoPassphase:    u.conf.CryptoPassphase,
-		EnableNotification: r.GetUser().EnableNotification,
-		// UserWallets:        r.GetWallet(),
-	}, nil
+	user.CryptoPassphase = u.conf.CryptoPassphase
+
+	return user, nil
 }
