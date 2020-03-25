@@ -28,3 +28,8 @@ start-cache:
 	cd ./entry_cache && \
 	export service=entry-cache && \
 	go run main.go
+
+start-store:
+	cd ./entry_store && \
+	export service=entry-store && \
+	go run main.go
