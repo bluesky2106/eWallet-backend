@@ -3,14 +3,14 @@ package mysql
 import (
 	"testing"
 
-	"github.com/bluesky2106/eWallet-backend/config"
+	gwConfig "github.com/bluesky2106/eWallet-backend/config"
 	"github.com/bluesky2106/eWallet-backend/libs/comparator"
 	"github.com/bluesky2106/eWallet-backend/models"
 	"github.com/stretchr/testify/assert"
 )
 
 var (
-	conf *config.Config
+	conf *gwConfig.Config
 	dao  *DAO
 
 	tables = []interface{}{(*models.ProductInfo)(nil), (*models.ProductGroup)(nil), (*models.Unit)(nil)}
@@ -63,15 +63,15 @@ var (
 )
 
 func init() {
-	conf = &config.Config{
-		MySQL: config.MySQL{
+	conf = &gwConfig.Config{
+		MySQL: gwConfig.MySQL{
 			Host:     "localhost",
 			Port:     "3306",
 			Username: "root",
 			Password: "itv",
 			DBName:   "itv_test",
 		},
-		Env: config.Debug,
+		Env: gwConfig.Debug,
 	}
 }
 
@@ -79,7 +79,13 @@ func TestNew(t *testing.T) {
 	assert := assert.New(t)
 
 	var err error
-	dao, err = New(conf)
+	dao, err = New(&Config{
+		DBName:   conf.MySQL.DBName,
+		Host:     conf.MySQL.Host,
+		Port:     conf.MySQL.Port,
+		Username: conf.MySQL.Username,
+		Password: conf.MySQL.Password,
+	}, string(conf.Env))
 	assert.Nil(err)
 	assert.NotNil(dao)
 }
