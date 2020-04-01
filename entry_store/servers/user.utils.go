@@ -3,7 +3,7 @@ package servers
 import (
 	"math/rand"
 
-	"github.com/bluesky2106/eWallet-backend/models"
+	"github.com/bluesky2106/eWallet-backend/entry_store/models"
 	pb "github.com/bluesky2106/eWallet-backend/protobuf"
 )
 

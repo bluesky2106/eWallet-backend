@@ -6,10 +6,10 @@ import (
 
 	commonConfig "github.com/bluesky2106/eWallet-backend/config"
 	"github.com/bluesky2106/eWallet-backend/entry_store/config"
+	"github.com/bluesky2106/eWallet-backend/entry_store/models"
 	"github.com/bluesky2106/eWallet-backend/entry_store/servers"
 	"github.com/bluesky2106/eWallet-backend/libs/mysql"
 	"github.com/bluesky2106/eWallet-backend/log"
-	"github.com/bluesky2106/eWallet-backend/models"
 	pb "github.com/bluesky2106/eWallet-backend/protobuf"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"

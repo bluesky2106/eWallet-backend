@@ -3,9 +3,9 @@ package servers
 import (
 	"context"
 
+	"github.com/bluesky2106/eWallet-backend/entry_store/models"
 	errs "github.com/bluesky2106/eWallet-backend/errors"
 	"github.com/bluesky2106/eWallet-backend/libs/mysql"
-	"github.com/bluesky2106/eWallet-backend/models"
 	pb "github.com/bluesky2106/eWallet-backend/protobuf"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

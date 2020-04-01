@@ -4,10 +4,10 @@ import (
 	"context"
 	"strings"
 
+	"github.com/bluesky2106/eWallet-backend/entry_store/models"
 	errs "github.com/bluesky2106/eWallet-backend/errors"
 	"github.com/bluesky2106/eWallet-backend/gateway/config"
 	"github.com/bluesky2106/eWallet-backend/grpc_services/client"
-	"github.com/bluesky2106/eWallet-backend/models"
 	pb "github.com/bluesky2106/eWallet-backend/protobuf"
 	"golang.org/x/crypto/bcrypt"
 )

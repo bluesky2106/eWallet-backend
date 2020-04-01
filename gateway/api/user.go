@@ -6,7 +6,7 @@ import (
 	errs "github.com/bluesky2106/eWallet-backend/errors"
 	"github.com/gin-gonic/gin"
 
-	"github.com/bluesky2106/eWallet-backend/models"
+	"github.com/bluesky2106/eWallet-backend/entry_store/models"
 )
 
 // Authenticate an user

@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	gwConfig "github.com/bluesky2106/eWallet-backend/config"
+	"github.com/bluesky2106/eWallet-backend/entry_store/models"
 	"github.com/bluesky2106/eWallet-backend/libs/comparator"
-	"github.com/bluesky2106/eWallet-backend/models"
 	"github.com/stretchr/testify/assert"
 )
 

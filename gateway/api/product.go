@@ -3,8 +3,8 @@ package api
 import (
 	"net/http"
 
+	"github.com/bluesky2106/eWallet-backend/entry_store/models"
 	errs "github.com/bluesky2106/eWallet-backend/errors"
-	"github.com/bluesky2106/eWallet-backend/models"
 	"github.com/gin-gonic/gin"
 )
 
