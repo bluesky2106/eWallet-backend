@@ -23,13 +23,15 @@ service UserSvc {
 
 // UserInfo : store user information
 message UserInfo {
-  uint32 id                  = 1;
+  uint64 id                  = 1;
   string full_name           = 2;
   string email               = 3;
   string password            = 4;
   string username            = 5;
-  string keystore            = 6;
-  bool   enable_notification = 7;
+  uint32 level               = 6;
+  uint32 role                = 7;
+  string keystore            = 8;
+  bool   enable_notification = 9;
 }
 
 // CreateUser
