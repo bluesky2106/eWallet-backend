@@ -9,13 +9,13 @@ jobs: # basic units of work in a run
       - image: circleci/redis
         port: 6379:6379 
 
-      # - image: circleci/mysql:8.0.19
-      #   environment: # environment variables for primary container
-      #     - MYSQL_ALLOW_EMPTY_PASSWORD=true
-      #     - MYSQL_ROOT_HOST=%
-      #     - MYSQL_USER=ubuntu
-      #     - MYSQL_PASSWORD=ubuntu
-      #     - MYSQL_DATABASE=itv
+      - image: circleci/mysql:8.0.19
+        environment: # environment variables for primary container
+          - MYSQL_ALLOW_EMPTY_PASSWORD=true
+          - MYSQL_ROOT_HOST=%
+          - MYSQL_USER=root
+          - MYSQL_PASSWORD=itv
+          - MYSQL_DATABASE=itv_test
 
     # resource_class: medium
     working_directory: /go/src/github.com/bluesky2106/eWallet-backend
