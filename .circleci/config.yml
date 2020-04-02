@@ -10,10 +10,11 @@ jobs: # basic units of work in a run
         port: 6379:6379 
 
       - image: circleci/mysql:8.0.19
+        port: 3306:3306
         environment: # environment variables for primary container
           - MYSQL_ALLOW_EMPTY_PASSWORD=true
           - MYSQL_ROOT_HOST=%
-          - MYSQL_USER=root
+          - MYSQL_USER=itv
           - MYSQL_PASSWORD=itv
           - MYSQL_DATABASE=itv_test
 
@@ -44,6 +45,9 @@ jobs: # basic units of work in a run
       - run:
           name: Wait for redis
           command: dockerize -wait tcp://localhost:6379 -timeout 1m
+      - run:
+          name: Wait for mysql
+          command: dockerize -wait tcp://localhost:3306 -timeout 1m
 
       - run:
           name: Run unit tests
