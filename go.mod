@@ -15,7 +15,6 @@ require (
 	github.com/sendgrid/sendgrid-go v3.5.0+incompatible
 	github.com/spf13/viper v1.6.2
 	github.com/stretchr/testify v1.5.1
-	github.com/tokoinofficial/tokoin_go_backend v0.0.0-20200319101345-ee6eb3c6d24c // indirect
 	go.uber.org/zap v1.14.1
 	golang.org/x/crypto v0.0.0-20191205180655-e7c4368fe9dd
 	google.golang.org/genproto v0.0.0-20200319113533-08878b785e9c
