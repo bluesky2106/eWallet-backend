@@ -13,7 +13,7 @@ func (s *Server) userFromContext(c *gin.Context) (*models.User, error) {
 	}
 
 	userID := userIDVal.(float64)
-	user, err := s.userSrv.ReadUserByID(uint(userID))
+	user, err := s.userSrv.ReadUserByID(uint64(userID))
 
 	if err != nil {
 		return nil, errs.WithMessage(err, "s.userSvc.FindByID")
