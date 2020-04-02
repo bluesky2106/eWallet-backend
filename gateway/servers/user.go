@@ -56,7 +56,7 @@ func (u *UserSrv) ReadUserByEmail(email string) (*models.User, error) {
 // ReadUserByID : call entry cache to read user info
 //
 // params: [id]
-func (u *UserSrv) ReadUserByID(id uint) (*models.User, error) {
+func (u *UserSrv) ReadUserByID(id uint64) (*models.User, error) {
 	req := &pb.ReadUserReq{
 		Req: &pb.BaseReq{
 			Action:     pb.Action_ACTION_READ,
@@ -64,7 +64,7 @@ func (u *UserSrv) ReadUserByID(id uint) (*models.User, error) {
 			ObjectType: pb.Object_OBJECT_USER,
 		},
 		User: &pb.UserInfo{
-			Id: uint32(id),
+			Id: id,
 		},
 	}
 

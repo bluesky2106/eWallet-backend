@@ -63,13 +63,16 @@ var (
 )
 
 func init() {
+
 	conf = &gwConfig.Config{
-		MySQL: gwConfig.MySQL{
-			Host:     "localhost",
-			Port:     "3306",
-			Username: "root",
-			Password: "itv",
-			DBName:   "itv_test",
+		EntryStore: gwConfig.EntryStore{
+			MySQL: gwConfig.MySQL{
+				Host:     "localhost",
+				Port:     "3306",
+				Username: "root",
+				Password: "itv",
+				DBName:   "itv_test",
+			},
 		},
 		Env: gwConfig.Debug,
 	}
@@ -80,11 +83,11 @@ func TestNew(t *testing.T) {
 
 	var err error
 	dao, err = New(&Config{
-		DBName:   conf.MySQL.DBName,
-		Host:     conf.MySQL.Host,
-		Port:     conf.MySQL.Port,
-		Username: conf.MySQL.Username,
-		Password: conf.MySQL.Password,
+		DBName:   conf.EntryStore.MySQL.DBName,
+		Host:     conf.EntryStore.MySQL.Host,
+		Port:     conf.EntryStore.MySQL.Port,
+		Username: conf.EntryStore.MySQL.Username,
+		Password: conf.EntryStore.MySQL.Password,
 	}, string(conf.Env))
 	assert.Nil(err)
 	assert.NotNil(dao)

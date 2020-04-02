@@ -5,6 +5,10 @@ jobs: # basic units of work in a run
       # CircleCI Go images available at: https://hub.docker.com/r/circleci/golang/
       - image: circleci/golang:1.14
 
+      # CircleCI redis images available at: https://hub.docker.com/r/circleci/redis/tags
+      - image: circleci/redis
+        port: 6379:6379 
+
       # - image: circleci/mysql:8.0.19
       #   environment: # environment variables for primary container
       #     - MYSQL_ALLOW_EMPTY_PASSWORD=true
@@ -31,6 +35,15 @@ jobs: # basic units of work in a run
           key: go-mod-v1-{{ checksum "go.sum" }}
           paths:
             - "/go/pkg/mod"
+
+      - run:
+          name: install dockerize
+          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          environment:
+            DOCKERIZE_VERSION: v0.3.0
+      - run:
+          name: Wait for redis
+          command: dockerize -wait tcp://localhost:6379 -timeout 1m
 
       - run:
           name: Run unit tests

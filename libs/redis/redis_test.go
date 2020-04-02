@@ -12,7 +12,7 @@ var conf *Config
 func init() {
 	conf = &Config{
 		Addr:     "localhost:6379",
-		Password: "3112",
+		Password: "",
 		DB:       0,
 	}
 }
