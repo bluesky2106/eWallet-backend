@@ -10,7 +10,6 @@ import (
 // Config : configurations
 type Config struct {
 	Postgres
-	MySQL
 	Mongo
 
 	RabbitMQ
@@ -26,6 +25,7 @@ type Config struct {
 	Email
 	Program
 	BOController
+	BOEntryStore
 
 	Sendgrid
 
@@ -58,7 +58,6 @@ func ParseConfig(file, path string) *Config {
 
 func setDefaultVariables() {
 	setDefaultPostgres()
-	setDefaultMySQL()
 	setDefaultMongo()
 
 	setDefaultRabbitMQ()
@@ -74,6 +73,7 @@ func setDefaultVariables() {
 	setDefaultEmail()
 	setDefaultProgram()
 	setDefaultBOController()
+	setDefaultBOEntryStore()
 
 	setDefaultSendgrid()
 
@@ -104,7 +104,6 @@ func readJSONFile(file, path string) {
 // Print configurations for checking
 func (conf *Config) Print() {
 	conf.printPostgresConfig()
-	conf.printMySQLConfig()
 	conf.printMongoConfig()
 
 	conf.printRabbitMQConfig()
@@ -120,6 +119,7 @@ func (conf *Config) Print() {
 	conf.printEmailConfig()
 	conf.printProgramConfig()
 	conf.printBOControllerConfig()
+	conf.printBOEntryStoreConfig()
 
 	conf.printSendgridConfig()
 

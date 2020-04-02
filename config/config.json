@@ -9,7 +9,14 @@
     },
     "entryStore": {
         "host": "localhost",
-        "port": "6002"
+        "port": "6002",
+        "mysql": {
+            "dbName": "itv_pos",
+            "username": "itv",
+            "password": "itv",
+            "host": "localhost",
+            "port": "3306"
+        }
     },
     "asset": {
         "host": "localhost",
@@ -38,21 +45,25 @@
     "boController": {
         "host": "localhost",
         "port": "7000"
-    },  
+    },
+    "boEntryStore": {
+        "host": "localhost",
+        "port": "7001",
+        "mysql": {
+            "dbName": "itv_bo",
+            "username": "itv",
+            "password": "itv",
+            "host": "localhost",
+            "port": "3306"
+        }
+    }, 
     "postgres": {
         "dbName": "itv_test",
         "username": "itv",
         "password": "itv",
         "host": "localhost",
         "port": "5000"
-    },
-    "mysql": {
-        "dbName": "itv_test",
-        "username": "itv",
-        "password": "itv",
-        "host": "localhost",
-        "port": "3306"
-    },
+    },    
     "mongo": {
         "dbName": "itv_test",
         "username": "itv",
