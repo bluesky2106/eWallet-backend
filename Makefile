@@ -38,3 +38,8 @@ start-bo-store:
 	cd ./bo_entry_store && \
 	export service=bo-entry-store && \
 	go run main.go
+
+start-bo:
+	cd ./bo_controller && \
+	export service=bo-controller && \
+	go run main.go
