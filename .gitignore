@@ -1,3 +1,5 @@
 vendor
 
 .env.sh
+
+logs/log.txt

@@ -63,7 +63,6 @@ var (
 )
 
 func init() {
-
 	conf = &gwConfig.Config{
 		EntryStore: gwConfig.EntryStore{
 			MySQL: gwConfig.MySQL{
@@ -101,7 +100,6 @@ func TestAutoMigrate(t *testing.T) {
 }
 
 func TestAddForeignKey(t *testing.T) {
-	// db.Model(&models.Wallet{}).AddForeignKey("user_id", "users(id)", "CASCADE", "CASCADE")
 	assert := assert.New(t)
 
 	err := dao.AddForeignKey((*models.ProductInfo)(nil), "product_group_id", "product_groups(g_id)")

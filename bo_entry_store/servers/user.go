@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/bluesky2106/eWallet-backend/bo_entry_store/models"
+	errs "github.com/bluesky2106/eWallet-backend/errors"
 	"github.com/bluesky2106/eWallet-backend/libs/mysql"
 	pb "github.com/bluesky2106/eWallet-backend/protobuf"
 )
@@ -40,7 +41,7 @@ func (u *UserSrv) CreateUser(ctx context.Context, req *pb.CreateUserReq) (*pb.Cr
 
 	// 3. Create new User
 	newUser := models.ConvertPbUserToUser(req.GetUser())
-	err = u.dao.WithTransaction(func() error {
+	err := u.dao.WithTransaction(func() error {
 		err := u.dao.Create(newUser)
 		if err != nil {
 			return errs.WithMessage(err, "u.dao.Create")

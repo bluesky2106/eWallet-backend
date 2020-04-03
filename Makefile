@@ -33,3 +33,8 @@ start-store:
 	cd ./entry_store && \
 	export service=entry-store && \
 	go run main.go
+
+start-bo-store:
+	cd ./bo_entry_store && \
+	export service=bo-entry-store && \
+	go run main.go
