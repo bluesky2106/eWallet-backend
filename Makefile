@@ -1,7 +1,7 @@
 #!make
 
-test:
-	go test -timeout 9000s -cover -a -v ./...
+test: test-errors test-config test-mysql test-redis
+	# go test -timeout 9000s -cover -a -v ./...
 
 test-errors:
 	cd ./errors && \

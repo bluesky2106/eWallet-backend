@@ -51,8 +51,7 @@ jobs: # basic units of work in a run
 
       - run:
           name: Run unit tests
-          command: |
-            go test -timeout 9000s -cover -v ./...
+          command: make test
 
 workflows:
   version: 2
