@@ -11,8 +11,6 @@ type User struct {
 	UserName string
 	Email    string `gorm:"unique_index"`
 	Password string
-	Level    uint32
-	Role     uint32
 }
 
 // ConvertUserToPbUser : convert user to pb.User
@@ -23,8 +21,6 @@ func ConvertUserToPbUser(user *User) *pb.UserInfo {
 		Password: user.Password,
 		FullName: user.FullName,
 		Username: user.UserName,
-		Level:    user.Level,
-		Role:     user.Role,
 	}
 }
 
@@ -36,7 +32,5 @@ func ConvertPbUserToUser(user *pb.UserInfo) *User {
 		Password: user.GetPassword(),
 		FullName: user.GetFullName(),
 		UserName: user.GetUsername(),
-		Level:    user.GetLevel(),
-		Role:     user.GetRole(),
 	}
 }

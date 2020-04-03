@@ -28,16 +28,7 @@ func main() {
 	logger = log.InitLogger(conf.Env)
 
 	// 3. Extract store config
-	storeConf := &config.Config{
-		Env:       string(conf.Env),
-		Host:      conf.BOEntryStore.Host,
-		Port:      conf.BOEntryStore.Port,
-		MySQLHost: conf.BOEntryStore.MySQL.Host,
-		MySQLPort: conf.BOEntryStore.MySQL.Port,
-		MySQLDB:   conf.BOEntryStore.MySQL.DBName,
-		MySQLUser: conf.BOEntryStore.MySQL.Username,
-		MySQLPwd:  conf.BOEntryStore.MySQL.Password,
-	}
+	storeConf := config.ParseConfig(conf)
 	storeConf.Print()
 
 	// 4. Init DAO

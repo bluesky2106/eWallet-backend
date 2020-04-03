@@ -1,6 +1,10 @@
 package config
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/bluesky2106/eWallet-backend/config"
+)
 
 // Config : entry store configurations
 type Config struct {
@@ -12,6 +16,20 @@ type Config struct {
 	MySQLDB   string `json: "mysqlDB"`
 	MySQLUser string `json: "mysqlUser"`
 	MySQLPwd  string `json: "mysqlPwd"`
+}
+
+// ParseConfig : get configurations related to bo entry store from common configurations
+func ParseConfig(conf *config.Config) *Config {
+	return &Config{
+		Env:       string(conf.Env),
+		Host:      conf.BOEntryStore.Host,
+		Port:      conf.BOEntryStore.Port,
+		MySQLHost: conf.BOEntryStore.MySQL.Host,
+		MySQLPort: conf.BOEntryStore.MySQL.Port,
+		MySQLDB:   conf.BOEntryStore.MySQL.DBName,
+		MySQLUser: conf.BOEntryStore.MySQL.Username,
+		MySQLPwd:  conf.BOEntryStore.MySQL.Password,
+	}
 }
 
 // Print configurations
