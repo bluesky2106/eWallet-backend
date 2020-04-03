@@ -1,0 +1,1 @@
+service=bo-entry-store
