@@ -50,6 +50,22 @@ jobs: # basic units of work in a run
           command: dockerize -wait tcp://localhost:3306 -timeout 1m
 
       - run:
+          name: Start bo-store server
+          command: make start-bo-store
+          background: true # keep service running and proceed to next step
+      - run:
+          name: Wait for bo-store server
+          command: dockerize -wait tcp://localhost:7001 -timeout 1m
+
+      - run:
+          name: Start bo server
+          command: make start-bo
+          background: true # keep service running and proceed to next step
+      - run:
+          name: Wait for bo server
+          command: dockerize -wait tcp://localhost:7000 -timeout 1m
+
+      - run:
           name: Run unit tests
           command: make test
 
