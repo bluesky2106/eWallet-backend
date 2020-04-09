@@ -54,6 +54,7 @@ jobs: # basic units of work in a run
           command: |
             sudo apt-get install default-mysql-client --allow-unauthenticated
       - run:
+          name: Create Database
           command: |
             mysql  -h 127.0.0.1 -u root --password=itv -e "create database itv_bo;"
 
@@ -73,6 +74,10 @@ jobs: # basic units of work in a run
           name: Wait for bo server
           command: dockerize -wait tcp://localhost:7000 -timeout 1m
 
+      - run:
+          name: Run integration test
+          command: make integration-test
+        
       - run:
           name: Run unit tests
           command: make test

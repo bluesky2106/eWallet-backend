@@ -19,6 +19,10 @@ test-redis:
 	cd ./libs/redis && \
 	go test -timeout 9000s -cover -a -v
 
+integration-test:
+	cd ./integration_test && \
+	go test -timeout 9000s -cover -a -v ./...
+
 start-gateway:
 	cd ./gateway && \
 	export service=gateway && \
