@@ -9,7 +9,7 @@ jobs: # basic units of work in a run
       - image: circleci/redis
         port: 6379:6379 
 
-      - image: circleci/mysql:8.0.19
+      - image: circleci/mysql:5.7
         port: 3306:3306
         environment: # environment variables for primary container
           - MYSQL_ALLOW_EMPTY_PASSWORD=true
@@ -48,6 +48,11 @@ jobs: # basic units of work in a run
       - run:
           name: Wait for mysql
           command: dockerize -wait tcp://localhost:3306 -timeout 1m
+      - run:
+          name: Install MySQL CLI
+          command: |
+            sudo apt-get install default-mysql-client
+            mysql -h 127.0.0.1 -u itv --password=itv itv_bo < database/dummy.sql
 
       - run:
           name: Start bo-store server
