@@ -27,7 +27,7 @@ func GetTestingConfig() *TestConfig {
 func init() {
 	testConf = new(TestConfig)
 
-	conf := commonConfig.ParseConfig("config.json", "../config")
+	conf := commonConfig.ParseConfig("config.json", "../../config")
 	testConf.Conf = config.ParseConfig(conf)
 	testConf.Conf.Print()
 }
