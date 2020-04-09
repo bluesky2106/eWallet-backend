@@ -16,6 +16,7 @@ jobs: # basic units of work in a run
           - MYSQL_ROOT_HOST=%
           - MYSQL_USER=itv
           - MYSQL_PASSWORD=itv
+          - MYSQL_ROOT_PASSWORD=itv
           - MYSQL_DATABASE=itv_test
 
     # resource_class: medium
@@ -51,8 +52,10 @@ jobs: # basic units of work in a run
       - run:
           name: Install MySQL CLI
           command: |
-            sudo apt-get install default-mysql-client
-            mysql -h 127.0.0.1 -u itv --password=itv itv_bo < database/dummy.sql
+            sudo apt-get install default-mysql-client --allow-unauthenticated
+      - run:
+          command: |
+            mysql  -h 127.0.0.1 -u root --password=itv -e "create database itv_bo;"
 
       - run:
           name: Start bo-store server

@@ -51,7 +51,7 @@
         "port": "7001",
         "mysql": {
             "dbName": "itv_bo",
-            "username": "itv",
+            "username": "root",
             "password": "itv",
             "host": "localhost",
             "port": "3306"
