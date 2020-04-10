@@ -32,13 +32,8 @@ func main() {
 	storeConf.Print()
 
 	// 4. Init DAO
-	dao, err := mysql.New(&mysql.Config{
-		DBName:   storeConf.MySQLDB,
-		Host:     storeConf.MySQLHost,
-		Port:     storeConf.MySQLPort,
-		Username: storeConf.MySQLUser,
-		Password: storeConf.MySQLPwd,
-	}, storeConf.Env)
+	dbConf := mysql.ParseConfig(storeConf.MySQLUser, storeConf.MySQLPwd, storeConf.MySQLHost, storeConf.MySQLPort, storeConf.MySQLDB)
+	dao, err := mysql.New(dbConf, storeConf.Env)
 	if err != nil {
 		logger.Error("failed to init DAO:", zap.Error(err))
 	}

@@ -1,7 +1,6 @@
 package mysql
 
 import (
-	"fmt"
 	"reflect"
 
 	"github.com/bluesky2106/eWallet-backend/libs/utils"
@@ -21,9 +20,7 @@ type DAO struct {
 
 // New : connect mysql server
 func New(conf *Config, env string) (*DAO, error) {
-	connURL := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=UTC",
-		conf.Username, conf.Password, conf.Host, conf.Port, conf.DBName)
-	db, err := gorm.Open("mysql", connURL)
+	db, err := gorm.Open("mysql", conf.ConnURL)
 	if err != nil {
 		return nil, errs.New(errs.ECMySQLConnection, err.Error(), "gorm.Open")
 	}

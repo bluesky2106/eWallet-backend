@@ -33,22 +33,17 @@ func main() {
 		Env:       string(conf.Env),
 		Host:      conf.EntryStore.Host,
 		Port:      conf.EntryStore.Port,
-		MySQLHost: conf.MySQL.Host,
-		MySQLPort: conf.MySQL.Port,
-		MySQLDB:   conf.MySQL.DBName,
-		MySQLUser: conf.MySQL.Username,
-		MySQLPwd:  conf.MySQL.Password,
+		MySQLHost: conf.EntryStore.MySQL.Host,
+		MySQLPort: conf.EntryStore.MySQL.Port,
+		MySQLDB:   conf.EntryStore.MySQL.DBName,
+		MySQLUser: conf.EntryStore.MySQL.Username,
+		MySQLPwd:  conf.EntryStore.MySQL.Password,
 	}
 	storeConf.Print()
 
 	// 4. Init DAO
-	dao, err := mysql.New(&mysql.Config{
-		DBName:   storeConf.MySQLDB,
-		Host:     storeConf.MySQLHost,
-		Port:     storeConf.MySQLPort,
-		Username: storeConf.MySQLUser,
-		Password: storeConf.MySQLPwd,
-	}, storeConf.Env)
+	dbConf := mysql.ParseConfig(storeConf.MySQLUser, storeConf.MySQLPwd, storeConf.MySQLHost, storeConf.MySQLPort, storeConf.MySQLDB)
+	dao, err := mysql.New(dbConf, storeConf.Env)
 	if err != nil {
 		logger.Error("failed to init DAO:", zap.Error(err))
 	}

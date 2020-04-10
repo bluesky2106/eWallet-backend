@@ -61,7 +61,7 @@ func (u *UserSrv) CreateUser(ctx context.Context, req *pb.CreateUserReq) (*pb.Cr
 	return &pb.CreateUserRes{
 		Result: true,
 		User: &pb.UserInfo{
-			Id:                 uint32(newUser.ID),
+			Id:                 newUser.ID,
 			FullName:           newUser.FullName,
 			Email:              newUser.Email,
 			Username:           newUser.UserName,
@@ -106,7 +106,7 @@ func (u *UserSrv) ReadUser(ctx context.Context, req *pb.ReadUserReq) (*pb.ReadUs
 	return &pb.ReadUserRes{
 		Result: true,
 		User: &pb.UserInfo{
-			Id:                 uint32(user.ID),
+			Id:                 user.ID,
 			FullName:           user.FullName,
 			Email:              user.Email,
 			Username:           user.UserName,

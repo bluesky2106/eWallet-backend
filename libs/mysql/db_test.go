@@ -10,8 +10,8 @@ import (
 )
 
 var (
-	conf *gwConfig.Config
-	dao  *DAO
+	gwConf *gwConfig.Config
+	dao    *DAO
 
 	tables = []interface{}{(*models.ProductInfo)(nil), (*models.ProductGroup)(nil), (*models.Unit)(nil)}
 )
@@ -63,7 +63,7 @@ var (
 )
 
 func init() {
-	conf = &gwConfig.Config{
+	gwConf = &gwConfig.Config{
 		EntryStore: gwConfig.EntryStore{
 			MySQL: gwConfig.MySQL{
 				Host:     "localhost",
@@ -80,14 +80,17 @@ func init() {
 func TestNew(t *testing.T) {
 	assert := assert.New(t)
 
-	var err error
-	dao, err = New(&Config{
-		DBName:   conf.EntryStore.MySQL.DBName,
-		Host:     conf.EntryStore.MySQL.Host,
-		Port:     conf.EntryStore.MySQL.Port,
-		Username: conf.EntryStore.MySQL.Username,
-		Password: conf.EntryStore.MySQL.Password,
-	}, string(conf.Env))
+	var (
+		err  error
+		conf = ParseConfig(gwConf.EntryStore.MySQL.Username,
+			gwConf.EntryStore.MySQL.Password,
+			gwConf.EntryStore.MySQL.Host,
+			gwConf.EntryStore.MySQL.Port,
+			gwConf.EntryStore.MySQL.DBName,
+		)
+	)
+
+	dao, err = New(conf, string(gwConf.Env))
 	assert.Nil(err)
 	assert.NotNil(dao)
 }
