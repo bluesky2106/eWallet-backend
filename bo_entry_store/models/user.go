@@ -13,6 +13,9 @@ type User struct {
 	Password string
 }
 
+// Users : slice of users
+type Users []*User
+
 // ConvertUserToPbUser : convert user to pb.User
 func ConvertUserToPbUser(user *User) *pb.UserInfo {
 	return &pb.UserInfo{
