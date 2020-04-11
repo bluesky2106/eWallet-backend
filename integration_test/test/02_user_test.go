@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/bluesky2106/eWallet-backend/bo_controller/serializers"
+	boModels "github.com/bluesky2106/eWallet-backend/bo_entry_store/models"
 	"github.com/bluesky2106/eWallet-backend/integration_test/data"
 	"github.com/stretchr/testify/assert"
 )
@@ -24,4 +25,10 @@ func TestAdminUserRegister(t *testing.T) {
 		assert.NotNil(user)
 		fmt.Printf("%+v", user)
 	}
+}
+
+func clearAdminUsers() error {
+	return testSrv.DAOBO.DeleteByQuery(&boModels.User{}, map[string]interface{}{
+		"user_name like ?": data.TestPrefix + "%",
+	})
 }
