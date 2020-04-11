@@ -10,7 +10,9 @@ import (
 func TestInitConfigTest(t *testing.T) {
 	assert := assert.New(t)
 
-	conf := s.GetTestingConfig()
+	testConf := s.GetTestingConfig()
+	testData := s.GetTestingData()
 
-	assert.NotNil(conf)
+	assert.NotNil(testConf)
+	assert.NotNil(testData)
 }
