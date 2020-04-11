@@ -1,5 +1,0 @@
-package servers
-
-func initDAOs() {
-
-}
