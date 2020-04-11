@@ -57,6 +57,7 @@ jobs: # basic units of work in a run
           name: Create Database
           command: |
             mysql  -h 127.0.0.1 -u root --password=itv -e "create database itv_bo;"
+            mysql  -h 127.0.0.1 -u root --password=itv -e "create database itv_pos;"
 
       - run:
           name: Start bo-store server

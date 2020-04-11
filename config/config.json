@@ -12,7 +12,7 @@
         "port": "6002",
         "mysql": {
             "dbName": "itv_pos",
-            "username": "itv",
+            "username": "root",
             "password": "itv",
             "host": "localhost",
             "port": "3306"
