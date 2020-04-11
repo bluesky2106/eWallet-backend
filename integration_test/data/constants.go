@@ -1,4 +1,4 @@
-package servers
+package data
 
 const (
 	// TestPrefix : prefix for all string variables used in this integration test

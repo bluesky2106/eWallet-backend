@@ -1,4 +1,4 @@
-package servers
+package data
 
 import (
 	"fmt"
@@ -6,18 +6,20 @@ import (
 	"github.com/bluesky2106/eWallet-backend/bo_entry_store/models"
 )
 
-var (
-	testData *TestData
-)
-
 // TestData : test data
 type TestData struct {
 	AdminUsers models.Users
 }
 
-// GetTestingData : get testing data
-func GetTestingData() *TestData {
-	return testData
+// NewTestData : new test data
+func NewTestData() *TestData {
+	td := new(TestData)
+	td.init()
+	return td
+}
+
+func (td *TestData) init() {
+	td.initTestAdminUsers()
 }
 
 func (td *TestData) initTestAdminUsers() {
@@ -30,11 +32,4 @@ func (td *TestData) initTestAdminUsers() {
 			Email:    adminEmail,
 		}
 	}
-}
-
-func initTestData() {
-	testData = new(TestData)
-	testData.initTestAdminUsers()
-
-	fmt.Printf("Testing data: %+v", testData)
 }
