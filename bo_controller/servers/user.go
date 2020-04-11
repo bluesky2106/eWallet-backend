@@ -146,3 +146,45 @@ func (u *UserSrv) Register(req *serializers.UserRegisterReq) (*models.User, erro
 
 	return user, nil
 }
+
+// UpdateUserProfile : [uReq : full name, email]
+func (u *UserSrv) UpdateUserProfile(user *models.User, uReq *serializers.UserUpdateProfilerReq) (*models.User, error) {
+	err := u.validateUserUpdateProfileReq(uReq)
+	if err != nil {
+		return nil, errs.WithMessage(err, "u.validateUserRegisterReq")
+	}
+
+	fullName := user.FullName
+	if uReq.FullName != "" {
+		fullName = uReq.FullName
+	}
+
+	email := user.Email
+	if uReq.Email != "" {
+		email = uReq.Email
+	}
+
+	req := &pb.UpdateUserReq{
+		Req: &pb.BaseReq{
+			Message:    pb.Message_MESSAGE_UPDATE_USER,
+			ObjectType: pb.Object_OBJECT_USER,
+			Action:     pb.Action_ACTION_UPDATE,
+		},
+		User: &pb.UserInfo{
+			Id:       user.ID,
+			FullName: fullName,
+			Username: strings.Split(email, "@")[0],
+			Email:    email,
+			Password: user.Password,
+		},
+	}
+
+	res, err := u.userSvc.UpdateUser(context.Background(), req)
+	if err != nil {
+		return nil, errs.WithMessage(err, "u.userSvc.UpdateUser")
+	}
+
+	newUser := models.ConvertPbUserToUser(res.GetUser())
+
+	return newUser, nil
+}

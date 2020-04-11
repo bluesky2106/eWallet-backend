@@ -18,7 +18,7 @@ func (s *Server) Routes(authMw *jwt.GinJWTMiddleware) {
 		auth.Use(authMw.MiddlewareFunc())
 		{
 			auth.GET("/user-profile", s.UserProfile)
-			// auth.PUT("/user-profile", s.UpdateUserProfile)
+			auth.PUT("/user-profile", s.UpdateUserProfile)
 			// auth.POST("/user-change-pwd", s.ChangePwd)
 		}
 	}

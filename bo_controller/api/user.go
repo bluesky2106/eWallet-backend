@@ -59,3 +59,28 @@ func (s *Server) UserProfile(c *gin.Context) {
 
 	c.JSON(http.StatusOK, Resp{Result: user, Error: nil})
 }
+
+// UpdateUserProfile : [PUT] /auth/user-profile
+func (s *Server) UpdateUserProfile(c *gin.Context) {
+	user, err := s.userFromContext(c)
+
+	if err != nil {
+		respondError(c, http.StatusInternalServerError, err, "s.userFromContext")
+		return
+	}
+
+	var req serializers.UserUpdateProfilerReq
+	if err := c.ShouldBindJSON(&req); err != nil {
+		err = errs.New(errs.ECInvalidArgument, err.Error())
+		respondError(c, http.StatusBadRequest, err)
+		return
+	}
+
+	user, err = s.userSrv.UpdateUserProfile(user, &req)
+	if err != nil {
+		respondError(c, http.StatusBadRequest, err, "s.userSvc.UpdateUserProfile")
+		return
+	}
+
+	c.JSON(http.StatusOK, Resp{Result: user, Error: nil})
+}

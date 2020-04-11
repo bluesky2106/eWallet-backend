@@ -41,3 +41,18 @@ func (u *UserSrv) validateUserLoginReq(req *serializers.UserLoginReq) error {
 
 	return nil
 }
+
+func (u *UserSrv) validateUserUpdateProfileReq(req *serializers.UserUpdateProfilerReq) error {
+	if req.FullName == "" {
+		if !isValidEmail(req.Email) {
+			return errs.New(errs.ECInvalidEmail)
+		}
+		return nil
+	}
+
+	if req.Email != "" && !isValidEmail(req.Email) {
+		return errs.New(errs.ECInvalidEmail)
+	}
+
+	return nil
+}

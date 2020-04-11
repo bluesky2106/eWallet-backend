@@ -96,3 +96,30 @@ func (u *UserSrv) ReadUser(ctx context.Context, req *pb.ReadUserReq) (*pb.ReadUs
 		User:   models.ConvertUserToPbUser(user),
 	}, nil
 }
+
+// UpdateUser : update user
+func (u *UserSrv) UpdateUser(ctx context.Context, req *pb.UpdateUserReq) (*pb.UpdateUserRes, error) {
+	// 1. Validate request
+	if !u.isValidUserRequest(req.GetReq()) {
+		return nil, errs.New(errs.ECInvalidMessage)
+	}
+
+	// 2. Update user
+	user := models.ConvertPbUserToUser(req.GetUser())
+	err := u.dao.WithTransaction(func() error {
+		err := u.dao.Update(user)
+		if err != nil {
+			return errs.WithMessage(err, "u.dao.Update")
+		}
+
+		return nil
+	})
+	if err != nil {
+		return nil, errs.WithMessage(err, "u.dao.WithTransaction")
+	}
+
+	return &pb.UpdateUserRes{
+		Result: true,
+		User:   req.GetUser(),
+	}, nil
+}

@@ -15,8 +15,12 @@ func (u *UserSrv) isValidUserRequest(req *pb.BaseReq) bool {
 			return true
 		}
 	case pb.Action_ACTION_READ:
-		if req.Message == pb.Message_MESSAGE_READ_USER_BY_EMAIL ||
-			req.Message == pb.Message_MESSAGE_READ_USER_BY_ID {
+		if req.GetMessage() == pb.Message_MESSAGE_READ_USER_BY_EMAIL ||
+			req.GetMessage() == pb.Message_MESSAGE_READ_USER_BY_ID {
+			return true
+		}
+	case pb.Action_ACTION_UPDATE:
+		if req.GetMessage() == pb.Message_MESSAGE_UPDATE_USER {
 			return true
 		}
 	}
