@@ -1,7 +1,6 @@
 package test
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/bluesky2106/eWallet-backend/bo_controller/serializers"
@@ -23,7 +22,39 @@ func TestAdminUserRegister(t *testing.T) {
 		user, err := testSrv.UserSrv.AdminUserRegister(req)
 		assert.Nil(err)
 		assert.NotNil(user)
-		fmt.Printf("%+v", user)
+		// fmt.Printf("%+v\n\n", user)
+		testData.AdminUsers[i].ID = user.ID
+	}
+}
+
+func TestAdminUserLogin(t *testing.T) {
+	assert := assert.New(t)
+
+	for i := 0; i < data.NumberOfAdminUsers; i++ {
+		req := &serializers.UserLoginReq{
+			Email:    testData.AdminUsers[i].Email,
+			Password: data.RegisterPwd,
+		}
+		resp, err := testSrv.UserSrv.AdminUserLogin(req)
+		assert.Nil(err)
+		assert.NotNil(resp)
+		// fmt.Printf("%+v\n\n", resp)
+		testData.AdminUsers[i].Token = resp.Token
+	}
+}
+
+func TestAdminUserProfile(t *testing.T) {
+	assert := assert.New(t)
+
+	for i := 0; i < data.NumberOfAdminUsers; i++ {
+		user, err := testSrv.UserSrv.AdminUserProfile(testData.AdminUsers[i].Token)
+		assert.Nil(err)
+		assert.NotNil(user)
+		assert.Equal(testData.AdminUsers[i].ID, user.ID, "ID mismatched !")
+		assert.Equal(testData.AdminUsers[i].Email, user.Email, "Email mismatched !")
+		assert.Equal(testData.AdminUsers[i].FullName, user.FullName, "Fullname mismatched !")
+		assert.Equal(testData.AdminUsers[i].UserName, user.UserName, "Username mismatched !")
+		// fmt.Printf("%+v\n\n", user)
 	}
 }
 

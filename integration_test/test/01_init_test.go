@@ -27,7 +27,7 @@ func TestInitTestServer(t *testing.T) {
 func TestInitTestData(t *testing.T) {
 	assert := assert.New(t)
 
-	testData = data.NewTestData()
+	testData = data.GetTestData()
 	assert.NotNil(testData)
 	assert.NotNil(testData.AdminUsers)
 	assert.Equal(len(testData.AdminUsers), data.NumberOfAdminUsers)

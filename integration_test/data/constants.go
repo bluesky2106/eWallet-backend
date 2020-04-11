@@ -11,5 +11,5 @@ const (
 	ChangedPwd = "123456789"
 
 	// NumberOfAdminUsers : number of admin users
-	NumberOfAdminUsers = 1
+	NumberOfAdminUsers = 5
 )
