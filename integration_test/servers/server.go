@@ -14,6 +14,8 @@ type TestServer struct {
 
 	DAO   *mysql.DAO
 	DAOBO *mysql.DAO
+
+	UserSrv *User
 }
 
 // NewTestServer : create new test server
@@ -27,6 +29,7 @@ func NewTestServer() *TestServer {
 func (ts *TestServer) init() {
 	ts.initConfig()
 	ts.initDAOs()
+	ts.initUserSrv()
 }
 
 func (ts *TestServer) initConfig() {
@@ -55,4 +58,8 @@ func (ts *TestServer) initDAOs() {
 		return
 	}
 	ts.DAOBO = dao
+}
+
+func (ts *TestServer) initUserSrv() {
+	ts.UserSrv = NewUser(ts.Conf)
 }

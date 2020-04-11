@@ -1,4 +1,4 @@
-package test01async
+package test
 
 import (
 	"testing"

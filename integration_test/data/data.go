@@ -3,12 +3,12 @@ package data
 import (
 	"fmt"
 
-	"github.com/bluesky2106/eWallet-backend/bo_entry_store/models"
+	boModels "github.com/bluesky2106/eWallet-backend/bo_entry_store/models"
 )
 
 // TestData : test data
 type TestData struct {
-	AdminUsers models.Users
+	AdminUsers boModels.Users
 }
 
 // NewTestData : new test data
@@ -23,12 +23,13 @@ func (td *TestData) init() {
 }
 
 func (td *TestData) initTestAdminUsers() {
-	td.AdminUsers = make(models.Users, NumberOfAdminUsers)
+	td.AdminUsers = make(boModels.Users, NumberOfAdminUsers)
 	for i := 0; i < NumberOfAdminUsers; i++ {
-		adminName := fmt.Sprintf("%sadmin_%d", TestPrefix, i)
+		adminName := fmt.Sprintf("%sadmin_%d", TestPrefix, i+1)
 		adminEmail := adminName + EmailSuffix
-		td.AdminUsers[i] = &models.User{
+		td.AdminUsers[i] = &boModels.User{
 			UserName: adminName,
+			FullName: adminName,
 			Email:    adminEmail,
 		}
 	}
