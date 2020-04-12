@@ -3,7 +3,6 @@ package sendgrid
 import (
 	"fmt"
 
-	"github.com/bluesky2106/eWallet-backend/config"
 	pb "github.com/bluesky2106/eWallet-backend/protobuf"
 	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
@@ -15,15 +14,9 @@ type MailManager struct {
 }
 
 // NewMailManager : init MailManager
-func NewMailManager(conf *config.Config) *MailManager {
+func NewMailManager(conf *Config) *MailManager {
 	return &MailManager{
-		conf: &Config{
-			APIKey:      conf.Sendgrid.APIKey,
-			SenderEmail: conf.Sendgrid.SenderEmail,
-			SenderName:  conf.Sendgrid.SenderName,
-			CCEmail:     conf.Sendgrid.CCEmail,
-			CCName:      conf.Sendgrid.CCName,
-		},
+		conf: conf,
 	}
 }
 
