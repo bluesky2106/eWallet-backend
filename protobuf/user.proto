@@ -76,18 +76,12 @@ message DeleteUserRes {
 
 // ChangePwd
 message ChangePwdReq {
-  BaseReq req          = 1;
-  uint32  user_id      = 2;
-  string  old_password = 3;
-  string  new_password = 4;
+  BaseReq  req  = 1;
+  UserInfo user = 2;
 }
 message ChangePwdRes {
-  bool   result      = 1;
-  string template_id = 2;
-  string name        = 3;
-  string email       = 4;
-  string date_time   = 5;
-  string location    = 6;
+  bool     result = 1;
+  UserInfo user   = 2;
 }
 
 // ForgotPassword
