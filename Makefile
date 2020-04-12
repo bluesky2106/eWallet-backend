@@ -1,6 +1,6 @@
 #!make
 
-test: test-errors test-config test-mysql test-redis
+test: test-errors test-config test-mysql test-redis test-rabbitmq
 	# go test -timeout 9000s -cover -a -v ./...
 
 test-errors:
@@ -17,6 +17,10 @@ test-mysql:
 
 test-redis:
 	cd ./libs/redis && \
+	go test -timeout 9000s -cover -a -v
+
+test-rabbitmq:
+	cd ./libs/rabbitmq && \
 	go test -timeout 9000s -cover -a -v
 
 integration-test:

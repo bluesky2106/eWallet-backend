@@ -18,6 +18,16 @@ jobs: # basic units of work in a run
           - MYSQL_PASSWORD=itv
           - MYSQL_ROOT_PASSWORD=itv
           - MYSQL_DATABASE=itv_test
+      
+      - image: rabbitmq:3.8.2-management
+        hostname: app-rabbitmq
+        ports:
+          - 5672:5672
+          - 15672:15672
+        environment:
+          # RABBITMQ_ERLANG_COOKIE: 6085e2412b6fa88647466c6a81c0cea0
+          RABBITMQ_DEFAULT_USER: rabbitmq
+          RABBITMQ_DEFAULT_PASS: rabbitmq
 
     # resource_class: medium
     working_directory: /go/src/github.com/bluesky2106/eWallet-backend
