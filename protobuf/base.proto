@@ -8,7 +8,8 @@ option  java_outer_classname = "BaseProto";
 
 // Message represents what is the purpose of object
 enum Message {
-  MESSAGE_INVALID              = 0;
+  MESSAGE_INVALID = 0;
+
   MESSAGE_CREATE_USER          = 1;
   MESSAGE_READ_USER_BY_EMAIL   = 2;
   MESSAGE_READ_USER_BY_ID      = 3;
@@ -17,18 +18,25 @@ enum Message {
   MESSAGE_DELETE_USER_BY_ID    = 6;
   MESSAGE_DELETE_USER_BY_EMAIL = 7;
 
-  MESSAGE_CREATE_PRODUCT = 10;
+  MESSAGE_CREATE_EMAIL_TEMPLATE = 11;
+  MESSAGE_READ_EMAIL_TEMPLATE   = 12;
+  MESSAGE_UPDATE_EMAIL_TEMPLATE = 13;
+  MESSAGE_DELETE_EMAIL_TEMPLATE = 14;
+  MESSAGE_LIST_EMAIL_TEMPLATE   = 15;
+
+  MESSAGE_CREATE_PRODUCT = 20;
 }
 
 // Object represents table/struct
 //
 // [USER], [USER PWD], [WALLET], [MARKET], [ASSET], and [TNX]
 enum Object {
-  OBJECT_INVALID       = 0;
-  OBJECT_USER          = 1;
-  OBJECT_PRODUCT       = 2;
-  OBJECT_PRODUCT_GROUP = 3;
-  OBJECT_UNIT          = 4;
+  OBJECT_INVALID        = 0;
+  OBJECT_USER           = 1;
+  OBJECT_PRODUCT        = 2;
+  OBJECT_PRODUCT_GROUP  = 3;
+  OBJECT_UNIT           = 4;
+  OBJECT_EMAIL_TEMPLATE = 5;
 }
 
 // Action represents:
@@ -40,6 +48,7 @@ enum Action {
   ACTION_READ    = 2;
   ACTION_UPDATE  = 3;
   ACTION_DELETE  = 4;
+  ACTION_LIST    = 5;
 }
 
 // Ex:

@@ -4,8 +4,12 @@
 package protobufpb
 
 import (
+	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
+	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -20,136 +24,573 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-// EmailInfo : this object is used for sending email
-//
-// [data]: this value is based on templated id. Ex:
-//
-//    if template_id needs {{name}}, the data will be something like this one
-//      {
-//        "name": "phuong nguyen"
-//      }
-type EmailInfo struct {
-	SenderName           string            `protobuf:"bytes,1,opt,name=sender_name,json=senderName,proto3" json:"sender_name,omitempty"`
-	SenderEmail          string            `protobuf:"bytes,2,opt,name=sender_email,json=senderEmail,proto3" json:"sender_email,omitempty"`
-	TemplateId           string            `protobuf:"bytes,3,opt,name=template_id,json=templateId,proto3" json:"template_id,omitempty"`
-	Receivers            []*Receiver       `protobuf:"bytes,4,rep,name=receivers,proto3" json:"receivers,omitempty"`
-	Data                 map[string]string `protobuf:"bytes,5,rep,name=data,proto3" json:"data,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+type EmailTemplateType int32
+
+const (
+	EmailTemplateType_INVALID                 EmailTemplateType = 0
+	EmailTemplateType_WELCOME                 EmailTemplateType = 1
+	EmailTemplateType_CHANGE_PWD              EmailTemplateType = 2
+	EmailTemplateType_FORGET_PWD              EmailTemplateType = 3
+	EmailTemplateType_FORGET_PWD_CONFIRMATION EmailTemplateType = 4
+)
+
+var EmailTemplateType_name = map[int32]string{
+	0: "INVALID",
+	1: "WELCOME",
+	2: "CHANGE_PWD",
+	3: "FORGET_PWD",
+	4: "FORGET_PWD_CONFIRMATION",
+}
+
+var EmailTemplateType_value = map[string]int32{
+	"INVALID":                 0,
+	"WELCOME":                 1,
+	"CHANGE_PWD":              2,
+	"FORGET_PWD":              3,
+	"FORGET_PWD_CONFIRMATION": 4,
+}
+
+func (x EmailTemplateType) String() string {
+	return proto.EnumName(EmailTemplateType_name, int32(x))
+}
+
+func (EmailTemplateType) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_6175298cb4ed6faa, []int{0}
+}
+
+// EmailTemplateInfo : this object is used for managing sendgrid template id
+type EmailTemplateInfo struct {
+	Id                   uint32            `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	SendgridTemplateId   string            `protobuf:"bytes,2,opt,name=sendgrid_template_id,json=sendgridTemplateId,proto3" json:"sendgrid_template_id,omitempty"`
+	Type                 EmailTemplateType `protobuf:"varint,3,opt,name=type,proto3,enum=protobuf.EmailTemplateType" json:"type,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
 	XXX_unrecognized     []byte            `json:"-"`
 	XXX_sizecache        int32             `json:"-"`
 }
 
-func (m *EmailInfo) Reset()         { *m = EmailInfo{} }
-func (m *EmailInfo) String() string { return proto.CompactTextString(m) }
-func (*EmailInfo) ProtoMessage()    {}
-func (*EmailInfo) Descriptor() ([]byte, []int) {
+func (m *EmailTemplateInfo) Reset()         { *m = EmailTemplateInfo{} }
+func (m *EmailTemplateInfo) String() string { return proto.CompactTextString(m) }
+func (*EmailTemplateInfo) ProtoMessage()    {}
+func (*EmailTemplateInfo) Descriptor() ([]byte, []int) {
 	return fileDescriptor_6175298cb4ed6faa, []int{0}
 }
 
-func (m *EmailInfo) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_EmailInfo.Unmarshal(m, b)
+func (m *EmailTemplateInfo) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_EmailTemplateInfo.Unmarshal(m, b)
 }
-func (m *EmailInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_EmailInfo.Marshal(b, m, deterministic)
+func (m *EmailTemplateInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_EmailTemplateInfo.Marshal(b, m, deterministic)
 }
-func (m *EmailInfo) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_EmailInfo.Merge(m, src)
+func (m *EmailTemplateInfo) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EmailTemplateInfo.Merge(m, src)
 }
-func (m *EmailInfo) XXX_Size() int {
-	return xxx_messageInfo_EmailInfo.Size(m)
+func (m *EmailTemplateInfo) XXX_Size() int {
+	return xxx_messageInfo_EmailTemplateInfo.Size(m)
 }
-func (m *EmailInfo) XXX_DiscardUnknown() {
-	xxx_messageInfo_EmailInfo.DiscardUnknown(m)
+func (m *EmailTemplateInfo) XXX_DiscardUnknown() {
+	xxx_messageInfo_EmailTemplateInfo.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_EmailInfo proto.InternalMessageInfo
+var xxx_messageInfo_EmailTemplateInfo proto.InternalMessageInfo
 
-func (m *EmailInfo) GetSenderName() string {
+func (m *EmailTemplateInfo) GetId() uint32 {
 	if m != nil {
-		return m.SenderName
+		return m.Id
+	}
+	return 0
+}
+
+func (m *EmailTemplateInfo) GetSendgridTemplateId() string {
+	if m != nil {
+		return m.SendgridTemplateId
 	}
 	return ""
 }
 
-func (m *EmailInfo) GetSenderEmail() string {
+func (m *EmailTemplateInfo) GetType() EmailTemplateType {
 	if m != nil {
-		return m.SenderEmail
+		return m.Type
 	}
-	return ""
+	return EmailTemplateType_INVALID
 }
 
-func (m *EmailInfo) GetTemplateId() string {
-	if m != nil {
-		return m.TemplateId
-	}
-	return ""
+// ReadEmailTemplateReq represents for a read email template request
+type ReadEmailTemplateReq struct {
+	Req                  *BaseReq           `protobuf:"bytes,1,opt,name=req,proto3" json:"req,omitempty"`
+	Filter               *EmailTemplateInfo `protobuf:"bytes,2,opt,name=filter,proto3" json:"filter,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
+	XXX_unrecognized     []byte             `json:"-"`
+	XXX_sizecache        int32              `json:"-"`
 }
 
-func (m *EmailInfo) GetReceivers() []*Receiver {
+func (m *ReadEmailTemplateReq) Reset()         { *m = ReadEmailTemplateReq{} }
+func (m *ReadEmailTemplateReq) String() string { return proto.CompactTextString(m) }
+func (*ReadEmailTemplateReq) ProtoMessage()    {}
+func (*ReadEmailTemplateReq) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6175298cb4ed6faa, []int{1}
+}
+
+func (m *ReadEmailTemplateReq) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReadEmailTemplateReq.Unmarshal(m, b)
+}
+func (m *ReadEmailTemplateReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReadEmailTemplateReq.Marshal(b, m, deterministic)
+}
+func (m *ReadEmailTemplateReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReadEmailTemplateReq.Merge(m, src)
+}
+func (m *ReadEmailTemplateReq) XXX_Size() int {
+	return xxx_messageInfo_ReadEmailTemplateReq.Size(m)
+}
+func (m *ReadEmailTemplateReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReadEmailTemplateReq.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReadEmailTemplateReq proto.InternalMessageInfo
+
+func (m *ReadEmailTemplateReq) GetReq() *BaseReq {
 	if m != nil {
-		return m.Receivers
+		return m.Req
 	}
 	return nil
 }
 
-func (m *EmailInfo) GetData() map[string]string {
+func (m *ReadEmailTemplateReq) GetFilter() *EmailTemplateInfo {
 	if m != nil {
-		return m.Data
+		return m.Filter
 	}
 	return nil
 }
 
-type Receiver struct {
-	ToName               string   `protobuf:"bytes,1,opt,name=to_name,json=toName,proto3" json:"to_name,omitempty"`
-	ToEmail              string   `protobuf:"bytes,2,opt,name=to_email,json=toEmail,proto3" json:"to_email,omitempty"`
+// ReadEmailTemplateRes : return result + template info
+type ReadEmailTemplateRes struct {
+	Result               bool               `protobuf:"varint,1,opt,name=result,proto3" json:"result,omitempty"`
+	Template             *EmailTemplateInfo `protobuf:"bytes,2,opt,name=template,proto3" json:"template,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
+	XXX_unrecognized     []byte             `json:"-"`
+	XXX_sizecache        int32              `json:"-"`
+}
+
+func (m *ReadEmailTemplateRes) Reset()         { *m = ReadEmailTemplateRes{} }
+func (m *ReadEmailTemplateRes) String() string { return proto.CompactTextString(m) }
+func (*ReadEmailTemplateRes) ProtoMessage()    {}
+func (*ReadEmailTemplateRes) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6175298cb4ed6faa, []int{2}
+}
+
+func (m *ReadEmailTemplateRes) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReadEmailTemplateRes.Unmarshal(m, b)
+}
+func (m *ReadEmailTemplateRes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReadEmailTemplateRes.Marshal(b, m, deterministic)
+}
+func (m *ReadEmailTemplateRes) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReadEmailTemplateRes.Merge(m, src)
+}
+func (m *ReadEmailTemplateRes) XXX_Size() int {
+	return xxx_messageInfo_ReadEmailTemplateRes.Size(m)
+}
+func (m *ReadEmailTemplateRes) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReadEmailTemplateRes.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReadEmailTemplateRes proto.InternalMessageInfo
+
+func (m *ReadEmailTemplateRes) GetResult() bool {
+	if m != nil {
+		return m.Result
+	}
+	return false
+}
+
+func (m *ReadEmailTemplateRes) GetTemplate() *EmailTemplateInfo {
+	if m != nil {
+		return m.Template
+	}
+	return nil
+}
+
+// AddEmailTemplateReq represents for a add email template request
+type AddEmailTemplateReq struct {
+	Req                  *BaseReq           `protobuf:"bytes,1,opt,name=req,proto3" json:"req,omitempty"`
+	Template             *EmailTemplateInfo `protobuf:"bytes,2,opt,name=template,proto3" json:"template,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
+	XXX_unrecognized     []byte             `json:"-"`
+	XXX_sizecache        int32              `json:"-"`
+}
+
+func (m *AddEmailTemplateReq) Reset()         { *m = AddEmailTemplateReq{} }
+func (m *AddEmailTemplateReq) String() string { return proto.CompactTextString(m) }
+func (*AddEmailTemplateReq) ProtoMessage()    {}
+func (*AddEmailTemplateReq) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6175298cb4ed6faa, []int{3}
+}
+
+func (m *AddEmailTemplateReq) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_AddEmailTemplateReq.Unmarshal(m, b)
+}
+func (m *AddEmailTemplateReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_AddEmailTemplateReq.Marshal(b, m, deterministic)
+}
+func (m *AddEmailTemplateReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AddEmailTemplateReq.Merge(m, src)
+}
+func (m *AddEmailTemplateReq) XXX_Size() int {
+	return xxx_messageInfo_AddEmailTemplateReq.Size(m)
+}
+func (m *AddEmailTemplateReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_AddEmailTemplateReq.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_AddEmailTemplateReq proto.InternalMessageInfo
+
+func (m *AddEmailTemplateReq) GetReq() *BaseReq {
+	if m != nil {
+		return m.Req
+	}
+	return nil
+}
+
+func (m *AddEmailTemplateReq) GetTemplate() *EmailTemplateInfo {
+	if m != nil {
+		return m.Template
+	}
+	return nil
+}
+
+// AddEmailTemplateRes : return result + template info
+type AddEmailTemplateRes struct {
+	Result               bool               `protobuf:"varint,1,opt,name=result,proto3" json:"result,omitempty"`
+	Template             *EmailTemplateInfo `protobuf:"bytes,2,opt,name=template,proto3" json:"template,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
+	XXX_unrecognized     []byte             `json:"-"`
+	XXX_sizecache        int32              `json:"-"`
+}
+
+func (m *AddEmailTemplateRes) Reset()         { *m = AddEmailTemplateRes{} }
+func (m *AddEmailTemplateRes) String() string { return proto.CompactTextString(m) }
+func (*AddEmailTemplateRes) ProtoMessage()    {}
+func (*AddEmailTemplateRes) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6175298cb4ed6faa, []int{4}
+}
+
+func (m *AddEmailTemplateRes) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_AddEmailTemplateRes.Unmarshal(m, b)
+}
+func (m *AddEmailTemplateRes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_AddEmailTemplateRes.Marshal(b, m, deterministic)
+}
+func (m *AddEmailTemplateRes) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AddEmailTemplateRes.Merge(m, src)
+}
+func (m *AddEmailTemplateRes) XXX_Size() int {
+	return xxx_messageInfo_AddEmailTemplateRes.Size(m)
+}
+func (m *AddEmailTemplateRes) XXX_DiscardUnknown() {
+	xxx_messageInfo_AddEmailTemplateRes.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_AddEmailTemplateRes proto.InternalMessageInfo
+
+func (m *AddEmailTemplateRes) GetResult() bool {
+	if m != nil {
+		return m.Result
+	}
+	return false
+}
+
+func (m *AddEmailTemplateRes) GetTemplate() *EmailTemplateInfo {
+	if m != nil {
+		return m.Template
+	}
+	return nil
+}
+
+// UpdateEmailTemplateReq represents for an update email template request
+type UpdateEmailTemplateReq struct {
+	Req                  *BaseReq           `protobuf:"bytes,1,opt,name=req,proto3" json:"req,omitempty"`
+	Template             *EmailTemplateInfo `protobuf:"bytes,2,opt,name=template,proto3" json:"template,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
+	XXX_unrecognized     []byte             `json:"-"`
+	XXX_sizecache        int32              `json:"-"`
+}
+
+func (m *UpdateEmailTemplateReq) Reset()         { *m = UpdateEmailTemplateReq{} }
+func (m *UpdateEmailTemplateReq) String() string { return proto.CompactTextString(m) }
+func (*UpdateEmailTemplateReq) ProtoMessage()    {}
+func (*UpdateEmailTemplateReq) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6175298cb4ed6faa, []int{5}
+}
+
+func (m *UpdateEmailTemplateReq) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UpdateEmailTemplateReq.Unmarshal(m, b)
+}
+func (m *UpdateEmailTemplateReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UpdateEmailTemplateReq.Marshal(b, m, deterministic)
+}
+func (m *UpdateEmailTemplateReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateEmailTemplateReq.Merge(m, src)
+}
+func (m *UpdateEmailTemplateReq) XXX_Size() int {
+	return xxx_messageInfo_UpdateEmailTemplateReq.Size(m)
+}
+func (m *UpdateEmailTemplateReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateEmailTemplateReq.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UpdateEmailTemplateReq proto.InternalMessageInfo
+
+func (m *UpdateEmailTemplateReq) GetReq() *BaseReq {
+	if m != nil {
+		return m.Req
+	}
+	return nil
+}
+
+func (m *UpdateEmailTemplateReq) GetTemplate() *EmailTemplateInfo {
+	if m != nil {
+		return m.Template
+	}
+	return nil
+}
+
+// UpdateEmailTemplateRes : return result + template info
+type UpdateEmailTemplateRes struct {
+	Result               bool               `protobuf:"varint,1,opt,name=result,proto3" json:"result,omitempty"`
+	Template             *EmailTemplateInfo `protobuf:"bytes,2,opt,name=template,proto3" json:"template,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
+	XXX_unrecognized     []byte             `json:"-"`
+	XXX_sizecache        int32              `json:"-"`
+}
+
+func (m *UpdateEmailTemplateRes) Reset()         { *m = UpdateEmailTemplateRes{} }
+func (m *UpdateEmailTemplateRes) String() string { return proto.CompactTextString(m) }
+func (*UpdateEmailTemplateRes) ProtoMessage()    {}
+func (*UpdateEmailTemplateRes) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6175298cb4ed6faa, []int{6}
+}
+
+func (m *UpdateEmailTemplateRes) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UpdateEmailTemplateRes.Unmarshal(m, b)
+}
+func (m *UpdateEmailTemplateRes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UpdateEmailTemplateRes.Marshal(b, m, deterministic)
+}
+func (m *UpdateEmailTemplateRes) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateEmailTemplateRes.Merge(m, src)
+}
+func (m *UpdateEmailTemplateRes) XXX_Size() int {
+	return xxx_messageInfo_UpdateEmailTemplateRes.Size(m)
+}
+func (m *UpdateEmailTemplateRes) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateEmailTemplateRes.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UpdateEmailTemplateRes proto.InternalMessageInfo
+
+func (m *UpdateEmailTemplateRes) GetResult() bool {
+	if m != nil {
+		return m.Result
+	}
+	return false
+}
+
+func (m *UpdateEmailTemplateRes) GetTemplate() *EmailTemplateInfo {
+	if m != nil {
+		return m.Template
+	}
+	return nil
+}
+
+// DeleteEmailTemplateReq represents for a delete email template request
+type DeleteEmailTemplateReq struct {
+	Req                  *BaseReq `protobuf:"bytes,1,opt,name=req,proto3" json:"req,omitempty"`
+	TemplateId           uint32   `protobuf:"varint,2,opt,name=template_id,json=templateId,proto3" json:"template_id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Receiver) Reset()         { *m = Receiver{} }
-func (m *Receiver) String() string { return proto.CompactTextString(m) }
-func (*Receiver) ProtoMessage()    {}
-func (*Receiver) Descriptor() ([]byte, []int) {
-	return fileDescriptor_6175298cb4ed6faa, []int{1}
+func (m *DeleteEmailTemplateReq) Reset()         { *m = DeleteEmailTemplateReq{} }
+func (m *DeleteEmailTemplateReq) String() string { return proto.CompactTextString(m) }
+func (*DeleteEmailTemplateReq) ProtoMessage()    {}
+func (*DeleteEmailTemplateReq) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6175298cb4ed6faa, []int{7}
 }
 
-func (m *Receiver) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Receiver.Unmarshal(m, b)
+func (m *DeleteEmailTemplateReq) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DeleteEmailTemplateReq.Unmarshal(m, b)
 }
-func (m *Receiver) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Receiver.Marshal(b, m, deterministic)
+func (m *DeleteEmailTemplateReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DeleteEmailTemplateReq.Marshal(b, m, deterministic)
 }
-func (m *Receiver) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Receiver.Merge(m, src)
+func (m *DeleteEmailTemplateReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeleteEmailTemplateReq.Merge(m, src)
 }
-func (m *Receiver) XXX_Size() int {
-	return xxx_messageInfo_Receiver.Size(m)
+func (m *DeleteEmailTemplateReq) XXX_Size() int {
+	return xxx_messageInfo_DeleteEmailTemplateReq.Size(m)
 }
-func (m *Receiver) XXX_DiscardUnknown() {
-	xxx_messageInfo_Receiver.DiscardUnknown(m)
+func (m *DeleteEmailTemplateReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeleteEmailTemplateReq.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Receiver proto.InternalMessageInfo
+var xxx_messageInfo_DeleteEmailTemplateReq proto.InternalMessageInfo
 
-func (m *Receiver) GetToName() string {
+func (m *DeleteEmailTemplateReq) GetReq() *BaseReq {
 	if m != nil {
-		return m.ToName
+		return m.Req
 	}
-	return ""
+	return nil
 }
 
-func (m *Receiver) GetToEmail() string {
+func (m *DeleteEmailTemplateReq) GetTemplateId() uint32 {
 	if m != nil {
-		return m.ToEmail
+		return m.TemplateId
 	}
-	return ""
+	return 0
+}
+
+// DeleteEmailTemplateRes : return result + template info
+type DeleteEmailTemplateRes struct {
+	Result               bool     `protobuf:"varint,1,opt,name=result,proto3" json:"result,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *DeleteEmailTemplateRes) Reset()         { *m = DeleteEmailTemplateRes{} }
+func (m *DeleteEmailTemplateRes) String() string { return proto.CompactTextString(m) }
+func (*DeleteEmailTemplateRes) ProtoMessage()    {}
+func (*DeleteEmailTemplateRes) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6175298cb4ed6faa, []int{8}
+}
+
+func (m *DeleteEmailTemplateRes) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DeleteEmailTemplateRes.Unmarshal(m, b)
+}
+func (m *DeleteEmailTemplateRes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DeleteEmailTemplateRes.Marshal(b, m, deterministic)
+}
+func (m *DeleteEmailTemplateRes) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeleteEmailTemplateRes.Merge(m, src)
+}
+func (m *DeleteEmailTemplateRes) XXX_Size() int {
+	return xxx_messageInfo_DeleteEmailTemplateRes.Size(m)
+}
+func (m *DeleteEmailTemplateRes) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeleteEmailTemplateRes.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DeleteEmailTemplateRes proto.InternalMessageInfo
+
+func (m *DeleteEmailTemplateRes) GetResult() bool {
+	if m != nil {
+		return m.Result
+	}
+	return false
+}
+
+// ListEmailTemplateReq represents for a list of email template request
+type ListEmailTemplateReq struct {
+	Req                  *BaseReq `protobuf:"bytes,1,opt,name=req,proto3" json:"req,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ListEmailTemplateReq) Reset()         { *m = ListEmailTemplateReq{} }
+func (m *ListEmailTemplateReq) String() string { return proto.CompactTextString(m) }
+func (*ListEmailTemplateReq) ProtoMessage()    {}
+func (*ListEmailTemplateReq) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6175298cb4ed6faa, []int{9}
+}
+
+func (m *ListEmailTemplateReq) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ListEmailTemplateReq.Unmarshal(m, b)
+}
+func (m *ListEmailTemplateReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ListEmailTemplateReq.Marshal(b, m, deterministic)
+}
+func (m *ListEmailTemplateReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListEmailTemplateReq.Merge(m, src)
+}
+func (m *ListEmailTemplateReq) XXX_Size() int {
+	return xxx_messageInfo_ListEmailTemplateReq.Size(m)
+}
+func (m *ListEmailTemplateReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListEmailTemplateReq.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListEmailTemplateReq proto.InternalMessageInfo
+
+func (m *ListEmailTemplateReq) GetReq() *BaseReq {
+	if m != nil {
+		return m.Req
+	}
+	return nil
+}
+
+// ListEmailTemplateRes : return result + template info
+type ListEmailTemplateRes struct {
+	Result               bool                 `protobuf:"varint,1,opt,name=result,proto3" json:"result,omitempty"`
+	Templates            []*EmailTemplateInfo `protobuf:"bytes,2,rep,name=templates,proto3" json:"templates,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
+	XXX_unrecognized     []byte               `json:"-"`
+	XXX_sizecache        int32                `json:"-"`
+}
+
+func (m *ListEmailTemplateRes) Reset()         { *m = ListEmailTemplateRes{} }
+func (m *ListEmailTemplateRes) String() string { return proto.CompactTextString(m) }
+func (*ListEmailTemplateRes) ProtoMessage()    {}
+func (*ListEmailTemplateRes) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6175298cb4ed6faa, []int{10}
+}
+
+func (m *ListEmailTemplateRes) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ListEmailTemplateRes.Unmarshal(m, b)
+}
+func (m *ListEmailTemplateRes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ListEmailTemplateRes.Marshal(b, m, deterministic)
+}
+func (m *ListEmailTemplateRes) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListEmailTemplateRes.Merge(m, src)
+}
+func (m *ListEmailTemplateRes) XXX_Size() int {
+	return xxx_messageInfo_ListEmailTemplateRes.Size(m)
+}
+func (m *ListEmailTemplateRes) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListEmailTemplateRes.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListEmailTemplateRes proto.InternalMessageInfo
+
+func (m *ListEmailTemplateRes) GetResult() bool {
+	if m != nil {
+		return m.Result
+	}
+	return false
+}
+
+func (m *ListEmailTemplateRes) GetTemplates() []*EmailTemplateInfo {
+	if m != nil {
+		return m.Templates
+	}
+	return nil
 }
 
 func init() {
-	proto.RegisterType((*EmailInfo)(nil), "protobuf.EmailInfo")
-	proto.RegisterMapType((map[string]string)(nil), "protobuf.EmailInfo.DataEntry")
-	proto.RegisterType((*Receiver)(nil), "protobuf.Receiver")
+	proto.RegisterEnum("protobuf.EmailTemplateType", EmailTemplateType_name, EmailTemplateType_value)
+	proto.RegisterType((*EmailTemplateInfo)(nil), "protobuf.EmailTemplateInfo")
+	proto.RegisterType((*ReadEmailTemplateReq)(nil), "protobuf.ReadEmailTemplateReq")
+	proto.RegisterType((*ReadEmailTemplateRes)(nil), "protobuf.ReadEmailTemplateRes")
+	proto.RegisterType((*AddEmailTemplateReq)(nil), "protobuf.AddEmailTemplateReq")
+	proto.RegisterType((*AddEmailTemplateRes)(nil), "protobuf.AddEmailTemplateRes")
+	proto.RegisterType((*UpdateEmailTemplateReq)(nil), "protobuf.UpdateEmailTemplateReq")
+	proto.RegisterType((*UpdateEmailTemplateRes)(nil), "protobuf.UpdateEmailTemplateRes")
+	proto.RegisterType((*DeleteEmailTemplateReq)(nil), "protobuf.DeleteEmailTemplateReq")
+	proto.RegisterType((*DeleteEmailTemplateRes)(nil), "protobuf.DeleteEmailTemplateRes")
+	proto.RegisterType((*ListEmailTemplateReq)(nil), "protobuf.ListEmailTemplateReq")
+	proto.RegisterType((*ListEmailTemplateRes)(nil), "protobuf.ListEmailTemplateRes")
 }
 
 func init() {
@@ -157,22 +598,262 @@ func init() {
 }
 
 var fileDescriptor_6175298cb4ed6faa = []byte{
-	// 272 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x54, 0x90, 0x4f, 0x4b, 0xc3, 0x40,
-	0x10, 0xc5, 0x49, 0xd3, 0x3f, 0xc9, 0xa4, 0x07, 0x59, 0x04, 0x57, 0x41, 0xac, 0x3d, 0xe5, 0x14,
-	0xfc, 0x73, 0x50, 0x3c, 0x78, 0x28, 0xf6, 0xd0, 0x8b, 0x94, 0x1c, 0xbd, 0x94, 0x4d, 0x33, 0x85,
-	0x60, 0x36, 0x1b, 0xb6, 0xd3, 0x42, 0xbf, 0x84, 0x9f, 0x59, 0x32, 0xd9, 0xa4, 0x7a, 0xda, 0x99,
-	0x37, 0xbf, 0x7d, 0xbc, 0x19, 0x88, 0x50, 0xab, 0xa2, 0x4c, 0x6a, 0x6b, 0xc8, 0x88, 0x80, 0x9f,
-	0xec, 0xb0, 0x9b, 0xff, 0x0c, 0x20, 0x5c, 0x36, 0x93, 0x55, 0xb5, 0x33, 0xe2, 0x0e, 0xa2, 0x3d,
-	0x56, 0x39, 0xda, 0x4d, 0xa5, 0x34, 0x4a, 0x6f, 0xe6, 0xc5, 0x61, 0x0a, 0xad, 0xf4, 0xa9, 0x34,
-	0x8a, 0x7b, 0x98, 0x3a, 0x80, 0xed, 0xe4, 0x80, 0x09, 0xf7, 0x89, 0x7d, 0x1a, 0x0f, 0x42, 0x5d,
-	0x97, 0x8a, 0x70, 0x53, 0xe4, 0xd2, 0x6f, 0x3d, 0x3a, 0x69, 0x95, 0x8b, 0x07, 0x08, 0x2d, 0x6e,
-	0xb1, 0x38, 0xa2, 0xdd, 0xcb, 0xe1, 0xcc, 0x8f, 0xa3, 0x27, 0x91, 0x74, 0x81, 0x92, 0xd4, 0x8d,
-	0xd2, 0x33, 0x24, 0x1e, 0x61, 0x98, 0x2b, 0x52, 0x72, 0xc4, 0xf0, 0xed, 0x19, 0xee, 0x93, 0x27,
-	0x1f, 0x8a, 0xd4, 0xb2, 0x22, 0x7b, 0x4a, 0x19, 0xbd, 0x79, 0x81, 0xb0, 0x97, 0xc4, 0x05, 0xf8,
-	0xdf, 0x78, 0x72, 0xeb, 0x34, 0xa5, 0xb8, 0x84, 0xd1, 0x51, 0x95, 0x07, 0x74, 0x0b, 0xb4, 0xcd,
-	0xdb, 0xe0, 0xd5, 0x9b, 0xbf, 0x43, 0xd0, 0x45, 0x10, 0x57, 0x30, 0x21, 0xf3, 0xf7, 0x14, 0x63,
-	0x32, 0x7c, 0x86, 0x6b, 0x08, 0xc8, 0xfc, 0x3b, 0xc1, 0x84, 0x0c, 0x87, 0x59, 0xc4, 0x30, 0xdd,
-	0x1a, 0xdd, 0x47, 0x5c, 0x00, 0xcb, 0xeb, 0xa6, 0x5d, 0x7b, 0x5f, 0xd0, 0xe9, 0x75, 0x96, 0x8d,
-	0xb9, 0x7e, 0xfe, 0x0d, 0x00, 0x00, 0xff, 0xff, 0xc9, 0x59, 0x43, 0xac, 0x9a, 0x01, 0x00, 0x00,
+	// 515 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xbc, 0x54, 0x5d, 0x6f, 0xda, 0x30,
+	0x14, 0x25, 0x49, 0xc5, 0xe8, 0xcd, 0x8a, 0x82, 0x8b, 0x18, 0x4a, 0xb5, 0x2d, 0xca, 0x5e, 0xd0,
+	0x1e, 0x58, 0x45, 0x1f, 0xa6, 0x69, 0x4f, 0x7c, 0xa4, 0x5d, 0x24, 0x0a, 0xc8, 0x83, 0x55, 0xda,
+	0xa4, 0xa1, 0xd0, 0x98, 0x2a, 0x53, 0x28, 0x69, 0xec, 0x56, 0xea, 0x1f, 0xd8, 0x4f, 0xdb, 0xef,
+	0x9a, 0xec, 0x11, 0xd2, 0x52, 0x07, 0x26, 0x24, 0xfa, 0x04, 0x37, 0xf7, 0xf8, 0x9c, 0x7b, 0xac,
+	0x7b, 0x0c, 0x3a, 0x99, 0x79, 0x41, 0x58, 0x8f, 0xe2, 0x39, 0x9b, 0xa3, 0x82, 0xf8, 0x99, 0xdc,
+	0x4e, 0x4d, 0x98, 0x78, 0x94, 0xfc, 0xfb, 0x6a, 0xff, 0x56, 0xa0, 0xe4, 0x70, 0xd4, 0x90, 0xcc,
+	0xa2, 0xd0, 0x63, 0xc4, 0xbd, 0x9e, 0xce, 0x51, 0x11, 0xd4, 0xc0, 0xaf, 0x2a, 0x96, 0x52, 0x3b,
+	0xc0, 0x6a, 0xe0, 0xa3, 0x63, 0x28, 0x53, 0x72, 0xed, 0x5f, 0xc5, 0x81, 0x3f, 0x66, 0x0b, 0xe0,
+	0x38, 0xf0, 0xab, 0xaa, 0xa5, 0xd4, 0xf6, 0x31, 0x4a, 0x7a, 0x4b, 0x0e, 0x1f, 0x7d, 0x80, 0x3d,
+	0x76, 0x1f, 0x91, 0xaa, 0x66, 0x29, 0xb5, 0x62, 0xe3, 0xa8, 0x9e, 0x88, 0xd7, 0x1f, 0x89, 0x0d,
+	0xef, 0x23, 0x82, 0x05, 0xd0, 0x8e, 0xa0, 0x8c, 0x89, 0xe7, 0x3f, 0x6a, 0x63, 0x72, 0x83, 0xde,
+	0x81, 0x16, 0x93, 0x1b, 0x31, 0x8b, 0xde, 0x28, 0xa5, 0x3c, 0x2d, 0x8f, 0xf2, 0x3e, 0xe6, 0x5d,
+	0x74, 0x02, 0xf9, 0x69, 0x10, 0x32, 0x12, 0x8b, 0x89, 0xf4, 0x4c, 0x3d, 0x6e, 0x0e, 0x2f, 0xa0,
+	0xf6, 0x95, 0x54, 0x91, 0xa2, 0x0a, 0xe4, 0x63, 0x42, 0x6f, 0x43, 0x26, 0x44, 0x0b, 0x78, 0x51,
+	0xa1, 0x8f, 0x50, 0x48, 0xbc, 0xff, 0x8f, 0xcc, 0x12, 0x6c, 0x53, 0x38, 0x6c, 0xfa, 0x5b, 0x3a,
+	0xdb, 0x5a, 0x74, 0x2a, 0x13, 0xdd, 0x81, 0xb9, 0x3b, 0xa8, 0x8c, 0x22, 0xdf, 0x63, 0xe4, 0x99,
+	0xfd, 0x05, 0x19, 0xba, 0x3b, 0xb0, 0xf8, 0x13, 0x2a, 0x1d, 0x12, 0x92, 0x6d, 0x2d, 0xbe, 0x05,
+	0x7d, 0x35, 0x33, 0x07, 0x18, 0xd8, 0x32, 0x2b, 0xf6, 0x71, 0x06, 0x7f, 0xa6, 0x15, 0xfb, 0x33,
+	0x94, 0xbb, 0x01, 0x65, 0x5b, 0xcd, 0x63, 0x07, 0xd2, 0xc3, 0xd9, 0xf7, 0xf6, 0x09, 0xf6, 0x93,
+	0x61, 0x69, 0x55, 0xb5, 0xb4, 0x4d, 0x17, 0x97, 0xa2, 0xdf, 0xff, 0x5a, 0x79, 0x5c, 0x78, 0xde,
+	0x91, 0x0e, 0x2f, 0xdc, 0xde, 0xb7, 0x66, 0xd7, 0xed, 0x18, 0x39, 0x5e, 0x5c, 0x38, 0xdd, 0x76,
+	0xff, 0xdc, 0x31, 0x14, 0x54, 0x04, 0x68, 0x7f, 0x69, 0xf6, 0xce, 0x9c, 0xf1, 0xe0, 0xa2, 0x63,
+	0xa8, 0xbc, 0x3e, 0xed, 0xe3, 0x33, 0x67, 0x28, 0x6a, 0x0d, 0x1d, 0xc1, 0xab, 0xb4, 0x1e, 0xb7,
+	0xfb, 0xbd, 0x53, 0x17, 0x9f, 0x37, 0x87, 0x6e, 0xbf, 0x67, 0xec, 0x35, 0xfe, 0x68, 0x50, 0x10,
+	0x62, 0x5f, 0xef, 0x2e, 0xd1, 0x08, 0x4a, 0x4f, 0xb2, 0x8d, 0xde, 0xa4, 0x53, 0xcb, 0x9e, 0x1a,
+	0x73, 0x7d, 0x9f, 0xda, 0x39, 0x84, 0xc1, 0x58, 0x0d, 0x15, 0x7a, 0x9d, 0x9e, 0x92, 0xa4, 0xdc,
+	0x5c, 0xdb, 0xe6, 0x9c, 0x3f, 0xe0, 0x50, 0xb2, 0xc8, 0xc8, 0x4a, 0xcf, 0xc9, 0xf3, 0x65, 0x6e,
+	0x42, 0x2c, 0xc8, 0x25, 0xab, 0xf5, 0x90, 0x5c, 0xbe, 0xd9, 0xe6, 0x26, 0x04, 0x27, 0x1f, 0x41,
+	0xe9, 0xc9, 0x22, 0x3d, 0xbc, 0x64, 0xd9, 0x8a, 0x9a, 0xeb, 0xfb, 0xd4, 0xce, 0xb5, 0x6a, 0xf0,
+	0xf2, 0x72, 0x3e, 0x5b, 0xc2, 0x5a, 0x20, 0x30, 0x03, 0x5e, 0x0e, 0x94, 0xef, 0x90, 0x7c, 0x8f,
+	0x26, 0x93, 0xbc, 0xf8, 0x7f, 0xf2, 0x37, 0x00, 0x00, 0xff, 0xff, 0xe4, 0xad, 0xe1, 0x7b, 0xe8,
+	0x06, 0x00, 0x00,
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConnInterface
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion6
+
+// EmailSvcClient is the client API for EmailSvc service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type EmailSvcClient interface {
+	ReadEmailTemplate(ctx context.Context, in *ReadEmailTemplateReq, opts ...grpc.CallOption) (*ReadEmailTemplateRes, error)
+	AddEmailTemplate(ctx context.Context, in *AddEmailTemplateReq, opts ...grpc.CallOption) (*AddEmailTemplateRes, error)
+	UpdateEmailTemplate(ctx context.Context, in *UpdateEmailTemplateReq, opts ...grpc.CallOption) (*UpdateEmailTemplateRes, error)
+	DeleteEmailTemplate(ctx context.Context, in *DeleteEmailTemplateReq, opts ...grpc.CallOption) (*DeleteEmailTemplateRes, error)
+	ListEmailTemplate(ctx context.Context, in *ListEmailTemplateReq, opts ...grpc.CallOption) (*ListEmailTemplateRes, error)
+}
+
+type emailSvcClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewEmailSvcClient(cc grpc.ClientConnInterface) EmailSvcClient {
+	return &emailSvcClient{cc}
+}
+
+func (c *emailSvcClient) ReadEmailTemplate(ctx context.Context, in *ReadEmailTemplateReq, opts ...grpc.CallOption) (*ReadEmailTemplateRes, error) {
+	out := new(ReadEmailTemplateRes)
+	err := c.cc.Invoke(ctx, "/protobuf.EmailSvc/ReadEmailTemplate", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *emailSvcClient) AddEmailTemplate(ctx context.Context, in *AddEmailTemplateReq, opts ...grpc.CallOption) (*AddEmailTemplateRes, error) {
+	out := new(AddEmailTemplateRes)
+	err := c.cc.Invoke(ctx, "/protobuf.EmailSvc/AddEmailTemplate", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *emailSvcClient) UpdateEmailTemplate(ctx context.Context, in *UpdateEmailTemplateReq, opts ...grpc.CallOption) (*UpdateEmailTemplateRes, error) {
+	out := new(UpdateEmailTemplateRes)
+	err := c.cc.Invoke(ctx, "/protobuf.EmailSvc/UpdateEmailTemplate", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *emailSvcClient) DeleteEmailTemplate(ctx context.Context, in *DeleteEmailTemplateReq, opts ...grpc.CallOption) (*DeleteEmailTemplateRes, error) {
+	out := new(DeleteEmailTemplateRes)
+	err := c.cc.Invoke(ctx, "/protobuf.EmailSvc/DeleteEmailTemplate", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *emailSvcClient) ListEmailTemplate(ctx context.Context, in *ListEmailTemplateReq, opts ...grpc.CallOption) (*ListEmailTemplateRes, error) {
+	out := new(ListEmailTemplateRes)
+	err := c.cc.Invoke(ctx, "/protobuf.EmailSvc/ListEmailTemplate", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// EmailSvcServer is the server API for EmailSvc service.
+type EmailSvcServer interface {
+	ReadEmailTemplate(context.Context, *ReadEmailTemplateReq) (*ReadEmailTemplateRes, error)
+	AddEmailTemplate(context.Context, *AddEmailTemplateReq) (*AddEmailTemplateRes, error)
+	UpdateEmailTemplate(context.Context, *UpdateEmailTemplateReq) (*UpdateEmailTemplateRes, error)
+	DeleteEmailTemplate(context.Context, *DeleteEmailTemplateReq) (*DeleteEmailTemplateRes, error)
+	ListEmailTemplate(context.Context, *ListEmailTemplateReq) (*ListEmailTemplateRes, error)
+}
+
+// UnimplementedEmailSvcServer can be embedded to have forward compatible implementations.
+type UnimplementedEmailSvcServer struct {
+}
+
+func (*UnimplementedEmailSvcServer) ReadEmailTemplate(ctx context.Context, req *ReadEmailTemplateReq) (*ReadEmailTemplateRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReadEmailTemplate not implemented")
+}
+func (*UnimplementedEmailSvcServer) AddEmailTemplate(ctx context.Context, req *AddEmailTemplateReq) (*AddEmailTemplateRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddEmailTemplate not implemented")
+}
+func (*UnimplementedEmailSvcServer) UpdateEmailTemplate(ctx context.Context, req *UpdateEmailTemplateReq) (*UpdateEmailTemplateRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateEmailTemplate not implemented")
+}
+func (*UnimplementedEmailSvcServer) DeleteEmailTemplate(ctx context.Context, req *DeleteEmailTemplateReq) (*DeleteEmailTemplateRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteEmailTemplate not implemented")
+}
+func (*UnimplementedEmailSvcServer) ListEmailTemplate(ctx context.Context, req *ListEmailTemplateReq) (*ListEmailTemplateRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListEmailTemplate not implemented")
+}
+
+func RegisterEmailSvcServer(s *grpc.Server, srv EmailSvcServer) {
+	s.RegisterService(&_EmailSvc_serviceDesc, srv)
+}
+
+func _EmailSvc_ReadEmailTemplate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReadEmailTemplateReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EmailSvcServer).ReadEmailTemplate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protobuf.EmailSvc/ReadEmailTemplate",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EmailSvcServer).ReadEmailTemplate(ctx, req.(*ReadEmailTemplateReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _EmailSvc_AddEmailTemplate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddEmailTemplateReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EmailSvcServer).AddEmailTemplate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protobuf.EmailSvc/AddEmailTemplate",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EmailSvcServer).AddEmailTemplate(ctx, req.(*AddEmailTemplateReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _EmailSvc_UpdateEmailTemplate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateEmailTemplateReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EmailSvcServer).UpdateEmailTemplate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protobuf.EmailSvc/UpdateEmailTemplate",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EmailSvcServer).UpdateEmailTemplate(ctx, req.(*UpdateEmailTemplateReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _EmailSvc_DeleteEmailTemplate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteEmailTemplateReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EmailSvcServer).DeleteEmailTemplate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protobuf.EmailSvc/DeleteEmailTemplate",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EmailSvcServer).DeleteEmailTemplate(ctx, req.(*DeleteEmailTemplateReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _EmailSvc_ListEmailTemplate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListEmailTemplateReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EmailSvcServer).ListEmailTemplate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protobuf.EmailSvc/ListEmailTemplate",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EmailSvcServer).ListEmailTemplate(ctx, req.(*ListEmailTemplateReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _EmailSvc_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "protobuf.EmailSvc",
+	HandlerType: (*EmailSvcServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "ReadEmailTemplate",
+			Handler:    _EmailSvc_ReadEmailTemplate_Handler,
+		},
+		{
+			MethodName: "AddEmailTemplate",
+			Handler:    _EmailSvc_AddEmailTemplate_Handler,
+		},
+		{
+			MethodName: "UpdateEmailTemplate",
+			Handler:    _EmailSvc_UpdateEmailTemplate_Handler,
+		},
+		{
+			MethodName: "DeleteEmailTemplate",
+			Handler:    _EmailSvc_DeleteEmailTemplate_Handler,
+		},
+		{
+			MethodName: "ListEmailTemplate",
+			Handler:    _EmailSvc_ListEmailTemplate_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "email.proto",
 }

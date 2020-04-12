@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package protobuf;
+option  go_package           = "protobufpb";
+option  java_multiple_files  = true;
+option  java_package         = "com.protobuf";
+option  java_outer_classname = "EmailBaseProto";
+
+// EmailInfo : this object is used for sending email
+//
+// [data]: this value is based on templated id. Ex:
+//
+//    if template_id needs {{name}}, the data will be something like this one
+//      {
+//        "name": "phuong nguyen"
+//      }
+message EmailInfo {
+  string              sender_name  = 1;
+  string              sender_email = 2;
+  string              template_id  = 3;
+  repeated Receiver   receivers    = 4;
+  map<string, string> data         = 5;
+}
+
+message Receiver {
+  string to_name  = 1;
+  string to_email = 2;
+}

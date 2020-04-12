@@ -6,23 +6,83 @@ option  java_multiple_files  = true;
 option  java_package         = "com.protobuf";
 option  java_outer_classname = "EmailProto";
 
-// EmailInfo : this object is used for sending email
+import "base.proto";
+
+// EmailSvc: this sevice is used for email template management
 //
-// [data]: this value is based on templated id. Ex:
-//
-//    if template_id needs {{name}}, the data will be something like this one
-//      {
-//        "name": "phuong nguyen"
-//      }
-message EmailInfo {
-  string              sender_name  = 1;
-  string              sender_email = 2;
-  string              template_id  = 3;
-  repeated Receiver   receivers    = 4;
-  map<string, string> data         = 5;
+// Read an email template
+// Add a new email template
+// Update an email template
+// Delete an email template
+// Get list of email template
+service EmailSvc {
+  rpc ReadEmailTemplate(ReadEmailTemplateReq) returns (ReadEmailTemplateRes) {}
+  rpc AddEmailTemplate(AddEmailTemplateReq) returns (AddEmailTemplateRes) {}
+  rpc UpdateEmailTemplate(UpdateEmailTemplateReq) returns (UpdateEmailTemplateRes) {}
+  rpc DeleteEmailTemplate(DeleteEmailTemplateReq) returns (DeleteEmailTemplateRes) {}
+  rpc ListEmailTemplate(ListEmailTemplateReq) returns (ListEmailTemplateRes) {}
 }
 
-message Receiver {
-  string to_name  = 1;
-  string to_email = 2;
+enum EmailTemplateType {
+  INVALID                 = 0;
+  WELCOME                 = 1;
+  CHANGE_PWD              = 2;
+  FORGET_PWD              = 3;
+  FORGET_PWD_CONFIRMATION = 4;
+}
+
+// EmailTemplateInfo : this object is used for managing sendgrid template id
+message EmailTemplateInfo {
+  uint32            id                   = 1;
+  string            sendgrid_template_id = 2;
+  EmailTemplateType type                 = 3;
+}
+
+// ReadEmailTemplateReq represents for a read email template request
+message ReadEmailTemplateReq {
+  BaseReq           req    = 1;
+  EmailTemplateInfo filter = 2;
+}
+// ReadEmailTemplateRes : return result + template info
+message ReadEmailTemplateRes {
+  bool result                = 1;
+  EmailTemplateInfo template = 2;
+}
+
+// AddEmailTemplateReq represents for a add email template request
+message AddEmailTemplateReq {
+  BaseReq req                = 1;
+  EmailTemplateInfo template = 2;
+}
+// AddEmailTemplateRes : return result + template info
+message AddEmailTemplateRes {
+  bool result                = 1;
+  EmailTemplateInfo template = 2;
+}
+
+// UpdateEmailTemplateReq represents for an update email template request
+message UpdateEmailTemplateReq {
+  BaseReq req                = 1;
+  EmailTemplateInfo template = 2;
+}
+// UpdateEmailTemplateRes : return result + template info
+message UpdateEmailTemplateRes {
+  bool result                = 1;
+  EmailTemplateInfo template = 2;
+}
+
+// DeleteEmailTemplateReq represents for a delete email template request
+message DeleteEmailTemplateReq {
+  BaseReq req         = 1;
+  uint32  template_id = 2;
+}
+// DeleteEmailTemplateRes : return result + template info
+message DeleteEmailTemplateRes { bool result = 1; }
+
+// ListEmailTemplateReq represents for a list of email template request
+message ListEmailTemplateReq { BaseReq req = 1; }
+// ListEmailTemplateRes : return result + template info
+message ListEmailTemplateRes {
+  bool                       result    = 1;
+  repeated EmailTemplateInfo templates = 2;
 }
