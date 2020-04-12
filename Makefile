@@ -1,31 +1,31 @@
 #!make
 
 test: test-errors test-config test-mysql test-redis test-rabbitmq
-	# go test -timeout 9000s -cover -a -v ./...
+	# go test -timeout 300s -cover -a -v ./...
 
 test-errors:
 	cd ./errors && \
-	go test -timeout 9000s -cover -a -v
+	go test -timeout 300s -cover -a -v
 
 test-config:
 	cd ./config && \
-	go test -timeout 9000s -cover -a -v
+	go test -timeout 300s -cover -a -v
 
 test-mysql:
 	cd ./libs/mysql && \
-	go test -timeout 9000s -cover -a -v
+	go test -timeout 300s -cover -a -v
 
 test-redis:
 	cd ./libs/redis && \
-	go test -timeout 9000s -cover -a -v
+	go test -timeout 300s -cover -a -v
 
 test-rabbitmq:
 	cd ./libs/rabbitmq && \
-	go test -timeout 9000s -cover -a -v
+	go test -timeout 300s -cover -a -v
 
 integration-test:
 	cd ./integration_test && \
-	go test -timeout 9000s -cover -a -v ./...
+	go test -timeout 300s -cover -a -v ./...
 
 start-gateway:
 	cd ./gateway && \
