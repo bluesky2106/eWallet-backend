@@ -51,3 +51,8 @@ start-bo:
 	cd ./bo_controller && \
 	export service=bo-controller && \
 	go run main.go
+
+start-email:
+	cd ./email && \
+	export service=email && \
+	go run main.go

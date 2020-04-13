@@ -2,6 +2,7 @@ package servers
 
 import (
 	"context"
+	"time"
 
 	"github.com/bluesky2106/eWallet-backend/bo_entry_store/models"
 	errs "github.com/bluesky2106/eWallet-backend/errors"
@@ -121,5 +122,44 @@ func (u *UserSrv) UpdateUser(ctx context.Context, req *pb.UpdateUserReq) (*pb.Up
 	return &pb.UpdateUserRes{
 		Result: true,
 		User:   req.GetUser(),
+	}, nil
+}
+
+// ChangePwd : user update new password
+func (u *UserSrv) ChangePwd(ctx context.Context, req *pb.ChangePwdReq) (*pb.ChangePwdRes, error) {
+	// 1. Validate request
+	if !u.isValidUserRequest(req.GetReq()) {
+		return nil, errs.New(errs.ECInvalidMessage)
+	}
+
+	// 2. Update user
+	user := models.ConvertPbUserToUser(req.GetUser())
+	err := u.dao.WithTransaction(func() error {
+		err := u.dao.Update(user)
+		if err != nil {
+			return errs.WithMessage(err, "u.dao.Update")
+		}
+
+		return nil
+	})
+	if err != nil {
+		return nil, errs.WithMessage(err, "u.dao.WithTransaction")
+	}
+
+	// 3. Find email template
+	mod, err := u.dao.FindOneByQuery(&models.EmailTemplate{}, map[string]interface{}{
+		"type = ?": uint(pb.EmailTemplateType_CHANGE_PWD),
+	})
+	if err != nil {
+		return nil, errs.WithMessage(err, "u.dao.FindOneByQuery")
+	}
+	emailTemplate := mod.(*models.EmailTemplate)
+
+	return &pb.ChangePwdRes{
+		Result:     true,
+		User:       req.GetUser(),
+		TemplateId: emailTemplate.SendgridTemplateID,
+		DateTime:   time.Now().Format(time.RFC1123),
+		Location:   "",
 	}, nil
 }

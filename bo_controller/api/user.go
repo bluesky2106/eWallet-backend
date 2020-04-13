@@ -21,7 +21,7 @@ func (s *Server) Authenticate(c *gin.Context) (*models.User, error) {
 	// 2. Authenticate
 	user, err := s.userSrv.Authenticate(&req)
 	if err != nil {
-		return nil, errs.WithMessage(err, "s.userSvc.Authenticate")
+		return nil, errs.WithMessage(err, "s.userSrv.Authenticate")
 	}
 
 	return user, nil
@@ -40,7 +40,7 @@ func (s *Server) Register(c *gin.Context) {
 	// 2. Register new user
 	user, err := s.userSrv.Register(&req)
 	if err != nil {
-		respondError(c, http.StatusInternalServerError, err, "s.userSvc.Register")
+		respondError(c, http.StatusInternalServerError, err, "s.userSrv.Register")
 		return
 	}
 
@@ -78,9 +78,33 @@ func (s *Server) UpdateUserProfile(c *gin.Context) {
 
 	user, err = s.userSrv.UpdateUserProfile(user, &req)
 	if err != nil {
-		respondError(c, http.StatusBadRequest, err, "s.userSvc.UpdateUserProfile")
+		respondError(c, http.StatusBadRequest, err, "s.userSrv.UpdateUserProfile")
 		return
 	}
 
 	c.JSON(http.StatusOK, Resp{Result: user, Error: nil})
+}
+
+// ChangePwd : [POST] /user-change-pwd
+func (s *Server) ChangePwd(c *gin.Context) {
+	var req *serializers.UserChangePwdReq
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		respondError(c, http.StatusBadRequest, errs.New(errs.ECInvalidArgument, err.Error()))
+		return
+	}
+
+	user, err := s.userFromContext(c)
+	if err != nil {
+		respondError(c, http.StatusInternalServerError, err, "s.userFromContext")
+		return
+	}
+
+	result, err := s.userSrv.ChangePwd(user, req)
+	if err != nil {
+		respondError(c, http.StatusInternalServerError, err, "s.userSrv.ChangePwd")
+		return
+	}
+
+	c.JSON(http.StatusOK, Resp{Result: result, Error: nil})
 }

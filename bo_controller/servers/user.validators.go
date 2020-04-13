@@ -56,3 +56,20 @@ func (u *UserSrv) validateUserUpdateProfileReq(req *serializers.UserUpdateProfil
 
 	return nil
 }
+
+func (u *UserSrv) validateChangePwdReq(req *serializers.UserChangePwdReq) error {
+
+	if req.NewPassword == "" || req.ConfirmNewPassword == "" || req.OldPassword == "" {
+		return errs.New(errs.ECInvalidPassword)
+	}
+
+	if req.OldPassword == req.NewPassword {
+		return errs.New(errs.ECChangePasswordSame)
+	}
+
+	if req.NewPassword != req.ConfirmNewPassword {
+		return errs.New(errs.ECPasswordMismatch)
+	}
+
+	return nil
+}

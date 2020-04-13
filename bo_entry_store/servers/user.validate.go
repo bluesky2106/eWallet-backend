@@ -20,7 +20,8 @@ func (u *UserSrv) isValidUserRequest(req *pb.BaseReq) bool {
 			return true
 		}
 	case pb.Action_ACTION_UPDATE:
-		if req.GetMessage() == pb.Message_MESSAGE_UPDATE_USER {
+		if req.GetMessage() == pb.Message_MESSAGE_UPDATE_USER ||
+			req.GetMessage() == pb.Message_MESSAGE_CHANGE_PWD_USER {
 			return true
 		}
 	}

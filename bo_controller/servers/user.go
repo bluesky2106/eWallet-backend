@@ -9,6 +9,7 @@ import (
 	"github.com/bluesky2106/eWallet-backend/bo_entry_store/models"
 	errs "github.com/bluesky2106/eWallet-backend/errors"
 	"github.com/bluesky2106/eWallet-backend/grpc_services/client"
+	"github.com/bluesky2106/eWallet-backend/libs/rabbitmq"
 	pb "github.com/bluesky2106/eWallet-backend/protobuf"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -16,6 +17,7 @@ import (
 // UserSrv : user server
 type UserSrv struct {
 	conf *config.Config
+	rbmq *rabbitmq.RabbitMQ
 
 	userSvc *client.UserSvc
 }
@@ -24,6 +26,7 @@ type UserSrv struct {
 func NewUserServer(conf *config.Config) *UserSrv {
 	return &UserSrv{
 		conf:    conf,
+		rbmq:    rabbitmq.Init(conf.RabbitMQ, []rabbitmq.QueueName{rabbitmq.QueueEmailService}),
 		userSvc: client.NewUserService(conf.BOEntryStoreEndpoint),
 	}
 }
@@ -187,4 +190,72 @@ func (u *UserSrv) UpdateUserProfile(user *models.User, uReq *serializers.UserUpd
 	newUser := models.ConvertPbUserToUser(res.GetUser())
 
 	return newUser, nil
+}
+
+// ChangePwd : user update new password and send email to user
+//
+// params: [user, change pwd req]
+func (u *UserSrv) ChangePwd(user *models.User, uReq *serializers.UserChangePwdReq) (bool, error) {
+	// 1. Validate the request
+	err := u.validateChangePwdReq(uReq)
+	if err != nil {
+		return false, errs.WithMessage(err, "u.validateChangePwdReq")
+	}
+
+	// 2. Check whether old password matched the one stored in DB
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(uReq.OldPassword)); err != nil {
+		return false, errs.New(errs.ECChangePasswordOldPwdNotSame)
+	}
+
+	// 3. Generate new password hash
+	newHashed, err := bcrypt.GenerateFromPassword([]byte(uReq.NewPassword), bcrypt.DefaultCost)
+	if err != nil {
+		return false, errs.BCRYPTGenerateFromPasswordError(err)
+	}
+
+	// 4. Update new password
+	req := &pb.ChangePwdReq{
+		Req: &pb.BaseReq{
+			Message:    pb.Message_MESSAGE_CHANGE_PWD_USER,
+			ObjectType: pb.Object_OBJECT_USER,
+			Action:     pb.Action_ACTION_UPDATE,
+		},
+		User: &pb.UserInfo{
+			Id:       user.ID,
+			Email:    user.Email,
+			FullName: user.FullName,
+			Username: user.UserName,
+			Password: string(newHashed),
+		},
+	}
+
+	res, err := u.userSvc.ChangePwd(context.Background(), req)
+	if err != nil {
+		return false, errs.WithMessage(err, "u.userSvc.ChangePwd")
+	}
+
+	// 5. Send email to inform the user
+	if res.GetResult() {
+		emailInfo := pb.EmailInfo{
+			TemplateId: res.GetTemplateId(),
+			Receivers: []*pb.Receiver{
+				&pb.Receiver{
+					ToName:  res.GetUser().GetFullName(),
+					ToEmail: res.GetUser().GetEmail(),
+				},
+			},
+			Data: map[string]string{
+				"name":      res.GetUser().GetFullName(),
+				"date_time": res.GetDateTime(),
+				"email":     res.GetUser().GetEmail(),
+				"location":  res.GetLocation(),
+			},
+		}
+		err := u.sendEmail(emailInfo)
+		if err != nil {
+			return false, errs.WithMessage(err, "send change password email failed")
+		}
+	}
+
+	return res.GetResult(), nil
 }

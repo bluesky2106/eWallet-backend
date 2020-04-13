@@ -2,7 +2,6 @@ package servers
 
 import (
 	"encoding/json"
-	"reflect"
 
 	errs "github.com/bluesky2106/eWallet-backend/errors"
 	"github.com/bluesky2106/eWallet-backend/libs/rabbitmq"
@@ -34,7 +33,8 @@ func (e *EmailSrv) RouteMessage(m *amqp.Delivery) {
 
 	switch body.Key {
 	case rabbitmq.KeySendEmail:
-		data = reflect.ValueOf(body.Data).Interface().(pb.EmailInfo)
+		jsonbody, _ := json.Marshal(body.Data)
+		json.Unmarshal(jsonbody, &data)
 		e.SendEmail(&data)
 		m.Ack(false)
 	}

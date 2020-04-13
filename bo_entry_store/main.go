@@ -17,7 +17,7 @@ import (
 
 var (
 	logger *zap.Logger
-	tables = []interface{}{(*models.User)(nil)}
+	tables = []interface{}{(*models.User)(nil), (*models.EmailTemplate)(nil)}
 )
 
 func main() {
