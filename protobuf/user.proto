@@ -80,8 +80,11 @@ message ChangePwdReq {
   UserInfo user = 2;
 }
 message ChangePwdRes {
-  bool     result = 1;
-  UserInfo user   = 2;
+  bool     result      = 1;
+  UserInfo user        = 2;
+  string   template_id = 3;
+  string   date_time   = 4;
+  string   location    = 5;
 }
 
 // ForgotPassword
