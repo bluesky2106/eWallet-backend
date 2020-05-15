@@ -68,8 +68,8 @@ func init() {
 			MySQL: gwConfig.MySQL{
 				Host:     "localhost",
 				Port:     "3306",
-				Username: "itv",
-				Password: "itv",
+				Username: "root",
+				Password: "Admin123!@#",
 				DBName:   "itv_test",
 			},
 		},

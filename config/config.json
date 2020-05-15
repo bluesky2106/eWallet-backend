@@ -13,7 +13,7 @@
         "mysql": {
             "dbName": "itv_pos",
             "username": "root",
-            "password": "itv",
+            "password": "Admin123!@#",
             "host": "localhost",
             "port": "3306"
         }
@@ -52,7 +52,7 @@
         "mysql": {
             "dbName": "itv_bo",
             "username": "root",
-            "password": "itv",
+            "password": "Admin123!@#",
             "host": "localhost",
             "port": "3306"
         }

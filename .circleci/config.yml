@@ -16,7 +16,7 @@ jobs: # basic units of work in a run
           - MYSQL_ROOT_HOST=%
           - MYSQL_USER=itv
           - MYSQL_PASSWORD=itv
-          - MYSQL_ROOT_PASSWORD=itv
+          - MYSQL_ROOT_PASSWORD=Admin123!@#
           - MYSQL_DATABASE=itv_test
       
       - image: rabbitmq:3.8.2-management
@@ -66,8 +66,8 @@ jobs: # basic units of work in a run
       - run:
           name: Create Database
           command: |
-            mysql  -h 127.0.0.1 -u root --password=itv -e "create database itv_bo;"
-            mysql  -h 127.0.0.1 -u root --password=itv -e "create database itv_pos;"
+            mysql  -h 127.0.0.1 -u root --password=Admin123!@# -e "create database itv_bo;"
+            mysql  -h 127.0.0.1 -u root --password=Admin123!@# -e "create database itv_pos;"
 
       - run:
           name: Start bo-store server
