@@ -85,7 +85,7 @@
     },
     "sendgrid": {
         "apiKey": "",
-        "senderEmail": "phuong.nguyen@tokoin.io",
+        "senderEmail": "hoaiphuong.nguyen.vn.2106@gmail.com",
         "senderName": "Nguyen Hoai Phuong",
         "ccEmail": "hoaiphuong.nguyen.vn@gmail.com",
         "ccName": "Akagi"
